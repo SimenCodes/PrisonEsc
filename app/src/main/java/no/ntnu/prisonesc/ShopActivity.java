@@ -12,6 +12,8 @@ public class ShopActivity extends AppCompatActivity {
     private SaveData data;
     private Collection<Powerup> availeble, owned;
 
+    private int money;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +32,17 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        owned = data.getBoughtPowerups();
+        money = data.getMoney();
 
+
+    }
+
+    public void onClick(View view){
+        switch (view.getId()){
+
+        }
     }
 }
