@@ -3,6 +3,7 @@ package no.ntnu.prisonesc;
 import android.content.Context;
 import android.support.v4.util.ArraySet;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
@@ -20,7 +21,7 @@ public class ScrollerView extends FrameLayout {
 
     public static final int HITTABLE_OBJECT_COUNT = 2;
 
-    Map<ImageView, Integer> backgroundObjects = new ArrayMap<>();
+    Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
     Set<FlyingObject> hittableObjects;
     Point pos = new Point(0, 0);
 
@@ -52,6 +53,13 @@ public class ScrollerView extends FrameLayout {
             @Override
             public void run() {
                 ground[1].setTranslationX(ground[0].getWidth());
+                for (int i = 0; i < 3; i++) {
+                    ImageView imageView = new ImageView(backgroundContainer.getContext());
+                    imageView.setTranslationX(getWidth() / 3 * i);
+                    imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+                    backgroundContainer.addView(imageView);
+                    backgroundObjects.put(imageView, Math.random());
+                }
             }
         }, 100);
     }
@@ -59,7 +67,7 @@ public class ScrollerView extends FrameLayout {
     /**
      * Call this every clock tick
      *
-     * @param p
+     * @param p The new position to draw
      */
     public void tick(Point p) {
         Point diff = pos.diff(p);
@@ -77,9 +85,8 @@ public class ScrollerView extends FrameLayout {
 
         for (ImageView image : backgroundObjects.keySet()) {
             if (!move(diff, image, backgroundObjects.get(image))) {
-                backgroundObjects.remove(image);
-                backgroundContainer.removeView(image);
-                recycledImages.add(image);
+                image.setTranslationX(getWidth());
+                image.setTranslationY((float) (Math.random() * (2 * getHeight() - ground[0].getY())));
             }
         }
 
@@ -99,9 +106,10 @@ public class ScrollerView extends FrameLayout {
      * @param multiplier defaults to 1
      * @return false if the object is now offscreen. If so, it will not be moved and should be recycled
      */
-    private boolean move(Point diff, ImageView image, int multiplier) {
+    private boolean move(Point diff, ImageView image, double multiplier) {
+        Log.d(TAG, "move() called with: diff = [" + diff + "], image = [" + image + "], multiplier = [" + multiplier + "]");
         float y = image.getTranslationY() + diff.y;
-        float x = image.getTranslationY() + diff.x * multiplier;
+        float x = (float) (image.getTranslationX() - diff.x * multiplier);
         if (x < -image.getWidth()) return false;
         if (y < -image.getHeight()) return false;
         if (y > getHeight()) return false;
