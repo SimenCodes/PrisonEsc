@@ -14,4 +14,8 @@ public class Player {
     private Player() {
         physics = new PhysicsObject();
     }
+
+    public Point getPos() {
+        return physics.getPos();
+    }
 }
