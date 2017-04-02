@@ -17,7 +17,7 @@ public class SaveData {
     public static SaveData saveData;
     private SharedPreferences data;
 
-    public SaveData(Context context){
+    private SaveData(Context context){
         data = PreferenceManager.getDefaultSharedPreferences(context);
         try{
             //load data from the preferences

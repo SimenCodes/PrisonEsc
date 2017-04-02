@@ -1,12 +1,12 @@
 package no.ntnu.prisonesc;
 
 /**
- * Created by even on 02.04.17.
+ * Powerup interface
  */
 
 public interface Powerup {
 
-    void apply(Player);
+    void apply(Player player);
 
     int getPrice();
 
