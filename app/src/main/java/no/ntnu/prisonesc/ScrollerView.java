@@ -20,6 +20,7 @@ public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
     public static final int HITTABLE_OBJECT_COUNT = 2;
+    public static final int CLOUD_COUNT = 5;
 
     Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
     Set<FlyingObject> hittableObjects;
@@ -53,9 +54,10 @@ public class ScrollerView extends FrameLayout {
             @Override
             public void run() {
                 ground[1].setTranslationX(ground[0].getWidth());
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < CLOUD_COUNT; i++) {
                     ImageView imageView = new ImageView(backgroundContainer.getContext());
-                    imageView.setTranslationX(getWidth() / 3 * i);
+                    imageView.setTranslationX((float) (getWidth() * Math.random()));
+                    imageView.setTranslationY((float) ((getHeight() - ground[0].getHeight()) * Math.random()));
                     imageView.setImageResource(android.R.drawable.ic_menu_gallery);
                     backgroundContainer.addView(imageView);
                     backgroundObjects.put(imageView, Math.random());
@@ -85,8 +87,16 @@ public class ScrollerView extends FrameLayout {
 
         for (ImageView image : backgroundObjects.keySet()) {
             if (!move(diff, image, backgroundObjects.get(image))) {
-                image.setTranslationX(getWidth());
-                image.setTranslationY((float) (Math.random() * (2 * getHeight() - ground[0].getY())));
+                if (Math.random() > 0.5) {
+                    // Init somewhere around left or right edge
+                    image.setTranslationX((float) (getWidth() * Math.random()));
+                    image.setTranslationY(diff.y >= 0 ? -image.getHeight() : getHeight());
+                } else {
+                    // Init somewhere along top or bottom
+                    image.setTranslationX(diff.x >= 0 ? getWidth() : -getWidth() - image.getWidth());
+                    image.setTranslationY((float) (Math.random() * (2 * getHeight() - ground[0].getY())));
+                }
+                backgroundObjects.put(image, Math.random());
             }
         }
 
