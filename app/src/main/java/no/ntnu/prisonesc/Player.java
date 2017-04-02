@@ -8,11 +8,12 @@ import android.graphics.drawable.Drawable;
 
 public class Player {
     private final PhysicsObject physics;
-    int rotation;
+
     private Drawable image;
 
-    private Player() {
-        physics = new PhysicsObject();
+    private Player(Drawable image, int drag, int posY, int velX, int velY, int accY) {
+        physics = new PhysicsObject(drag, posY, velX, velY, accY);
+        this.image = image;
     }
 
     public Point getPos() {
