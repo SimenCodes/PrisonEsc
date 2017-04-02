@@ -16,6 +16,10 @@ public class Player {
         this.image = image;
     }
 
+    public void tick() {
+        physics.tick();
+    }
+
     public Point getPos() {
         return physics.getPos();
     }
