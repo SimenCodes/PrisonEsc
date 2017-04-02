@@ -1,7 +1,7 @@
 package no.ntnu.prisonesc;
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
 
 /**
  * Created by Henrik on 02.04.2017.
@@ -14,9 +14,9 @@ public abstract class FlyingObject {
     public final int w;// bredden
     public final int h;//høyden
     @NonNull
-    public final Drawable image;
+    public final ImageView image;
 
-    public FlyingObject(int x, int y, int widht, int height, Drawable image) {
+    public FlyingObject(int x, int y, int widht, int height, ImageView image) {
         this.x = x;
         this.y = y;
         this.w = widht;
