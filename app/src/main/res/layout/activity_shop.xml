@@ -24,9 +24,9 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/shop_money_text"
             android:textSize="32sp"
             android:background="@android:color/darker_gray"
-            android:text="Hello"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
+        android:id="@+id/shop_recycler_view"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
