@@ -3,6 +3,7 @@ package no.ntnu.prisonesc;
 import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
+import android.widget.ImageView;
 
 import junit.framework.Assert;
 
@@ -16,19 +17,19 @@ import static no.ntnu.prisonesc.ScrollerView.TAG;
 public class GameActivityTest {
     @Test
     public void isCollision() throws Exception {
-        FlyingObject FO1 = new FlyingObject(5, 5, 10, 10, InstrumentationRegistry.getTargetContext().getResources().getDrawable(R.mipmap.ic_launcher, null)) {
+        FlyingObject FO1 = new FlyingObject(5, 5, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onColission(Player player) {
                 Log.d(TAG, "onColission: test");
             }
         };
-        FlyingObject FO2 = new FlyingObject(11, 11, 10, 10, InstrumentationRegistry.getTargetContext().getResources().getDrawable(R.mipmap.ic_launcher, null)) {
+        FlyingObject FO2 = new FlyingObject(11, 11, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onColission(Player player) {
                 Log.d(TAG, "onColission: test");
             }
         };
-        FlyingObject FO3 = new FlyingObject(5, 6, 10, 10, InstrumentationRegistry.getTargetContext().getResources().getDrawable(R.mipmap.ic_launcher, null)) {
+        FlyingObject FO3 = new FlyingObject(5, 6, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onColission(Player player) {
                 Log.d(TAG, "onColission: test");

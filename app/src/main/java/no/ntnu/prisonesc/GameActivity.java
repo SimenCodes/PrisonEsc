@@ -85,7 +85,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         super.onPostResume();
         handler.post(this);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -118,7 +117,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * Tar inn indata fra akslerometeret og konverterer det til grader
-     *
      * @param readValue
      * @return
      */
@@ -133,7 +131,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * for å spare litt prosessering sjekker jeg bare de fremste hjørnene til player.
-     *
      * @return true hvis det er en kollisjon
      */
     public boolean isCollision(FlyingObject enemy, Player player) {
