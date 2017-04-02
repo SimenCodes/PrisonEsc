@@ -19,20 +19,20 @@ public class GameActivityTest {
     public void isCollision() throws Exception {
         FlyingObject FO1 = new FlyingObject(5, 5, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
-            void onColission(Player player) {
-                Log.d(TAG, "onColission: test");
+            void onCollision(Player player) {
+                Log.d(TAG, "onCollision: test");
             }
         };
         FlyingObject FO2 = new FlyingObject(11, 11, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
-            void onColission(Player player) {
-                Log.d(TAG, "onColission: test");
+            void onCollision(Player player) {
+                Log.d(TAG, "onCollision: test");
             }
         };
         FlyingObject FO3 = new FlyingObject(5, 6, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
-            void onColission(Player player) {
-                Log.d(TAG, "onColission: test");
+            void onCollision(Player player) {
+                Log.d(TAG, "onCollision: test");
             }
         };
         Looper.prepare();

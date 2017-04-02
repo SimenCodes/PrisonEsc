@@ -108,10 +108,11 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         player.tick();
         for (FlyingObject e : flyingObjects) {
             if (isCollision(e, player))
-                e.onColission(player);
+                e.onCollision(player);
         }
 
-        position = position.move(new Point(10, 0));
+        position = position.move(new Point(player.getRot() / 9, (player.getRot() - 90) / 9));
+        if (position.y < 0) position = new Point(position.x, 0);
         scrollerView.tick(position);
         handler.postDelayed(this, 16);
     }
@@ -146,7 +147,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     @Override
     public void onSensorChanged(SensorEvent event) {
         readMeter = event.values[1];
-        Log.d(TAG, "onSensorChanged: test");
     }
 
     @Override

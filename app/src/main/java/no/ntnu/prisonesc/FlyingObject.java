@@ -16,7 +16,7 @@ public abstract class FlyingObject {
     @NonNull
     public final ImageView image;
 
-    public FlyingObject(int x, int y, int widht, int height, ImageView image) {
+    public FlyingObject(int x, int y, int widht, int height, @NonNull ImageView image) {
         this.x = x;
         this.y = y;
         this.w = widht;
@@ -24,6 +24,6 @@ public abstract class FlyingObject {
         this.image = image;
     }
 
-    abstract void onColission(Player player);
+    abstract void onCollision(Player player);
 
 }
