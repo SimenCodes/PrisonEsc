@@ -58,7 +58,8 @@ public class ScrollerView extends FrameLayout {
                     ImageView imageView = new ImageView(backgroundContainer.getContext());
                     imageView.setTranslationX((float) (getWidth() * Math.random()));
                     imageView.setTranslationY((float) ((getHeight() - ground[0].getHeight()) * Math.random()));
-                    imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+                    if (i % 2 == 0) imageView.setImageResource(R.drawable.cloud_1);
+                    else imageView.setImageResource(R.drawable.cloud_2);
                     backgroundContainer.addView(imageView);
                     backgroundObjects.put(imageView, Math.random());
                 }
@@ -88,13 +89,17 @@ public class ScrollerView extends FrameLayout {
         for (ImageView image : backgroundObjects.keySet()) {
             if (!move(diff, image, backgroundObjects.get(image))) {
                 if (Math.random() > 0.5) {
-                    // Init somewhere around left or right edge
+                    // Init somewhere around top or bottom edge
                     image.setTranslationX((float) (getWidth() * Math.random()));
                     image.setTranslationY(diff.y >= 0 ? -image.getHeight() : getHeight());
                 } else {
-                    // Init somewhere along top or bottom
+                    // Init somewhere around left or right edge
                     image.setTranslationX(diff.x >= 0 ? getWidth() : -getWidth() - image.getWidth());
-                    image.setTranslationY((float) (Math.random() * (2 * getHeight() - ground[0].getY())));
+                    if (pos.y < 100) {
+                        image.setTranslationY((float) (Math.random() * (getHeight() / 2)));
+                    } else {
+                        image.setTranslationY((float) (Math.random() * getHeight()));
+                    }
                 }
                 backgroundObjects.put(image, Math.random());
             }

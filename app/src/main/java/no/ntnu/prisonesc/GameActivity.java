@@ -111,6 +111,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 e.onColission(player);
         }
 
+        position = position.move(new Point(10, 0));
         scrollerView.tick(position);
         handler.postDelayed(this, 16);
     }
