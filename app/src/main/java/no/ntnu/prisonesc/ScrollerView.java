@@ -64,8 +64,8 @@ public class ScrollerView extends FrameLayout {
         for (ImageView ground : this.ground) {
             if (pos.y > 100) {
                 ground.setTranslationY(-ground.getHeight());
-            } else if (ground.getTranslationX() < -ground.getTranslationX()) {
-                ground.setTranslationX(ground.getTranslationX());
+            } else if (ground.getTranslationX() < -ground.getWidth()) {
+                ground.setTranslationX(ground.getWidth());
             } else {
                 ground.setTranslationX(ground.getTranslationX() - diff.x);
                 ground.setTranslationY(pos.y);
