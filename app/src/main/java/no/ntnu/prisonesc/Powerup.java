@@ -6,5 +6,9 @@ package no.ntnu.prisonesc;
 
 public interface Powerup {
 
+    void apply(Player);
 
+    int getPrice();
+
+    boolean isInitialCondition();
 }
