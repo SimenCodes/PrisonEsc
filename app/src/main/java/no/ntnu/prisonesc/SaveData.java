@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * SaveData handle the saving of progress in the application
  */
@@ -44,6 +48,8 @@ public class SaveData {
         //TODO add stuff to save;
     }
 
-
+    public Collection<Powerup> getBoughtPowerups(){
+        return new ArrayList<Powerup>();
+    }
 
 }
