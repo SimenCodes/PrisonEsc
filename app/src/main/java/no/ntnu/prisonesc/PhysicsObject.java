@@ -96,6 +96,10 @@ public class PhysicsObject {
         }
     }
 
+    public int getRot() {
+        return this.rotation;
+    }
+
     /**
      * Setter rotasjonen direkte
      *

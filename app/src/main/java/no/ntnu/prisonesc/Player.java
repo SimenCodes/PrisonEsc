@@ -11,6 +11,7 @@ public class Player {
     private final PhysicsObject physics;
     private Drawable image;
 
+
     public Player(Drawable image, double drag, int posY, int velX, int velY, int accY) {
         physics = new PhysicsObject(drag, posY, velX, velY, accY);
         this.image = image;
@@ -29,7 +30,11 @@ public class Player {
         return this.size;
     }
 
-    public void setRot(int rot) {
+    public int getRot() {
+        return physics.getRot();
+    }
 
+    public void setRot(int rot) {
+        physics.setRot(rot);
     }
 }
