@@ -20,4 +20,9 @@ public class Point {
     public Point diff(Point p) {
         return new Point(p.x - this.x, p.y - this.y);
     }
+
+    @Override
+    public String toString() {
+        return x + " " + y;
+    }
 }

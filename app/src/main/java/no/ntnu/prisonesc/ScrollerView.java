@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.ArraySet;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
@@ -18,6 +19,8 @@ import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class ScrollerView extends FrameLayout {
+    public static final String TAG = "ScrollerView";
+
     public static final int HITTABLE_OBJECT_COUNT = 2;
 
     Map<Drawable, Integer> backgroundObjects = new ArrayMap<>();
@@ -46,10 +49,27 @@ public class ScrollerView extends FrameLayout {
         ground[1] = (ImageView) findViewById(R.id.ground_2);
         backgroundContainer = (AbsoluteLayout) findViewById(R.id.background);
         hittableContainer = (AbsoluteLayout) findViewById(R.id.hittable);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ground[1].setTranslationX(ground[0].getWidth());
+            }
+        }, 100);
     }
 
     public void tick(Point p) {
+        Log.d(TAG, "tick() called with: p = [" + p + "]");
         Point diff = pos.diff(p);
-
+        pos = p;
+        for (ImageView ground : this.ground) {
+            if (pos.y > 100) {
+                ground.setTranslationY(-ground.getHeight());
+            } else if (ground.getTranslationX() < -ground.getTranslationX()) {
+                ground.setTranslationX(ground.getTranslationX());
+            } else {
+                ground.setTranslationX(ground.getTranslationX() - diff.x);
+                ground.setTranslationY(pos.y);
+            }
+        }
     }
 }

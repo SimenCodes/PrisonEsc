@@ -1,6 +1,7 @@
 package no.ntnu.prisonesc;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.util.ArraySet;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,9 +9,13 @@ import android.view.ViewGroup;
 
 import java.util.Set;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements Runnable {
+    private static final String TAG = "GameActivity";
+
+    Point position = new Point(0, 0);
 
     ScrollerView scrollerView;
+    Handler handler = new Handler();
 
     /**
      * Note: this points to the same object as {@link ScrollerView#hittableObjects}.
@@ -35,5 +40,27 @@ public class GameActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        handler.post(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(this);
+    }
+
+    /**
+     * This is the tick
+     */
+    @Override
+    public void run() {
+        position = position.move(new Point(10, 0));
+        scrollerView.tick(position);
+        handler.postDelayed(this, 16);
     }
 }
