@@ -11,7 +11,7 @@ public abstract class FlyingObject {
 
     public final int x;//x koordinaten
     public final int y;//y koordinaten
-    public final int w;// bredden
+    public final int w;//bredden
     public final int h;//høyden
     @NonNull
     public final Drawable image;
@@ -26,7 +26,4 @@ public abstract class FlyingObject {
 
     abstract void onColission(Player player);
 
-    public void delete() {
-
-    }
 }

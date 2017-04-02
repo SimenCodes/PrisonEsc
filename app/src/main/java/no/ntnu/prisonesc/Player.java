@@ -7,13 +7,14 @@ import android.graphics.drawable.Drawable;
  */
 
 public class Player {
+    public final Point size;
     private final PhysicsObject physics;
-
     private Drawable image;
 
-    private Player(Drawable image, int drag, int posY, int velX, int velY, int accY) {
+    public Player(Drawable image, double drag, int posY, int velX, int velY, int accY) {
         physics = new PhysicsObject(drag, posY, velX, velY, accY);
         this.image = image;
+        this.size = new Point(10, 10);//Her har jeg satt størelsen på player, den må settes på en mer fornuftig måte.
     }
 
     public void tick() {
@@ -22,5 +23,13 @@ public class Player {
 
     public Point getPos() {
         return physics.getPos();
+    }
+
+    public Point getSize() {
+        return this.size;
+    }
+
+    public void setRot(int rot) {
+
     }
 }
