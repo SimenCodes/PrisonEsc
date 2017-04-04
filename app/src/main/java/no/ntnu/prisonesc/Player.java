@@ -44,4 +44,8 @@ public class Player {
     public int getVelY() {
         return physics.getVelY();
     }
+
+    public void addVel(Point p) {
+        physics.addVel(p);
+    }
 }

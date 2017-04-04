@@ -63,7 +63,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             }
         }
 
-
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.layout_root);
         scrollerView = new ScrollerView(this, flyingObjects);
         layoutRoot.addView(scrollerView, 0);
