@@ -1,21 +1,20 @@
 package no.ntnu.prisonesc;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ImageView;
 
 /**
- * Created by simen on 04.04.17.
+ * Created by Henrik on 04.04.2017.
  */
+//Bare lagde en implementasjon av Flyingobject for å kunne teste litt.
+public class Balloon extends FlyingObject {
 
-class Balloon extends FlyingObject {
-    public Balloon(int x, int y, int width, int height, @NonNull ImageView image) {
-        super(x, y, width, height, image);
-        image.setImageResource(R.mipmap.ic_launcher_round);
+    public Balloon(int x, int y, int widht, int height, @NonNull ImageView image) {
+        super(x, y, widht, height, image);
     }
 
     @Override
     void onCollision(Player player) {
-        Log.d(TAG, "onCollision: Hit a player!!");
+        player.addVel(new Point(0, 10));
     }
 }

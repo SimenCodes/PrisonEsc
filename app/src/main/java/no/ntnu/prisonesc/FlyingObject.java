@@ -34,6 +34,6 @@ public abstract class FlyingObject {
      * @return
      */
     public static FlyingObject create(ImageView imageView, int x, int y) {
-        throw new UnsupportedOperationException("We haven't implemented this yet");
+        return new Balloon(x, y, 100, 100, imageView); // TODO Dimensions as resources, maybe in scrollview
     }
 }
