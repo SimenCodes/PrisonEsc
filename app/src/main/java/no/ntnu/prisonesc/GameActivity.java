@@ -109,6 +109,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         for (FlyingObject e : flyingObjects) {
             if (isCollision(e, player))
                 e.onCollision(player);
+            scrollerView.removeFlyingObject(e);
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
