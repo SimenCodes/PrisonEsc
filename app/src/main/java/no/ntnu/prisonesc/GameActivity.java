@@ -113,17 +113,22 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             if (isCollision(e, player))
                 e.onCollision(player);
         }
+        Log.d(TAG, "run.getVelY: " + player.getVelY());
 
+        //START plaser bildet av player på skjerm
         playerImage.setRotation(player.getRot() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier
-        float height = scrollerView.getHeight();
-        float pos = player.getVelY() / 100 + 1;
+        double height = scrollerView.getHeight();
+        double pos = player.getVelY() / 100 + 1;
         if (pos < 0) {
             pos = 0;
         } else if (pos > 2) {
             pos = 2;
         }
         pos = pos / 2;
-        //playerImage.setTranslationY(pos * height);
+        double scaled = pos * 0.6 + 0.2;// for å få det inn på skjermen.
+        playerImage.setTranslationY((float) (scaled * height));
+
+        //END plasere bildet av player på skjermen
 
         position = player.getPos();
         if (position.y < 0) position = new Point(position.x, 0);
