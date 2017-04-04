@@ -12,7 +12,7 @@ public class PhysicsObject {
     private int velY;
     private int posX;
     private int posY;
-    private int rotation;//Et tall mellom 0 og 180 hvor 0 er at han ser rett ned og 90 er at han ser rett fram og 180 er at han ser rett opp.
+    private int rotation;//Et tall mellom 0 og 1800 hvor 0 er at han ser rett ned og 90 er at han ser rett fram og 180 er at han ser rett opp.
     private double drag;//Denne er høy hvis player har høy hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamis.
     //drag må være ganske liten <0.2
 
@@ -107,5 +107,9 @@ public class PhysicsObject {
      */
     public void setRot(int rot) {
         this.rotation = rot;
+    }
+
+    public int getVelY() {
+        return velY;
     }
 }

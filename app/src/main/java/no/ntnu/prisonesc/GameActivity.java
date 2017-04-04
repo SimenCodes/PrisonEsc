@@ -1,6 +1,5 @@
 package no.ntnu.prisonesc;
 
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.Collection;
 import java.util.Set;
@@ -24,6 +24,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
+    ImageView playerImage;
 
 
     float readMeter;
@@ -39,17 +40,21 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher, null);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        //Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher, null);
         SaveData shopData = SaveData.getData(getApplicationContext());
+        playerImage = (ImageView) findViewById(R.id.playerImage);
         //Basevalues:
         double drag = 0.2;
         int posY = 5;
         int velX = 2;
-        int velY = 1;
+        int velY = 2;
         int accY = -10;//Må være negativ fordi gravitasjonen går nedover.
         //end BaseValues
         //Lager player med basevalusene
-        player = new Player(drawable, drag, posY, velX, velY, accY);
+        player = new Player(drag, posY, velX, velY, accY);
         //legger til poweruppsene
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {
@@ -59,12 +64,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         }
 
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.layout_root);
         scrollerView = new ScrollerView(this, flyingObjects);
-        layoutRoot.addView(scrollerView);
+        layoutRoot.addView(scrollerView, 0);
 
         layoutRoot.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -105,13 +107,25 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     @Override
     public void run() {
         player.setRot(calculateRotation(readMeter));
+
         player.tick();
         for (FlyingObject e : flyingObjects) {
             if (isCollision(e, player))
                 e.onCollision(player);
         }
 
-        position = position.move(new Point(player.getRot() / 9, (player.getRot() - 90) / 9));
+        playerImage.setRotation(player.getRot() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier
+        float height = scrollerView.getHeight();
+        float pos = player.getVelY() / 100 + 1;
+        if (pos < 0) {
+            pos = 0;
+        } else if (pos > 2) {
+            pos = 2;
+        }
+        pos = pos / 2;
+        //playerImage.setTranslationY(pos * height);
+
+        position = player.getPos();
         if (position.y < 0) position = new Point(position.x, 0);
         scrollerView.tick(position);
         handler.postDelayed(this, 16);
@@ -123,12 +137,12 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      * @return
      */
     public int calculateRotation(float readValue) {
-        int res = (int) readValue * 9;//For å få det til grader
-        if (res < -90)//For å begrense utslaget til maks
-            res = -90;
-        else if (res > 90)
-            res = 90;
-        return res + 90;//For at vi skal få et positivt tall mellom 0 og 180
+        int res = (int) (readValue * 90);//For å få det til grader gange 10 for å få en mer presis verdi
+        if (res < -900)//For å begrense utslaget til maks
+            res = -900;
+        else if (res > 900)
+            res = 900;
+        return res + 900;//For at vi skal få et positivt tall mellom 0 og 180
     }
 
     /**

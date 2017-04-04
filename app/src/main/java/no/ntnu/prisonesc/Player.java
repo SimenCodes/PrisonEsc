@@ -1,6 +1,8 @@
 package no.ntnu.prisonesc;
 
-import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Henrik on 02.04.2017.
@@ -9,16 +11,17 @@ import android.graphics.drawable.Drawable;
 public class Player {
     public final Point size;
     private final PhysicsObject physics;
-    private Drawable image;
 
 
-    public Player(Drawable image, double drag, int posY, int velX, int velY, int accY) {
+    public Player(double drag, int posY, int velX, int velY, int accY) {
         physics = new PhysicsObject(drag, posY, velX, velY, accY);
-        this.image = image;
+
         this.size = new Point(10, 10);//Her har jeg satt størelsen på player, den må settes på en mer fornuftig måte.
     }
 
     public void tick() {
+        Log.d(TAG, "tick: " + (physics.getRot() / 10 + 90));
+
         physics.tick();
     }
 
@@ -36,5 +39,9 @@ public class Player {
 
     public void setRot(int rot) {
         physics.setRot(rot);
+    }
+
+    public int getVelY() {
+        return physics.getVelY();
     }
 }
