@@ -117,19 +117,21 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //START plaser bildet av player på skjerm
         playerImage.setRotation(player.getRot() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier
+        //Det etterf;lgende er for [ plasere h;yden. Det er en funksjon som skal ende om med en faktor som ganges med h;yden p[ skjermen.
         double height = scrollerView.getHeight();
-        double pos = player.getRot() / 10 + 1;
+        Log.d(TAG, "run.getRot(): " + player.getRot());
+        double pos = player.getVelY() / 10.00 + 1;//divisoren m[ tilpasses
         Log.d(TAG, "run.pos: " + pos);
         if (pos < 0) {
             pos = 0;
         } else if (pos > 2) {
             pos = 2;
         }
-        pos = pos / 2;
+        pos = pos / 2.00000;
         double scaled = pos * 0.6 + 0.2;// for å få det inn på skjermen.
         Log.d(TAG, "run.scaled: " + scaled);
         playerImage.setTranslationY((float) (scaled * height));
-
+        Log.d(TAG, "run.res: " + (scaled * height));
         //END plasere bildet av player på skjermen
 
         position = player.getPos();
