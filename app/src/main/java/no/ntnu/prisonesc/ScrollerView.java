@@ -3,13 +3,20 @@ package no.ntnu.prisonesc;
 import android.content.Context;
 import android.support.v4.util.ArraySet;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.Map;
+import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import static no.ntnu.prisonesc.R.id.hittable;
 
 /**
  * This class handles everything in the game that scrolls.
@@ -18,18 +25,20 @@ import java.util.Set;
 public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
-    public static final int HITTABLE_OBJECT_COUNT = 2;
+    public static final int MAX_HITTABLE_OBJECT_COUNT = 5;
     public static final int CLOUD_COUNT = 5;
+    public static final double HITTABLE_PROBABILITY = 7;
 
     Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
     Set<FlyingObject> hittableObjects;
     Point pos = new Point(0, 0);
+    Random random = new Random();
 
     ImageView[] ground = new ImageView[2];
     AbsoluteLayout backgroundContainer, hittableContainer;
 
     // A temporary place to store offscreen imageviews for reuse
-    private Set<ImageView> recycledImages = new ArraySet<>();
+    private Queue<ImageView> recycledImages = new ArrayBlockingQueue<>(MAX_HITTABLE_OBJECT_COUNT);
 
     public ScrollerView(Context context) {
         super(context);
@@ -49,7 +58,7 @@ public class ScrollerView extends FrameLayout {
         ground[0] = (ImageView) findViewById(R.id.ground_1);
         ground[1] = (ImageView) findViewById(R.id.ground_2);
         backgroundContainer = (AbsoluteLayout) findViewById(R.id.background);
-        hittableContainer = (AbsoluteLayout) findViewById(R.id.hittable);
+        hittableContainer = (AbsoluteLayout) findViewById(hittable);
 
         // We wait a little moment so the view gets width and height (we should have used a tree listener, but meh…)
         postDelayed(new Runnable() {
@@ -57,28 +66,32 @@ public class ScrollerView extends FrameLayout {
             public void run() {
                 ground[1].setTranslationX(ground[0].getWidth());
                 for (int i = 0; i < CLOUD_COUNT; i++) {
-                    ImageView imageView = new ImageView(backgroundContainer.getContext());
-                    imageView.setTranslationX((float) (getWidth() * Math.random()));
-                    imageView.setTranslationY((float) ((getHeight() - ground[0].getHeight()) * Math.random()));
+                    ImageView imageView = createAndAttachImageView(backgroundContainer);
+                    imageView.setTranslationX(getWidth() * random.nextFloat());
+                    imageView.setTranslationY((getHeight() - ground[0].getHeight()) * random.nextFloat());
                     if (i % 2 == 0) imageView.setImageResource(R.drawable.cloud_1);
                     else imageView.setImageResource(R.drawable.cloud_2);
-                    backgroundContainer.addView(imageView);
-                    backgroundObjects.put(imageView, Math.random());
+                    backgroundObjects.put(imageView, random.nextDouble());
                 }
             }
         }, 100);
     }
 
     /**
-     * Call this every clock tick. It will do all the scrolling
+     * Call this every clock tick. It will do all the scrolling.
+     * It's long with mane magic numbers, but you'll make it!
      *
      * @param p The new position to draw
      */
     public void tick(Point p) {
         Point diff = pos.diff(p);
         pos = p;
+
+        final int screenWidth = getWidth(), screenHeight = getHeight();
+
+        // Step 1: move ground if it's going to be visible
         for (ImageView ground : this.ground) {
-            if (pos.y > 100) {
+            if (pos.y > ground.getHeight()) {
                 ground.setTranslationY(ground.getHeight());
             } else if (ground.getTranslationX() < -ground.getWidth()) {
                 ground.setTranslationX(ground.getWidth());
@@ -88,26 +101,28 @@ public class ScrollerView extends FrameLayout {
             }
         }
 
+        // Step 2: move clouds/background
         for (ImageView image : backgroundObjects.keySet()) {
             if (!move(diff, image, backgroundObjects.get(image))) {
-                if (Math.random() > 0.5) {
+                if (random.nextBoolean()) {
                     // Init somewhere around top or bottom edge
-                    image.setTranslationX((float) (getWidth() * Math.random()));
-                    image.setTranslationY(diff.y >= 0 ? -image.getHeight() : getHeight());
+                    image.setTranslationX(screenWidth * random.nextFloat());
+                    image.setTranslationY(diff.y >= 0 ? -image.getHeight() : screenHeight);
                 } else {
                     // Init somewhere around left or right edge
-                    image.setTranslationX(diff.x >= 0 ? getWidth() : -getWidth() - image.getWidth());
+                    image.setTranslationX(diff.x >= 0 ? screenWidth : -image.getWidth());
                     if (pos.y < 100) {
                         // Avoid clouds too close to the ground
-                        image.setTranslationY((float) (Math.random() * (getHeight() / 2)));
+                        image.setTranslationY(random.nextFloat() * (screenHeight / 2));
                     } else {
-                        image.setTranslationY((float) (Math.random() * getHeight()));
+                        image.setTranslationY(random.nextFloat() * screenHeight);
                     }
                 }
-                backgroundObjects.put(image, Math.random());
+                backgroundObjects.put(image, random.nextDouble());
             }
         }
 
+        // Step 3: move hittable objects
         for (FlyingObject flying : hittableObjects) {
             if (!move(diff, flying.image, 1)) {
                 // This object is offscreen, so let's trash it and recycle the view.
@@ -115,6 +130,69 @@ public class ScrollerView extends FrameLayout {
                 recycledImages.add(flying.image);
             }
         }
+
+        // Step 4: create new hittable objects if needed
+        if (hittableObjects.size() == 0 || (hittableObjects.size() <= MAX_HITTABLE_OBJECT_COUNT && random.nextInt(11) > HITTABLE_PROBABILITY)) {
+            final ImageView image = recycledImages.isEmpty() ? createAndAttachImageView(hittableContainer) : recycledImages.poll();
+            int x, y;
+            switch (random.nextInt(3)) {
+                case 0:
+                    // Init somewhere around left or right edge
+                    x = (diff.x >= 0 ? screenWidth : -image.getWidth());
+                    if (pos.y < 100) {
+                        // Avoid clouds too close to the ground
+                        y = (int) (random.nextFloat() * screenHeight / 2);
+                    } else {
+                        y = (int) (random.nextFloat() * screenHeight);
+                    }
+                    break;
+                case 1:
+                    // Init somewhere around top edge
+                    y = -image.getHeight();
+                    x = (int) (screenWidth * random.nextFloat());
+                    break;
+                case 2:
+                    x = (int) (screenWidth * random.nextFloat());
+                    if (pos.y > ground[0].getHeight()) {
+                        // Init somewhere around bottom edge (unless we are on the ground)
+                        y = screenHeight;
+                    } else {
+                        // Fallback to top edge
+                        y = -image.getHeight();
+                    }
+                default:
+                    Log.wtf(TAG, "Got invalid value from random number generator");
+                    return;
+            }
+            hittableObjects.add(FlyingObject.create(image, x, y));
+        }
+    }
+
+    /**
+     * Removes the given flying object from the screen. The image view might be recycled.
+     *
+     * @param flying Something that files
+     * @return true if the flying object was onscreen, false otherwise
+     */
+    public boolean removeFlyingObject(FlyingObject flying) {
+        if (!hittableObjects.remove(flying)) return false;
+        flying.image.setTranslationX(-1000f);
+        flying.image.setTranslationY(-1000f);
+        recycledImages.add(flying.image);
+        return true;
+    }
+
+    /**
+     * Creates a new image view, and adds it to the given container.
+     * Please recycle your imageviews when possible.
+     *
+     * @param parent A non-null viewGroup
+     * @return a brand new imageView.
+     */
+    private ImageView createAndAttachImageView(ViewGroup parent) {
+        ImageView imageView = new ImageView(parent.getContext());
+        parent.addView(imageView);
+        return imageView;
     }
 
     /**
@@ -123,7 +201,7 @@ public class ScrollerView extends FrameLayout {
      * @param diff       how far it should be moved in either direction
      * @param image      the imageview to move
      * @param multiplier defaults to 1
-     * @return false if the object will go offscreen. If so, it will not be moved and should be recycled
+     * @return false if the object will go offscreen. If so, it should be recycled
      */
     @SuppressWarnings("RedundantIfStatement")
     private boolean move(Point diff, ImageView image, double multiplier) {

@@ -19,8 +19,6 @@ import java.util.Set;
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
 
-    Point position = new Point(0, 0);
-
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
@@ -125,9 +123,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         pos = pos / 2;
         //playerImage.setTranslationY(pos * height);
 
-        position = player.getPos();
-        if (position.y < 0) position = new Point(position.x, 0);
-        scrollerView.tick(position);
+        scrollerView.tick(player.getPos());
         handler.postDelayed(this, 16);
     }
 
