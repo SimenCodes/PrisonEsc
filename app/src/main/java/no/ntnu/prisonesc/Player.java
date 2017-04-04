@@ -1,9 +1,5 @@
 package no.ntnu.prisonesc;
 
-import android.util.Log;
-
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Henrik on 02.04.2017.
  */
@@ -20,7 +16,7 @@ public class Player {
     }
 
     public void tick() {
-        Log.d(TAG, "tick: " + (physics.getRot() / 10 + 90));
+        //Log.d(TAG, "tick: " + (physics.getRot() / 10 + 90));
 
         physics.tick();
     }
@@ -43,5 +39,9 @@ public class Player {
 
     public int getVelY() {
         return physics.getVelY();
+    }
+
+    public void addVel(Point p) {
+        physics.addVel(p);
     }
 }
