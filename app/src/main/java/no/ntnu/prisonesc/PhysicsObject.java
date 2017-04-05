@@ -76,7 +76,7 @@ public class PhysicsObject {
      * Fremover og nedover er i forhold til rotasjonen til spilleren.
      * Returnerer et tall som skal legges til, ikke setter hastigheten.
      * Warning:Denne metoden bruker globale variable.(VelX, VelY, rotation og gliderFactor).
-     *
+     * Denne vill føre til en oppbremsing hvis man går veldig skarpt oppover.
      * @param x true om det er x koordinaten vi legger til, false om det er y koordinaten.
      * @return
      */
