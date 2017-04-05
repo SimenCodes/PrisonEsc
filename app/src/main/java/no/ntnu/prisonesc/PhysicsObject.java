@@ -12,9 +12,11 @@ public class PhysicsObject {
     private int velY;
     private int posX;
     private int posY;
-    private int rotation;//Et tall mellom 0 og 1800 hvor 0 er at han ser rett ned og 90 er at han ser rett fram og 180 er at han ser rett opp.
+    private int rotation;//Et tall mellom 0 og 1800 hvor 0 er at han ser rett ned og 900 er at han ser rett fram og 180 er at han ser rett opp.
+    private int gliderFactor;//Et tall for hvor god glideren er, den er 0 hvis det ikke er noen glider.
     private double drag;//Denne er høy hvis player har høy hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamis.
     //drag må være ganske liten <0.2
+
 
     private int accActive; // hvor mange ticks det er igjen av akslerasjonen.
 
@@ -40,6 +42,8 @@ public class PhysicsObject {
         this.velY += this.accY;
         this.velX += addDrag(true);
         this.velY += addDrag(false);
+        this.velX += addGlider(true);
+        this.velY += addGlider(false);
         if (accActive == 0) {
             accX = defaultAcc.x;
             accY = defaultAcc.y;
@@ -66,6 +70,28 @@ public class PhysicsObject {
             return (int) ((velY * scaledSpeed) / fwdSpeed);
         }
     }
+
+    /**
+     * Skal fungere som en glider, vil gi en hastighet fremover proposjonal med hastigheten nedover.
+     * Fremover og nedover er i forhold til rotasjonen til spilleren.
+     * Returnerer et tall som skal legges til, ikke setter hastigheten.
+     * Warning:Denne metoden bruker globale variable.(VelX, VelY, rotation og gliderFactor).
+     *
+     * @param x true om det er x koordinaten vi legger til, false om det er y koordinaten.
+     * @return
+     */
+    private int addGlider(boolean x) {
+        int dirDown = rotation - 900;//Retningnen til ned for glideren.
+        double dirSpeed = Math.toDegrees(Math.atan2(velY, velX)) * 10; //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
+        double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
+        double speedDown = Math.cos(dirSpeed - dirDown) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
+        double addSpeed = speedDown * gliderFactor;//Hvor mye som skal legges til i framoverretningen til spilleren.
+        if (x)
+            return (int) (Math.cos(rotation / 10.00 + 90) * addSpeed);//Hvor mye av addspeed som er i x retning
+        else
+            return (int) (Math.sin(rotation / 10.00 + 90 * addSpeed));//Hvor mye av addSpeed som er i y retning.
+    }
+
 
     public Point getPos() {
         return new Point(posX, posY);

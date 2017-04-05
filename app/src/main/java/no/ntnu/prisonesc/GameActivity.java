@@ -74,9 +74,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         //Måtte lages etter scrollView
-        playerImage.setTranslationY((float) (scrollerView.getHeight() / 2.00 - playerImage.getHeight() / 2.00));
+        playerImage.setTranslationY((float) (scrollerView.getHeight() / 2.00 - playerImage.getHeight() / 2.00));//Har et problem med at scollerView.getHeight() gir 0.
         playerImage.setTranslationX((float) (scrollerView.getWidth() / 6.00));
-
+        Log.d(TAG, "onCreate.scorllerView.getHeight)=: " + scrollerView.getHeight());
 
 
         //For å håndtere akslerometeret:
@@ -160,6 +160,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * for å spare litt prosessering sjekker jeg bare de fremste hjørnene til player.
+     * Håper at det ikke gjør så mye at han treffer med beinene og at han går mest fremover.
      * @return true hvis det er en kollisjon
      */
     public boolean isCollision(FlyingObject enemy, Player player) {
