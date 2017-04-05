@@ -44,6 +44,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher, null);
         SaveData shopData = SaveData.getData(getApplicationContext());
         playerImage = (ImageView) findViewById(R.id.playerImage);
+
         //Basevalues:
         double drag = 0.2;
         int posY = 5;
@@ -72,6 +73,11 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        //Måtte lages etter scrollView
+        playerImage.setTranslationY((float) (scrollerView.getHeight() / 2.00 - playerImage.getHeight() / 2.00));
+        playerImage.setTranslationX((float) (scrollerView.getWidth() / 6.00));
+
+
 
         //For å håndtere akslerometeret:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -117,6 +123,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //START plaser bildet av player på skjerm
         playerImage.setRotation(player.getRot() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier
         //Det etterf;lgende er for [ plasere h;yden. Det er en funksjon som skal ende om med en faktor som ganges med h;yden p[ skjermen.
+        /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
         Log.d(TAG, "run.getRot(): " + player.getRot());
         double pos = player.getVelY() / 10.00 + 1;//divisoren m[ tilpasses
@@ -130,7 +137,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         double scaled = pos * 0.6 + 0.2;// for å få det inn på skjermen.
         Log.d(TAG, "run.scaled: " + scaled);
         playerImage.setTranslationY((float) (scaled * height));
-        Log.d(TAG, "run.res: " + (scaled * height));
+        Log.d(TAG, "run.res: " + (scaled * height));*/
         //END plasere bildet av player på skjermen
 
         scrollerView.tick(player.getPos());

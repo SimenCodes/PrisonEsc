@@ -72,7 +72,7 @@ public class PhysicsObject {
     }
 
     public void addVel(Point vel) {
-        if (velX + vel.x > 0) {
+        if (velX + vel.x >= 0) {
             this.velX += vel.x;
             this.velY += vel.y;
         } else {
