@@ -1,10 +1,14 @@
 package no.ntnu.prisonesc;
 
+import android.util.Log;
+
 /**
  * Created by Henrik on 02.04.2017.
  */
 
 public class PhysicsObject {
+    private static final String TAG = "PhysicsObject";
+
     private int accX;
     private int accY;
     private Point defaultAcc;
@@ -50,8 +54,14 @@ public class PhysicsObject {
         } else {
             accActive--;
         }
-        if (posY < 0) posY = 0; // Keep the player from going off the screen.
-        if (posX < 0) posX = 0;
+        if (posY < 0) {
+            posY = 0; // Keep the player from going off the screen.
+            Log.w(TAG, "tick: Almost went through through ground Y");
+        }
+        if (posX < 0) {
+            posX = 0;
+            Log.w(TAG, "tick: Almost went through through ground X");
+        }
     }
 
     /**
@@ -79,6 +89,7 @@ public class PhysicsObject {
      * Returnerer et tall som skal legges til, ikke setter hastigheten.
      * Warning:Denne metoden bruker globale variable.(VelX, VelY, rotation og gliderFactor).
      * Denne vill føre til en oppbremsing hvis man går veldig skarpt oppover.
+     *
      * @param x true om det er x koordinaten vi legger til, false om det er y koordinaten.
      * @return
      */
@@ -100,11 +111,11 @@ public class PhysicsObject {
     }
 
     public void addVel(Point vel) {
-        if (velX + vel.x >= 0) {
-            this.velX += vel.x;
-            this.velY += vel.y;
-        } else {
-            throw new IllegalArgumentException("Du kan ikke gå baklengs");
+        this.velX += vel.x;
+        this.velY += vel.y;
+        if (this.velX < 0) {
+            this.velX = 0; // Vi rydder stille opp her
+            Log.w(TAG, "addVel: You tried moving backwards. That's not allowed, so now your velX is 0");
         }
     }
 

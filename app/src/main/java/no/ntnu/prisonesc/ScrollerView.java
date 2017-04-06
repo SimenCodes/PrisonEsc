@@ -1,7 +1,6 @@
 package no.ntnu.prisonesc;
 
 import android.content.Context;
-import android.support.v4.util.ArraySet;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +9,11 @@ import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import static no.ntnu.prisonesc.R.id.hittable;
@@ -25,12 +25,12 @@ import static no.ntnu.prisonesc.R.id.hittable;
 public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
-    public static final int MAX_HITTABLE_OBJECT_COUNT = 5;
+    public static final int MAX_HITTABLE_OBJECT_COUNT = 2;
     public static final int CLOUD_COUNT = 5;
-    public static final double HITTABLE_PROBABILITY = 7;
+    public static final double HITTABLE_PROBABILITY = 9;
 
     Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
-    Set<FlyingObject> hittableObjects;
+    List<FlyingObject> hittableObjects;
     Point pos = new Point(0, 0);
     Random random = new Random();
 
@@ -42,11 +42,11 @@ public class ScrollerView extends FrameLayout {
 
     public ScrollerView(Context context) {
         super(context);
-        this.hittableObjects = new ArraySet<>();
+        this.hittableObjects = new ArrayList<>();
         init();
     }
 
-    public ScrollerView(Context context, Set<FlyingObject> hittableObjects) {
+    public ScrollerView(Context context, List<FlyingObject> hittableObjects) {
         super(context);
         this.hittableObjects = hittableObjects;
         init();
@@ -123,17 +123,22 @@ public class ScrollerView extends FrameLayout {
         }
 
         // Step 3: move hittable objects
-        for (FlyingObject flying : hittableObjects) {
+        for (int i = hittableObjects.size() - 1; i >= 0; i--) {
+            FlyingObject flying = hittableObjects.get(i);
             if (!move(diff, flying.image, 1)) {
                 // This object is offscreen, so let's trash it and recycle the view.
-                Log.d(TAG, "tick: Deleted flyingObject");
                 hittableObjects.remove(flying);
-                recycledImages.add(flying.image);
+                try {
+                    recycledImages.add(flying.image);
+                } catch (IllegalStateException e) {
+                    Log.w(TAG, "tick: " + e);
+                    hittableContainer.removeView(flying.image);
+                }
             }
         }
 
         // Step 4: create new hittable objects if needed
-        if (hittableObjects.size() == 0 || (hittableObjects.size() <= MAX_HITTABLE_OBJECT_COUNT && random.nextInt(11) > HITTABLE_PROBABILITY)) {
+        if (hittableObjects.size() == 0 || (hittableObjects.size() < MAX_HITTABLE_OBJECT_COUNT && random.nextInt(11) > HITTABLE_PROBABILITY)) {
             final ImageView image = recycledImages.isEmpty() ? createAndAttachImageView(hittableContainer) : recycledImages.poll();
             int x, y;
             switch (random.nextInt(3)) {
@@ -166,7 +171,8 @@ public class ScrollerView extends FrameLayout {
                     Log.wtf(TAG, "Got invalid value from random number generator");
                     return;
             }
-            Log.d(TAG, "tick: Created flyingobject at " + x + "," + y);
+            image.setTranslationX(x);
+            image.setTranslationY(y);
             hittableObjects.add(FlyingObject.create(image, x, y));
         }
     }
@@ -182,7 +188,12 @@ public class ScrollerView extends FrameLayout {
         Log.d(TAG, "removeFlyingObject() called with: flying = [" + flying + "]");
         flying.image.setTranslationX(-1000f);
         flying.image.setTranslationY(-1000f);
-        recycledImages.add(flying.image);
+        try {
+            recycledImages.add(flying.image);
+        } catch (IllegalStateException e) {
+            Log.w(TAG, "removeFlyingObject: " + e);
+            hittableContainer.removeView(flying.image);
+        }
         return true;
     }
 

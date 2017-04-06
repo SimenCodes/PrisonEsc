@@ -6,15 +6,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.util.ArraySet;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
@@ -34,7 +34,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      * Things are also added to and removed from the set there.
      * We do this for performance reasons.
      */
-    Set<FlyingObject> flyingObjects = new ArraySet<>();
+    List<FlyingObject> flyingObjects = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.2;
-        int posY = 5;
+        int posY = 5000;
         int velX = 2;
         int velY = 2;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
@@ -73,10 +73,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        //Måtte lages etter scrollView
-        playerImage.setTranslationY((float) (scrollerView.getHeight() / 2.00 - playerImage.getHeight() / 2.00));//Har et problem med at scollerView.getHeight() gir 0.
-        playerImage.setTranslationX((float) (scrollerView.getWidth() / 6.00));
-        Log.d(TAG, "onCreate.scorllerView.getHeight)=: " + scrollerView.getHeight());
 
 
         //For å håndtere akslerometeret:
@@ -90,6 +86,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         super.onPostResume();
         handler.post(this);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -112,10 +109,14 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         player.setRot(calculateRotation(readMeter));
 
         player.tick();
-        for (FlyingObject e : flyingObjects) {
-            if (isCollision(e, player)) {
-                e.onCollision(player);
-                scrollerView.removeFlyingObject(e);
+        for (int i = flyingObjects.size() - 1; i >= 0; i--) {
+            // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
+            // TODO: Plutselig går alt på trynet fordi alle physicsobjektene blir overbevist
+            // om at de treffer spilleren. Samtidig får vi ENORM velocity (2139859919,60029), som igjen gir ugyldig posisjon pga overflow.
+            FlyingObject flying = flyingObjects.get(i);
+            if (isCollision(flying, player)) {
+                flying.onCollision(player);
+                scrollerView.removeFlyingObject(flying);
             }
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
@@ -147,6 +148,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * Tar inn indata fra akslerometeret og konverterer det til grader
+     *
      * @param readValue
      * @return
      */
@@ -162,6 +164,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     /**
      * for å spare litt prosessering sjekker jeg bare de fremste hjørnene til player.
      * Håper at det ikke gjør så mye at han treffer med beinene og at han går mest fremover.
+     *
      * @return true hvis det er en kollisjon
      */
     public boolean isCollision(FlyingObject enemy, Player player) {
