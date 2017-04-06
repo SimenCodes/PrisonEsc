@@ -9,8 +9,8 @@ import android.widget.ImageView;
 //Bare lagde en implementasjon av Flyingobject for å kunne teste litt.
 public class Balloon extends FlyingObject {
 
-    public Balloon(int x, int y, int widht, int height, @NonNull ImageView image) {
-        super(x, y, widht, height, image);
+    public Balloon(int x, int y, int width, int height, @NonNull ImageView image) {
+        super(x, y, width, height, image);
     }
 
     @Override

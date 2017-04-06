@@ -126,6 +126,7 @@ public class ScrollerView extends FrameLayout {
         for (FlyingObject flying : hittableObjects) {
             if (!move(diff, flying.image, 1)) {
                 // This object is offscreen, so let's trash it and recycle the view.
+                Log.d(TAG, "tick: Deleted flyingObject");
                 hittableObjects.remove(flying);
                 recycledImages.add(flying.image);
             }
@@ -160,10 +161,12 @@ public class ScrollerView extends FrameLayout {
                         // Fallback to top edge
                         y = -image.getHeight();
                     }
+                    break;
                 default:
                     Log.wtf(TAG, "Got invalid value from random number generator");
                     return;
             }
+            Log.d(TAG, "tick: Created flyingobject at " + x + "," + y);
             hittableObjects.add(FlyingObject.create(image, x, y));
         }
     }
@@ -176,6 +179,7 @@ public class ScrollerView extends FrameLayout {
      */
     public boolean removeFlyingObject(FlyingObject flying) {
         if (!hittableObjects.remove(flying)) return false;
+        Log.d(TAG, "removeFlyingObject() called with: flying = [" + flying + "]");
         flying.image.setTranslationX(-1000f);
         flying.image.setTranslationY(-1000f);
         recycledImages.add(flying.image);

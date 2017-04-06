@@ -50,6 +50,8 @@ public class PhysicsObject {
         } else {
             accActive--;
         }
+        if (posY < 0) posY = 0; // Keep the player from going off the screen.
+        if (posX < 0) posX = 0;
     }
 
     /**
