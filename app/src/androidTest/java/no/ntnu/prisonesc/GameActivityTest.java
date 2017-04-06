@@ -9,27 +9,25 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import static no.ntnu.prisonesc.ScrollerView.TAG;
-
 /**
  * Created by Henrik on 02.04.2017.
  */
 public class GameActivityTest {
     @Test
     public void isCollision() throws Exception {
-        FlyingObject FO1 = new FlyingObject(5, 5, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
+        FlyingObject FO1 = new FlyingObject(new Point(5, 5), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onCollision(Player player) {
                 Log.d(TAG, "onCollision: test");
             }
         };
-        FlyingObject FO2 = new FlyingObject(11, 11, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
+        FlyingObject FO2 = new FlyingObject(new Point(11, 11), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onCollision(Player player) {
                 Log.d(TAG, "onCollision: test");
             }
         };
-        FlyingObject FO3 = new FlyingObject(5, 6, 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
+        FlyingObject FO3 = new FlyingObject(new Point(5, 6), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onCollision(Player player) {
                 Log.d(TAG, "onCollision: test");

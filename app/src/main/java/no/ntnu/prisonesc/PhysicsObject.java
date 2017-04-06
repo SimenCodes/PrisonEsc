@@ -56,7 +56,7 @@ public class PhysicsObject {
         }
         if (posY < 0) {
             posY = 0; // Keep the player from going off the screen.
-            Log.w(TAG, "tick: Almost went through through ground Y");
+            if (velY < 0) velY = (int) (-velY * 0.8f); // Bounce
         }
         if (posX < 0) {
             posX = 0;

@@ -47,9 +47,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.2;
-        int posY = 5000;
-        int velX = 2;
-        int velY = 2;
+        int posY = 2000;
+        int velX = 6;
+        int velY = 5;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
         //end BaseValues
         //Lager player med basevalusene
@@ -124,19 +124,19 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //START plaser bildet av player på skjerm
         playerImage.setRotation(player.getRot() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier
-        //Det etterf;lgende er for [ plasere h;yden. Det er en funksjon som skal ende om med en faktor som ganges med h;yden p[ skjermen.
+        //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
         Log.d(TAG, "run.getRot(): " + player.getRot());
-        double pos = player.getVelY() / 10.00 + 1;//divisoren m[ tilpasses
-        Log.d(TAG, "run.pos: " + pos);
-        if (pos < 0) {
-            pos = 0;
-        } else if (pos > 2) {
-            pos = 2;
+        double playerPos = player.getVelY() / 10.00 + 1;//divisoren m[ tilpasses
+        Log.d(TAG, "run.playerPos: " + playerPos);
+        if (playerPos < 0) {
+            playerPos = 0;
+        } else if (playerPos > 2) {
+            playerPos = 2;
         }
-        pos = pos / 2.00000;
-        double scaled = pos * 0.6 + 0.2;// for å få det inn på skjermen.
+        playerPos = playerPos / 2.00000;
+        double scaled = playerPos * 0.6 + 0.2;// for å få det inn på skjermen.
         Log.d(TAG, "run.scaled: " + scaled);
         playerImage.setTranslationY((float) (scaled * height));
         Log.d(TAG, "run.res: " + (scaled * height));*/
@@ -169,11 +169,11 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      */
     public boolean isCollision(FlyingObject enemy, Player player) {
         Point cp = player.getPos().move(player.getSize());//Hjørnet oppe til høyre til player
-        Point cf = new Point(enemy.x + enemy.w, enemy.y + enemy.h);//Hjørnet oppe til høyre til enemy
-        if ((cp.x > enemy.x && cp.y > enemy.y) && (cf.x > player.getPos().x && cf.y > player.getPos().y)) {//Må testen
+        Point cf = new Point(enemy.position.x + enemy.width, enemy.position.y + enemy.height);//Hjørnet oppe til høyre til enemy
+        if ((cp.x > enemy.position.x && cp.y > enemy.position.y) && (cf.x > player.getPos().x && cf.y > player.getPos().y)) {//Må testen
             return true;
         } else
-            return player.getPos().x + player.size.x > enemy.x && player.getPos().y < enemy.y + enemy.h;
+            return player.getPos().x + player.size.x > enemy.position.x && player.getPos().y < enemy.position.y + enemy.height;
     }
 
     @Override

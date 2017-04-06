@@ -10,22 +10,18 @@ import android.widget.ImageView;
 public abstract class FlyingObject {
     public static final String TAG = "FlyingObject";
 
-    public final int x;//x koordinaten
-    public final int y;//y koordinaten
-    public final int w;//bredden
-    public final int h;//høyden
+    public final Point position;
+    public final int width, height;
+
     @NonNull
     public final ImageView image;
 
-    public FlyingObject(int x, int y, int width, int height, @NonNull ImageView image) {
-        this.x = x;
-        this.y = y;
-        this.w = width;
-        this.h = height;
+    public FlyingObject(Point position, int width, int height, @NonNull ImageView image) {
+        this.position = position;
+        this.width = width;
+        this.height = height;
         this.image = image;
     }
-
-    abstract void onCollision(Player player);
 
     /**
      * Creates a new flying object of random type.
@@ -33,7 +29,10 @@ public abstract class FlyingObject {
      * @param imageView An imageView that's attached to the correct parent, and NOT attached to another flyingobject
      * @return
      */
-    public static FlyingObject create(ImageView imageView, int x, int y) {
-        return new Balloon(x, y, 100, 100, imageView); // TODO Dimensions as resources, maybe in scrollview
+    public static FlyingObject create(ImageView imageView, Point p) {
+        return new Balloon(p, 100, 100, imageView); // TODO Dimensions as resources, maybe in scrollview
     }
+
+    abstract void onCollision(Player player);
+
 }
