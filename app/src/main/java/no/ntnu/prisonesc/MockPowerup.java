@@ -54,6 +54,7 @@ public class MockPowerup implements Powerup {
         }
     }
 
+    @Override
     public void buy(){
         if(this.level < this.maxLevel){
             this.level++;
