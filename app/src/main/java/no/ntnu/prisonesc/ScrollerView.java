@@ -25,9 +25,10 @@ import static no.ntnu.prisonesc.R.id.hittable;
 public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
-    public static final int MAX_HITTABLE_OBJECT_COUNT = 2;
-    public static final int CLOUD_COUNT = 5;
-    public static final double HITTABLE_PROBABILITY = 9;
+    private static final int MAX_HITTABLE_OBJECT_COUNT = 4;
+    private static final double HITTABLE_PROBABILITY = 9;
+    private static final boolean PERSPECTIVE_ENABLED = true; // disable cloud/backgroundObject perspective when set to false
+    private static final int CLOUD_COUNT = 5;
 
     Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
     List<FlyingObject> hittableObjects;
@@ -139,6 +140,7 @@ public class ScrollerView extends FrameLayout {
 
         // Step 4: create new hittable objects if needed
         if (hittableObjects.size() == 0 || (hittableObjects.size() < MAX_HITTABLE_OBJECT_COUNT && random.nextInt(11) > HITTABLE_PROBABILITY)) {
+            // disable hittable objects by commenting out this block
             final ImageView image = recycledImages.isEmpty() ? createAndAttachImageView(hittableContainer) : recycledImages.poll();
             int x, y;
             switch (random.nextInt(3)) {
@@ -239,7 +241,8 @@ public class ScrollerView extends FrameLayout {
      */
     @SuppressWarnings("RedundantIfStatement")
     private boolean move(Point diff, ImageView image, double multiplier) {
-        float y = image.getTranslationY() + diff.y;
+        if (!PERSPECTIVE_ENABLED) multiplier = 1;
+        float y = (float) (image.getTranslationY() + diff.y * multiplier);
         float x = (float) (image.getTranslationX() - diff.x * multiplier);
 
         image.setTranslationY(y);
