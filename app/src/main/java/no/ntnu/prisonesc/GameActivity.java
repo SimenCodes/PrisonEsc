@@ -47,9 +47,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.2;
-        int posY = 2000;
-        int velX = 6;
-        int velY = 5;
+        int posY = 0;
+        int velX = 60;
+        int velY = 100;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
         //end BaseValues
         //Lager player med basevalusene

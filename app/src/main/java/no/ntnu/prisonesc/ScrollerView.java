@@ -25,7 +25,7 @@ import static no.ntnu.prisonesc.R.id.hittable;
 public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
-    private static final int MAX_HITTABLE_OBJECT_COUNT = 4;
+    private static final int MAX_HITTABLE_OBJECT_COUNT = 1;
     private static final double HITTABLE_PROBABILITY = 9;
     private static final boolean PERSPECTIVE_ENABLED = true; // disable cloud/backgroundObject perspective when set to false
     private static final int CLOUD_COUNT = 5;
@@ -108,18 +108,26 @@ public class ScrollerView extends FrameLayout {
                 if (random.nextBoolean()) {
                     // Init somewhere around top or bottom edge
                     image.setTranslationX(screenWidth * random.nextFloat());
-                    image.setTranslationY(diff.y >= 0 ? -image.getHeight() : screenHeight);
+                    if (playerPos.y > ground[0].getHeight() * 4 && diff.y < 0) {
+                        image.setTranslationY(screenHeight);
+                    } else {
+                        image.setTranslationY(-image.getHeight());
+                    }
                 } else {
                     // Init somewhere around left or right edge
                     image.setTranslationX(diff.x >= 0 ? screenWidth : -image.getWidth());
-                    if (playerPos.y < 100) {
+                    if (playerPos.y < ground[0].getHeight() * 10) {
+                        Log.d(TAG, "tick: close to ground");
                         // Avoid clouds too close to the ground
                         image.setTranslationY(random.nextFloat() * (screenHeight / 2));
                     } else {
+                        Log.d(TAG, "tick: not close to ground: " + playerPos.y);
                         image.setTranslationY(random.nextFloat() * screenHeight);
                     }
                 }
-                backgroundObjects.put(image, random.nextDouble());
+                final double closeness = random.nextDouble();
+                image.setZ((float) closeness);
+                backgroundObjects.put(image, closeness);
             }
         }
 

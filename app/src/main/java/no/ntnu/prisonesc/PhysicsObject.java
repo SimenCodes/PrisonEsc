@@ -7,8 +7,8 @@ import android.util.Log;
  */
 
 public class PhysicsObject {
+    public static final float GROUND_BOUNCE = 0.8f;
     private static final String TAG = "PhysicsObject";
-
     private int accX;
     private int accY;
     private Point defaultAcc;
@@ -44,8 +44,8 @@ public class PhysicsObject {
         this.posY += this.velY;
         this.velX += this.accX;
         this.velY += this.accY;
-        this.velX += addDrag(true);
-        this.velY += addDrag(false);
+        //this.velX += addDrag(true); disable because it doesn't work
+        //this.velY += addDrag(false);
         this.velX += addGlider(true);
         this.velY += addGlider(false);
         if (accActive == 0) {
@@ -56,7 +56,8 @@ public class PhysicsObject {
         }
         if (posY < 0) {
             posY = 0; // Keep the player from going off the screen.
-            if (velY < 0) velY = (int) (-velY * 0.8f); // Bounce
+            if (velY < 0) velY = (int) (-velY * GROUND_BOUNCE); // Bounce
+            velX = (int) (velX * GROUND_BOUNCE);
         }
         if (posX < 0) {
             posX = 0;
