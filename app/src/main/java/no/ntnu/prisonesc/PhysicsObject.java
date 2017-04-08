@@ -17,7 +17,7 @@ public class PhysicsObject {
     private int posX;
     private int posY;
     private int rotation;//Et tall mellom 0 og 1800 hvor 0 er at han ser rett ned og 900 er at han ser rett fram og 180 er at han ser rett opp.
-    private int gliderFactor;//Et tall for hvor god glideren er, den er 0 hvis det ikke er noen glider.
+    private double gliderFactor;//Et tall for hvor god glideren er, den er 0 hvis det ikke er noen glider.
     private double drag;//Denne er høy hvis player har høy hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamis.
     //drag må være ganske liten <0.2
 
@@ -25,7 +25,7 @@ public class PhysicsObject {
     private int accActive; // hvor mange ticks det er igjen av akslerasjonen.
 
 
-    public PhysicsObject(double drag, int posY, int velX, int velY, int accY) {
+    public PhysicsObject(double drag, double gliderFacotor, int posY, int velX, int velY, int accY) {
         this.accX = 0;
         this.accY = accY;
         this.defaultAcc = new Point(0, accY);
@@ -34,21 +34,23 @@ public class PhysicsObject {
         this.posX = 0;
         this.posY = posY;
         this.drag = drag;
+        this.gliderFactor = gliderFacotor;
         this.accActive = 0;
         this.rotation = (int) Math.toDegrees(Math.atan2((double) velY, (double) velX));
     }
 
     public void tick() {
         //Vær oppmerksom på at rekkefølgen her har mye å si.
+        //DISABLE: Her kan man skru av enkeltaspekter ved fysikken
         this.posX += this.velX;
         this.posY += this.velY;
-        this.velX += this.accX;
-        this.velY += this.accY;
-        //this.velX += addDrag(true); disable because it doesn't work
-        //this.velY += addDrag(false);
-        this.velX += addGlider(true);
-        this.velY += addGlider(false);
-        if (accActive == 0) {
+        this.velX += this.accX;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
+        this.velY += this.accY;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
+        this.velX += addDrag(true);//DISABLE: Ved å komentere ut disse lijene skrur man av drag
+        this.velY += addDrag(false);//DISABLE: Ved å komentere ut disse lijene skrur man av drag;
+        this.velX += addGlider(true);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        this.velY += addGlider(false);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        if (accActive == 0) {//DISABLE: Ved å sette denne til false skrur man av raketter.
             accX = defaultAcc.x;
             accY = defaultAcc.y;
         } else {

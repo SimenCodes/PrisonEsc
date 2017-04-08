@@ -46,14 +46,15 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         playerImage = (ImageView) findViewById(R.id.playerImage);
 
         //Basevalues:
-        double drag = 0.2;
+        double drag = 0.0;
+        double gliderFactor = 0.0;
         int posY = 0;
         int velX = 20;
         int velY = 30;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
         //end BaseValues
         //Lager player med basevalusene
-        player = new Player(drag, posY, velX, velY, accY);
+        player = new Player(drag, gliderFactor, posY, velX, velY, accY);
         //legger til poweruppsene
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {
