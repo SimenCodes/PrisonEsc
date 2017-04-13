@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +24,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     Handler handler = new Handler();
     Player player;
     ImageView playerImage;
+    TextView scoreText;
 
 
     float readMeter;
@@ -44,13 +46,14 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher, null);
         SaveData shopData = SaveData.getData(getApplicationContext());
         playerImage = (ImageView) findViewById(R.id.playerImage);
+        scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
-        double drag = 0.0;
-        double gliderFactor = 0.0;
+        double drag = 0.0005;
+        double gliderFactor = 0.5;
         int posY = 0;
-        int velX = 20;
-        int velY = 30;
+        int velX = 300;
+        int velY = 250;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
         //end BaseValues
         //Lager player med basevalusene
@@ -107,6 +110,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      */
     @Override
     public void run() {
+
         player.setRot(calculateRotation(readMeter));
 
         player.tick();
@@ -145,6 +149,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         scrollerView.tick(player.getPos());
         handler.postDelayed(this, 16);
+
+        scoreText.setText(String.valueOf(player.getPos().x));
+
     }
 
     /**

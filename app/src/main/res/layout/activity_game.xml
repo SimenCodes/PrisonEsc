@@ -8,9 +8,16 @@
     tools:context="no.ntnu.prisonesc.GameActivity">
 
     <ImageView
-        android:layout_gravity="center"
         android:id="@+id/playerImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:srcCompat="@android:drawable/bottom_bar" />
+
+    <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="61dp"
+        android:layout_height="40dp"
+        android:text="TextView"
+        tools:text="Test" />
 </FrameLayout>

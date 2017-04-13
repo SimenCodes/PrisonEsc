@@ -7,7 +7,7 @@ import android.util.Log;
  */
 
 public class PhysicsObject {
-    public static final float GROUND_BOUNCE = 0.8f;
+    public static final float GROUND_BOUNCE = 0.0f;
     private static final String TAG = "PhysicsObject";
     private int accX;
     private int accY;
@@ -42,14 +42,18 @@ public class PhysicsObject {
     public void tick() {
         //Vær oppmerksom på at rekkefølgen her har mye å si.
         //DISABLE: Her kan man skru av enkeltaspekter ved fysikken
+        int tempVelX = velX;//For at ikke rekkefølge skal ha like mye å si
+        int tempVelY = velY;//Kan være hensiktsmessig å gjøre det samme for posisjon og akslerasjon også på et senere punkt.
         this.posX += this.velX;
         this.posY += this.velY;
-        this.velX += this.accX;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
-        this.velY += this.accY;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
-        this.velX += addDrag(true);//DISABLE: Ved å komentere ut disse lijene skrur man av drag
-        this.velY += addDrag(false);//DISABLE: Ved å komentere ut disse lijene skrur man av drag;
-        this.velX += addGlider(true);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
-        this.velY += addGlider(false);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        tempVelX += this.accX;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
+        tempVelY += this.accY;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
+        tempVelX += addDrag(true);//DISABLE: Ved å komentere ut disse lijene skrur man av drag
+        tempVelY += addDrag(false);//DISABLE: Ved å komentere ut disse lijene skrur man av drag;
+        //tempVelX += addGlider(true);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        //tempVelY += addGlider(false);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        this.velX = tempVelX;
+        this.velY = tempVelY;
         if (accActive == 0) {//DISABLE: Ved å sette denne til false skrur man av raketter.
             accX = defaultAcc.x;
             accY = defaultAcc.y;
@@ -65,6 +69,9 @@ public class PhysicsObject {
             posX = 0;
             Log.w(TAG, "tick: Almost went through through ground X");
         }
+        if (velX <= 0) {
+            velX = 0;
+        }
     }
 
     /**
@@ -78,7 +85,9 @@ public class PhysicsObject {
         double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));
         //minus fordi den skal gå baklengs, fwdSpeed^2 for å få en polomyal funksjon og skalerer det med drag.
         double scaledSpeed = -Math.pow(fwdSpeed, 2) * drag;
-        //Bruker formlike trekanter her:
+
+        //Log.d(TAG, "addDrag.scaledSpeed, velX, velY: " + scaledSpeed+" , " + velX + " , " + velY);
+        //Bruker formlike trekanter her
         if (x) {
             return (int) ((velX * scaledSpeed) / fwdSpeed);
         } else {
@@ -88,24 +97,46 @@ public class PhysicsObject {
 
     /**
      * Skal fungere som en glider, vil gi en hastighet fremover proposjonal med hastigheten nedover.
+     * I tillegg kan den gi en hastighet oppover i for å gi en illusjon av å gli.
      * Fremover og nedover er i forhold til rotasjonen til spilleren.
      * Returnerer et tall som skal legges til, ikke setter hastigheten.
      * Warning:Denne metoden bruker globale variable.(VelX, VelY, rotation og gliderFactor).
      * Denne vill føre til en oppbremsing hvis man går veldig skarpt oppover.
+     * Denne skal optimalt ikke påvirke noe når man beveger seg rett i bevegelsesretningen.
      *
      * @param x true om det er x koordinaten vi legger til, false om det er y koordinaten.
-     * @return
+     * @return The value to add to the current velocity.
      */
-    private int addGlider(boolean x) {
-        int dirDown = rotation - 900;//Retningnen til ned for glideren.
-        double dirSpeed = Math.toDegrees(Math.atan2(velY, velX)) * 10; //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
+    public int addGlider(boolean x) {
+        int dirDown = rotation - 900;//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
+        double dirSpeed = Math.toDegrees(-Math.atan2(velY, velX)) * 10.00; //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
+        //Log.d(TAG, "addGlider.dirSpeed: " + dirSpeed);
         double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
         double speedDown = Math.cos(dirSpeed - dirDown) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
         double addSpeed = speedDown * gliderFactor;//Hvor mye som skal legges til i framoverretningen til spilleren.
         if (x)
-            return (int) (Math.cos(rotation / 10.00 + 90) * addSpeed);//Hvor mye av addspeed som er i x retning
+            return (int) (Math.cos(Math.toRadians(rotation / 10.00 + 90)) * addSpeed);//Hvor mye av addspeed som er i x retning
         else
-            return (int) (Math.sin(rotation / 10.00 + 90 * addSpeed));//Hvor mye av addSpeed som er i y retning.
+            return (int) (Math.sin(Math.toRadians(rotation / 10.00 + 90)) * addSpeed);//Hvor mye av addSpeed som er i y retning.
+    }
+
+    /**
+     * En annen tillnærming til glider.
+     *
+     * @param x
+     * @return
+     */
+    public int addGlider2(boolean x) {
+        int dirDown = rotation - 900;//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
+        double dirSpeed = Math.toDegrees(-Math.atan2(velY, velX)) * 10.00; //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
+        //Log.d(TAG, "addGlider.dirSpeed: " + dirSpeed);
+        double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
+        double speedDown = Math.cos(dirSpeed - dirDown) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
+        double addSpeed = speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
+        if (x)
+            return (int) (-Math.cos(dirDown) * addSpeed);//Hvor mye av addspeed som er i x retning
+        else
+            return (int) (-Math.sin(dirDown) * addSpeed);//Hvor mye av addSpeed som er i y retning.
     }
 
 
