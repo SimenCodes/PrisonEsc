@@ -7,8 +7,10 @@ import android.util.Log;
  */
 
 public class PhysicsObject {
-    public static final float GROUND_BOUNCE = 0.0f;
     private static final String TAG = "PhysicsObject";
+
+    private static final float GROUND_BOUNCE = 0.0f; // DISABLE: Sett til 0 for å deaktivere bounce
+
     private int accX;
     private int accY;
     private Point defaultAcc;
@@ -18,7 +20,7 @@ public class PhysicsObject {
     private int posY;
     private int rotation;//Et tall mellom 0 og 1800 hvor 0 er at han ser rett ned og 900 er at han ser rett fram og 180 er at han ser rett opp.
     private double gliderFactor;//Et tall for hvor god glideren er, den er 0 hvis det ikke er noen glider.
-    private double drag;//Denne er høy hvis player har høy hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamis.
+    private double drag;//Denne er høy hvis hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamisk.
     //drag må være ganske liten <0.2
 
 
