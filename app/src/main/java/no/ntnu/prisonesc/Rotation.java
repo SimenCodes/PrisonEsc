@@ -30,10 +30,12 @@ public class Rotation {
     }
 
     public void setRotation(float rotation) {
+        final float modulo = rotation % fullCircle;
         if (rotation >= 0)
-            this.rotation = rotation % fullCircle;
-        else
-            this.rotation = fullCircle - (rotation % fullCircle);
+            this.rotation = modulo;
+        else if (modulo != 0)
+            this.rotation = fullCircle + modulo;
+        else this.rotation = 0;
     }
 
     public void rotate(float delta) {
