@@ -6,7 +6,7 @@ package no.ntnu.prisonesc;
  */
 public class Rotation {
     private final float fullCircle;
-    private float rotation;
+    protected float rotation;
 
     /**
      * @param fullCircle      Probably 360 if you're a deg guy, or Math.PI if you're rad.
@@ -40,5 +40,31 @@ public class Rotation {
 
     public void rotate(float delta) {
         setRotation(rotation + delta);
+    }
+
+    public void add(Rotation delta) {
+        setRotation(rotation + delta.rotation);
+    }
+
+    public void subtract(Rotation delta) {
+        setRotation(rotation - delta.rotation);
+    }
+
+    /**
+     * Samme som rotate, men returnerer resultatet.
+     *
+     * @param delta
+     * @return
+     */
+    public Rotation rotated(float delta) {
+        return new Rotation(this.fullCircle, rotation + delta);
+    }
+
+    public Rotation added(Rotation delta) {
+        return new Rotation(this.fullCircle, rotation + delta.rotation);
+    }
+
+    public Rotation subtracted(Rotation delta) {
+        return new Rotation(this.fullCircle, rotation - delta.rotation);
     }
 }

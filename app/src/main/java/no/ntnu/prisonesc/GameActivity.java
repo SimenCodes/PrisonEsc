@@ -112,7 +112,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     public void run() {
 
         player.setRot(calculateRotation(readMeter));
-
+        Log.d(TAG, "run.player.getRot: " + player.getRot().getDeg());
         player.tick();
         for (int i = flyingObjects.size() - 1; i >= 0; i--) {
             // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
@@ -128,7 +128,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
 
         //START plaser bildet av player på skjerm
-        playerImage.setRotation(player.getRot() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier
+        playerImage.setRotation(player.getRot().getDeg() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
@@ -160,13 +160,13 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      * @param readValue
      * @return
      */
-    public int calculateRotation(float readValue) {
+    public OldRotation calculateRotation(float readValue) {
         int res = (int) (readValue * 90);//For å få det til grader gange 10 for å få en mer presis verdi
         if (res < -900)//For å begrense utslaget til maks
             res = -900;
         else if (res > 900)
             res = 900;
-        return res + 900;//For at vi skal få et positivt tall mellom 0 og 180
+        return new OldRotation(res + 900);//For at vi skal få et positivt tall mellom 0 og 180
     }
 
     /**

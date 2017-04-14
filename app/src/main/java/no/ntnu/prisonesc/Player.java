@@ -29,11 +29,11 @@ public class Player {
         return this.size;
     }
 
-    public int getRot() {
+    public OldRotation getRot() {
         return physics.getRot();
     }
 
-    public void setRot(int rot) {
+    public void setRot(OldRotation rot) {
         physics.setRot(rot);
     }
 
