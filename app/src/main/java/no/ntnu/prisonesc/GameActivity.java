@@ -50,10 +50,10 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0005;
-        double gliderFactor = 0.5;
+        double gliderFactor = 0.2;
         int posY = 0;
-        int velX = 300;
-        int velY = 250;
+        int velX = 400;
+        int velY = 400;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
         //end BaseValues
         //Lager player med basevalusene
@@ -112,7 +112,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     public void run() {
 
         player.setRot(calculateRotation(readMeter));
-        Log.d(TAG, "run.player.getRot: " + player.getRot().getDeg());
+
         player.tick();
         for (int i = flyingObjects.size() - 1; i >= 0; i--) {
             // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
@@ -166,6 +166,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             res = -900;
         else if (res > 900)
             res = 900;
+        Log.d(TAG, "calculateRotation.res: "+res);
         return new OldRotation(res + 900);//For at vi skal få et positivt tall mellom 0 og 180
     }
 

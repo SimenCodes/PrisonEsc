@@ -5,7 +5,7 @@ package no.ntnu.prisonesc;
  * {@link #getRotation} will always return a float in the [0..fullCircle> range.
  */
 public class Rotation {
-    private final float fullCircle;
+    protected final float fullCircle;
     protected float rotation;
 
     /**

@@ -1,5 +1,9 @@
 package no.ntnu.prisonesc;
 
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Henrik on 14.04.2017.
  */
@@ -14,7 +18,8 @@ public class OldRotation extends Rotation {
     }
 
     public OldRotation(int initialRotation) {
-        super((float) Math.PI * 2f, (float) Math.toRadians(initialRotation / 10));
+        super((float) Math.PI * 2f, (float)( Math.toRadians(initialRotation / 10.000)));
+        //Log.d(TAG, "OldRotation.res: "+ (float) Math.toRadians(initialRotation / 10));
     }
 
     public float getRad() {
@@ -26,15 +31,17 @@ public class OldRotation extends Rotation {
     }
 
     /**
-     * Vær obs på at deg her er ganget med 10 for å få bere presisjon.
+     * Vær obs på at deg her er ganget med 10 for å få bedre presisjon.
      *
      * @return
      */
     public int getDeg() {
-        return (int) (Math.toDegrees(rotation) * 10);
+        //Log.d(TAG, "getDeg.rotation: "+rotation);
+        //Log.d(TAG, "getDeg.rotation: "+Math.toDegrees(rotation));
+        return (int) (Math.toDegrees(rotation) * 10.00f);
     }
 
-    public void serDeg(int newRot) {
+    public void setDeg(int newRot) {
         super.setRotation((float) Math.toRadians(newRot / 10));
     }
 
@@ -46,16 +53,16 @@ public class OldRotation extends Rotation {
      */
     @Override
     public OldRotation rotated(float delta) {
-        return (OldRotation) super.rotated(delta);
+        return new OldRotation(this.rotation + delta);
     }
 
     @Override
     public OldRotation added(Rotation delta) {
-        return (OldRotation) super.added(delta);
+        return new OldRotation(this.rotation + delta.rotation);
     }
 
     @Override
     public OldRotation subtracted(Rotation delta) {
-        return (OldRotation) super.subtracted(delta);
+        return new OldRotation(this.rotation - delta.rotation);
     }
 }

@@ -1,5 +1,9 @@
 package no.ntnu.prisonesc;
 
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Henrik on 02.04.2017.
  */
@@ -34,6 +38,7 @@ public class Player {
     }
 
     public void setRot(OldRotation rot) {
+        Log.d(TAG, "setRot.rot: "+rot.getDeg());
         physics.setRot(rot);
     }
 

@@ -52,8 +52,8 @@ public class PhysicsObject {
         tempVelY += this.accY;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
         tempVelX += addDrag(true);//DISABLE: Ved å komentere ut disse lijene skrur man av drag
         tempVelY += addDrag(false);//DISABLE: Ved å komentere ut disse lijene skrur man av drag;
-        //tempVelX += addGlider2(true);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
-        //tempVelY += addGlider2(false);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        tempVelX += addGlider2(true);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
+        tempVelY += addGlider2(false);//DISABLE: Ved å komentere ut disse lijene skrur man av glider
         this.velX = tempVelX;
         this.velY = tempVelY;
         if (accActive == 0) {//DISABLE: Ved å sette denne til false skrur man av raketter.
@@ -129,16 +129,17 @@ public class PhysicsObject {
      * @return
      */
     public int addGlider2(boolean x) {
-        OldRotation dirDown = rotation.rotated((float) -Math.PI / 4);//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
+        OldRotation dirDown = rotation.rotated((float) (-Math.PI / 2));//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
         OldRotation dirSpeed = new OldRotation((float) Math.atan2(velY, velX)); //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
         //Log.d(TAG, "addGlider.dirSpeed: " + dirSpeed);
         double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
         double speedDown = Math.cos(dirSpeed.subtracted(dirDown).getRad()) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
-        double addSpeed = speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
+        double addSpeed = - speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
+        //Log.d(TAG,"addGlider2.dirDown: "+dirDown.getDeg()+ "addGlider2.addSpeed: "+addSpeed+" addglider2.fwdSpeed: "+ fwdSpeed);
         if (x)
-            return (int) (-Math.cos(dirDown.getRad()) * addSpeed);//Hvor mye av addspeed som er i x retning
+            return (int) (Math.cos(dirDown.getRad()) * addSpeed);//Hvor mye av addspeed som er i x retning
         else
-            return (int) (-Math.sin(dirDown.getRad()) * addSpeed);//Hvor mye av addSpeed som er i y retning.
+            return (int) (Math.sin(dirDown.getRad()) * addSpeed);//Hvor mye av addSpeed som er i y retning.
     }
 
 
@@ -182,7 +183,7 @@ public class PhysicsObject {
      */
     public void setRot(OldRotation rot) {
         this.rotation = rot;
-        Log.d(TAG, "setRot.rot: " + rot.getDeg());
+        Log.d(TAG, "setRot.rot: "+rot.getDeg());
     }
 
     public int getVelY() {
