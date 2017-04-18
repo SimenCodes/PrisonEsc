@@ -6,6 +6,9 @@ import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * SaveData handle the saving of progress in the application
@@ -19,15 +22,28 @@ public class SaveData {
     private String moneyString = "money";
 
     private int money;
+    private List<Powerup> powerups;
+    {
+        //ADD new Powerups to this list for saving purposes
+        this.powerups = new ArrayList<>();
+        this.powerups.add(new MockPowerup(0));
+    }
 
     private SaveData(Context context) {
         data = PreferenceManager.getDefaultSharedPreferences(context);
         try {
             //load data from the preferences
             money = data.getInt(moneyString, 0);
+            String prefix = "p";
+            for (int i = 0; i < this.powerups.size(); i++) {
+                String tmp = prefix + i;
+                int n = data.getInt(tmp, 0);
+                this.powerups.get(i).setLevel(n);
+            }
         } catch (ClassCastException e) {
             //cant load because it is the first time. Create from default
             money = 0;
+            // Nothing for the powerups, because they are created with the default values before the constructor
         }
     }
 
@@ -49,17 +65,39 @@ public class SaveData {
         return money;
     }
 
+    public Collection<Powerup> getPowerups(){ return powerups;}
+
     /**
      * Update savedata with updated data
      */
     private void updateData() {
         SharedPreferences.Editor editor = data.edit();
         editor.putInt(moneyString, money);
-        //TODO add stuff to save;
+        String prefix = "p";
+        for (int i = 0; i < this.powerups.size(); i++) {
+            String key = prefix + i;
+            editor.putInt(key, this.powerups.get(i).getLevel());
+        }
+        editor.apply();
     }
 
     public Collection<Powerup> getBoughtPowerups() {
-        //TODO actualy return a list of bought powerups
-        return new ArrayList<Powerup>();
+        ArrayList<Powerup> boughtPowerups = new ArrayList<>();
+        for (int i = 0; i < this.powerups.size(); i++) {
+            if(this.powerups.get(i).isBought()){
+                boughtPowerups.add(this.powerups.get(i));
+            }
+        }
+        return boughtPowerups;
+    }
+
+    public Collection<Powerup> getInitialConditionPowerups(){
+        ArrayList<Powerup> initialCondition = new ArrayList<>();
+        for (int i = 0; i < this.powerups.size(); i++){
+            if (this.powerups.get(i).isInitialCondition()){
+                initialCondition.add(this.powerups.get(i));
+            }
+        }
+        return initialCondition;
     }
 }

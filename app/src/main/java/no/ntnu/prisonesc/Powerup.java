@@ -11,4 +11,12 @@ public interface Powerup {
     int getPrice();
 
     boolean isInitialCondition();
+
+    int getLevel();
+
+    boolean isBought();
+
+    void setLevel(int n);
+
+    void buy();
 }
