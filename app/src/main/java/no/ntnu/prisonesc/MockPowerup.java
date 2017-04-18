@@ -22,7 +22,7 @@ public class MockPowerup extends Powerup {
     }
 
     @Override
-    public void apply(Player player) {
+    public void apply(Player player, GameActivity gameAcitivity) {
         player.addVel(new Point(50, 150));
         // denne er individuel for alle de forskellige powerupene
     }

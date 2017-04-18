@@ -21,7 +21,7 @@ public class BetterVerticalCannon extends Powerup {
     }
 
     @Override
-    void apply(Player player) {
+    void apply(Player player, GameActivity gameAcitivity) {
         player.addVel(new Point(0, level * 15));
     }
 }

@@ -21,7 +21,9 @@ public class AerodynamicClothes extends Powerup {
     }
 
     @Override
-    void apply(Player player) {
+    void apply(Player player, GameActivity gameAcitivity) {
+        //TODO Hente bildet som skal brukes for aerodynamisk spiller
+        gameAcitivity.setDefaultPlayerImage(0);
         player.reduseAirResitance(0.0002f);
     }
 }

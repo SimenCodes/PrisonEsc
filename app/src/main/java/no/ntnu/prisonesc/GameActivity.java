@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {
             if (e.isInitialCondition()) {
-                e.apply(player);
+                e.apply(player, this);
             }
         }
 

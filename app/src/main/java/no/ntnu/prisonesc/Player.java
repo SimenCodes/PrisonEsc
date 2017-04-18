@@ -54,4 +54,10 @@ public class Player {
         physics.reduseAirResistance(amount);
     }
 
+    public void addAccleration(int force, int duration) {
+        int accX = (int) (Math.cos(physics.getRot().getRad()) * force);
+        int accY = (int) (Math.sin(physics.getRot().getRad()) * force);
+        physics.setAcc(new Point(accX, accY), duration);
+    }
+
 }

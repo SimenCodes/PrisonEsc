@@ -25,7 +25,7 @@ public abstract class Powerup {
         this.maxLevel = maxLevel;
     }
 
-    abstract void apply(Player player);
+    abstract void apply(Player player, GameActivity gameActivity);
 
     public int getPrice() {
         return this.basePrice + 500 * (this.level + 1);

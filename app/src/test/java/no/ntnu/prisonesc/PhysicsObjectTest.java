@@ -27,14 +27,14 @@ public class PhysicsObjectTest {
 
     @Test
     public void addGlider2() throws Exception {
-        physics.setRot(new OldRotation(450));
+        /*physics.setRot(new OldRotation(450));
         physics.addVel(new Point(physics.addGlider2(true), physics.addGlider2(false)));
         //Assert.assertEquals("Hastigheten burde endres like mye  i både x og y retning.", physics.getPos().x, physics.getPos().y);
         this.setUp();
         physics.setRot(new OldRotation(900));
         physics.addVel(new Point(physics.addGlider2(true), physics.addGlider2(false)));
         //Assert.assertEquals("Hastigheten i y-retning burde halveres når farten er 45 grader oppover og rotasjonen er på 90 grader.", 150, physics.getVelY());
-
+        */
     }
 
 }
