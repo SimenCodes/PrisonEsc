@@ -1,22 +1,59 @@
 package no.ntnu.prisonesc;
 
+import android.support.annotation.NonNull;
+
 /**
  * Powerup interface
  */
 
-public interface Powerup {
 
-    void apply(Player player);
+public abstract class Powerup {
 
-    int getPrice();
+    protected int level;
+    @NonNull
+    protected int basePrice;
+    @NonNull
+    protected boolean initialCondition;
+    protected int maxLevel;
 
-    boolean isInitialCondition();
+    public Powerup(int level) {
+        new MockPowerup(level, 10);
+    }
 
-    int getLevel();
+    public Powerup(int level, int maxLevel) {
+        this.level = level;
+        this.maxLevel = maxLevel;
+    }
 
-    boolean isBought();
+    abstract void apply(Player player);
 
-    void setLevel(int n);
+    public int getPrice() {
+        return this.basePrice + 500 * (this.level + 1);
+    }
 
-    void buy();
+    public boolean isInitialCondition() {
+        return this.initialCondition;
+    }
+
+    public int getLevel() {
+        return this.level;
+    }
+
+    public void setLevel(int n) {
+        if (n < maxLevel) {
+            this.level = n;
+        }
+    }
+
+    public boolean isBought() {
+        return this.level > 0;
+    }
+
+    public void buy() {
+        if (this.level < this.maxLevel) {
+            this.level++;
+        } else {
+            throw new IllegalStateException("Allready max Level");
+        }
+    }
 }

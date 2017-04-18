@@ -24,6 +24,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     Handler handler = new Handler();
     Player player;
     ImageView playerImage;
+    int defaultPlayerImageId;
     TextView scoreText;
 
 
@@ -43,9 +44,10 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        //Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher, null);
+
         SaveData shopData = SaveData.getData(getApplicationContext());
-        playerImage = (ImageView) findViewById(R.id.playerImage);
+        defaultPlayerImageId = R.id.playerImage;
+        playerImage = (ImageView) findViewById(defaultPlayerImageId);
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
@@ -193,5 +195,17 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public void changePlayerImage(int id) {
+        playerImage = (ImageView) findViewById(id);
+    }
+
+    public void setDefaultPlayerImage(int id) {
+        defaultPlayerImageId = id;
+    }
+
+    public void resetPlayerImage() {
+        playerImage = (ImageView) findViewById(R.id.playerImage);
     }
 }

@@ -49,4 +49,9 @@ public class Player {
     public void addVel(Point p) {
         physics.addVel(p);
     }
+
+    public void reduseAirResitance(float amount) {
+        physics.reduseAirResistance(amount);
+    }
+
 }
