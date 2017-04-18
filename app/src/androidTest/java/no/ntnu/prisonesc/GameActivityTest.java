@@ -35,7 +35,7 @@ public class GameActivityTest {
         };
         Looper.prepare();
 
-        Player player = new Player(0.2, 0, 15, 0, 0);
+        Player player = new Player(0.2, 0.0, 15, 0, 0, -1);
         GameActivity test = new GameActivity();
         Assert.assertTrue("Tests when the upper right corner of the player intersects with the lower left of the enemy.", test.isCollision(FO1, player));
         Assert.assertFalse("Tests when there is no intersection", test.isCollision(FO2, player));
