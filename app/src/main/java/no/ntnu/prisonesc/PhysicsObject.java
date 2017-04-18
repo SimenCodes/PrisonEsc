@@ -190,7 +190,7 @@ public class PhysicsObject {
         return velY;
     }
 
-    public void reduseAirResistance(float amount) {
+    public void reduseAirResistance(double amount) {
         this.drag -= amount;
     }
 }
