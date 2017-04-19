@@ -62,6 +62,14 @@ public class ShopActivity extends AppCompatActivity {
         drawShop();
     }
 
+    public void updateShopData(){
+        powerups = new ArrayList<>(data.getPowerups());
+        money = data.getMoney();
+        String moneyString = "" + money;
+        moneyText.setText(moneyString);
+        drawShop();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -69,25 +77,21 @@ public class ShopActivity extends AppCompatActivity {
         money = data.getMoney();
         String moneyString = "" + money;
         moneyText.setText(moneyString);
-    }
-/*
-    void OnClick(View view){
-        switch ((String) view.getTag()){
 
+    }
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.back_button_shop:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.shop_text:
+                //TODO add add money functionality;
         }
     }
-*/
-
-    private void test(){
-        for (int i = 0; i < powerups.size(); i++) {
-            powerups.get(i).setLevel(3);
-        }
-        powerups.get(1).setLevel(5);
-        data.updatePowerups(this.powerups);
-    }
-
 
     private void drawShop(){
+        shopWraper.removeAllViews();
         List<Powerup> powerupList = powerups;
         for (int i = 0; i < powerups.size(); i++) {
             Powerup currentPowerup = powerupList.get(i);
@@ -162,10 +166,9 @@ public class ShopActivity extends AppCompatActivity {
                 for (int i = 0; i < levelDiff; i++) {
                     powerupToBuy.buy();
                 }
-
                 powerups.set(pup, powerupToBuy);
-                shopWraper.removeAllViews();
-                drawShop();
+                data.updatePowerups(powerups);
+                updateShopData();
             }
         });
 
