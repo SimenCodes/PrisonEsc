@@ -143,6 +143,7 @@ public class ScrollerView extends FrameLayout {
             if (!move(diff, flying.image, 1)) {
                 // This object is offscreen, so let's trash it and recycle the view.
                 hittableObjects.remove(flying);
+                Log.d(TAG, "tick.flying.getPos: " + flying.getCenter() + " : " + playerPos);
                 try {
                     recycledImages.add(flying.image);
                 } catch (IllegalStateException e) {
