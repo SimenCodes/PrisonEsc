@@ -30,7 +30,7 @@ public class SaveData {
     {
         //ADD new Powerups to this list for saving purposes
         this.powerups = new ArrayList<>();
-        this.powerups.add(new AerodynamicClothes(0));
+        this.powerups.add(new AerodynamicClothes(0, 3));
         this.powerups.add(new BetterVerticalCannon(0));
         this.powerups.add(new BetterHorizontalCannon(0));
     }

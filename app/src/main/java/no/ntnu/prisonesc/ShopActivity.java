@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +27,9 @@ public class ShopActivity extends AppCompatActivity {
     private List<Powerup> powerups;
 
     private int money;
+    private TextView moneyText;
+
+    private LinearLayout shopWraper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +45,16 @@ public class ShopActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+        shopWraper = (LinearLayout) findViewById(R.id.shop_wraper);
+
         data = SaveData.getData(getApplicationContext());
         powerups = new ArrayList<>(data.getPowerups());
+        money = data.getMoney();
+
+        moneyText = (TextView) findViewById(R.id.shop_money_number_text);
+        String moneyString = "" + money;
+        moneyText.setText(moneyString);
+        test();
         drawShop();
     }
 
@@ -69,7 +82,6 @@ public class ShopActivity extends AppCompatActivity {
 
 
     private void drawShop(){
-        LinearLayout shopWraperLayout = (LinearLayout) findViewById(R.id.shop_wraper);
         List<Powerup> powerupList = new ArrayList<>(powerups);
         for (int i = 0; i < powerups.size(); i++) {
             Powerup currentPowerup = powerupList.get(i);
@@ -79,7 +91,7 @@ public class ShopActivity extends AppCompatActivity {
             tv.setText(powerupString);
             tv.setTextSize(32);
             tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            shopWraperLayout.addView(tv);
+            shopWraper.addView(tv);
 
             LinearLayout buyLayout = new LinearLayout(this);
             buyLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -88,20 +100,36 @@ public class ShopActivity extends AppCompatActivity {
             for (int j = 0; j < currentPowerup.getMaxLevel(); j++) {
                 if(j < currentPowerup.getLevel()){
 
-                    ImageView boughtPowerup = new ImageView(this);
+                    final ImageView boughtPowerup = new ImageView(this);
                     //TODO add resource
+                    int id = ((i+1) * 100) + j;
+                    boughtPowerup.setId(id);
                     boughtPowerup.setImageResource(R.drawable.balloon_dude);
+                    boughtPowerup.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(ShopActivity.this, "You already own this! Id: " + boughtPowerup.getId(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     buyLayout.addView(boughtPowerup);
                 } else {
-
-                    ImageView unBoughtPowerup = new ImageView(this);
+                    final ImageView unBoughtPowerup = new ImageView(this);
                     //TODO add resource
                     unBoughtPowerup.setImageResource(R.drawable.balloon_1);
+                    int id = ((i+1) * 100) + j;
+                    unBoughtPowerup.setId(id);
+                    unBoughtPowerup.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(ShopActivity.this, "Image is pressed! Id: " + unBoughtPowerup.getId(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     buyLayout.addView(unBoughtPowerup);
                 }
-            }
 
-            shopWraperLayout.addView(buyLayout);
+            }
+            shopWraper.addView(buyLayout);
         }
 
     }

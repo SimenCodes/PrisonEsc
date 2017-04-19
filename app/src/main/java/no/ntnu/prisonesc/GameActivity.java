@@ -129,7 +129,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 scrollerView.removeFlyingObject(flying);
                 Log.d(TAG, "run: Vi har en kollisjon");
             } else
-                Log.d(TAG, "run: Ingen kollisjon.  " + flying.getCenter().dist(player.getCenter()) + " FO@" + flying.getCenter() + ", Player@" + player.getPos());
+                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getCenter().dist(player.getCenter()) + " : " + flying.getCenter() + " : " + player.getCenter());
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
