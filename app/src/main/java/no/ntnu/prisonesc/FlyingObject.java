@@ -7,7 +7,7 @@ import android.widget.ImageView;
  * Created by Henrik on 02.04.2017.
  */
 
-public abstract class FlyingObject {
+public abstract class FlyingObject implements Collidable {
     public static final String TAG = "FlyingObject";
 
     public final Point position;
@@ -33,6 +33,19 @@ public abstract class FlyingObject {
         return new Balloon(p, 100, 100, imageView); // TODO Dimensions as resources, maybe in scrollview
     }
 
+
     abstract void onCollision(Player player);
 
+    @Override
+    public int getRadius() {
+        if (width > height)
+            return width / 2;
+        else
+            return height / 2;
+    }
+
+    @Override
+    public Point getPosition() {
+        return this.position.move(new Point(width / 2, height / 2));
+    }
 }

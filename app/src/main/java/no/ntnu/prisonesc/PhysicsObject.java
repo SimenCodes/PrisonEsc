@@ -105,7 +105,7 @@ public class PhysicsObject {
      * Warning:Denne metoden bruker globale variable.(VelX, VelY, rotation og gliderFactor).
      * Denne vill føre til en oppbremsing hvis man går veldig skarpt oppover.
      * Denne skal optimalt ikke påvirke noe når man beveger seg rett i bevegelsesretningen.
-     *
+     * WARNING:Denne brukes ikke
      * @param x true om det er x koordinaten vi legger til, false om det er y koordinaten.
      * @return The value to add to the current velocity.
      */
@@ -131,7 +131,9 @@ public class PhysicsObject {
     public int addGlider2(boolean x) {
         OldRotation dirDown = rotation.rotated((float) (-Math.PI / 2));//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
         OldRotation dirSpeed = new OldRotation((float) Math.atan2(velY, velX)); //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
-        //Log.d(TAG, "addGlider.dirSpeed: " + dirSpeed);
+        if (dirSpeed.getRad() > dirDown.rotated((float) -Math.PI / 2).getRad()) {
+            return 0;//I tilfelle ned er opp så skal ikke vi gå fortere.
+        }
         double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
         double speedDown = Math.cos(dirSpeed.subtracted(dirDown).getRad()) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
         double addSpeed = - speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
@@ -183,7 +185,6 @@ public class PhysicsObject {
      */
     public void setRot(OldRotation rot) {
         this.rotation = rot;
-        Log.d(TAG, "setRot.rot: "+rot.getDeg());
     }
 
     public int getVelY() {

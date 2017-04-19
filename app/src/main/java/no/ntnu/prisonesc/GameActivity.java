@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0005;
-        double gliderFactor = 0.2;
+        double gliderFactor = 0.2f;
         int posY = 0;
         int velX = 400;
         int velY = 400;
@@ -126,6 +126,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             if (isCollision(flying, player)) {
                 flying.onCollision(player);
                 scrollerView.removeFlyingObject(flying);
+                Log.d(TAG, "run: Vi har en kollisjon");
             }
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
@@ -170,23 +171,17 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             res = -900;
         else if (res > 900)
             res = 900;
-        Log.d(TAG, "calculateRotation.res: "+res);
+        //Log.d(TAG, "calculateRotation.res: "+res);
         return new OldRotation(res + 900);//For at vi skal få et positivt tall mellom 0 og 180
     }
 
     /**
-     * for å spare litt prosessering sjekker jeg bare de fremste hjørnene til player.
-     * Håper at det ikke gjør så mye at han treffer med beinene og at han går mest fremover.
+     * Endret den opprinnelige koden til at den nå bruker sirkler i steden for firkanter.
      *
      * @return true hvis det er en kollisjon
      */
-    public boolean isCollision(FlyingObject enemy, Player player) {
-        Point cp = player.getPos().move(player.getSize());//Hjørnet oppe til høyre til player
-        Point cf = new Point(enemy.position.x + enemy.width, enemy.position.y + enemy.height);//Hjørnet oppe til høyre til enemy
-        if ((cp.x > enemy.position.x && cp.y > enemy.position.y) && (cf.x > player.getPos().x && cf.y > player.getPos().y)) {//Må testen
-            return true;
-        } else
-            return player.getPos().x + player.size.x > enemy.position.x && player.getPos().y < enemy.position.y + enemy.height;
+    public boolean isCollision(Collidable c1, Collidable c2) {
+        return c1.getPosition().dist(c2.getPosition()) < c1.getRadius() + c2.getRadius();
     }
 
     @Override

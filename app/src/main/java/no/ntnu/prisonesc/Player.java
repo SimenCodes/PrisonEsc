@@ -1,14 +1,10 @@
 package no.ntnu.prisonesc;
 
-import android.util.Log;
-
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Henrik on 02.04.2017.
  */
 
-public class Player {
+public class Player implements Collidable {
     public final Point size;
     private final PhysicsObject physics;
 
@@ -38,7 +34,6 @@ public class Player {
     }
 
     public void setRot(OldRotation rot) {
-        Log.d(TAG, "setRot.rot: "+rot.getDeg());
         physics.setRot(rot);
     }
 
@@ -60,4 +55,16 @@ public class Player {
         physics.setAcc(new Point(accX, accY), duration);
     }
 
+    @Override
+    public int getRadius() {
+        if (size.x > size.y)
+            return size.x / 2;
+        else
+            return size.y / 2;
+    }
+
+    @Override
+    public Point getPosition() {
+        return physics.getPos().move(new Point(size.x / 2, size.y / 2));
+    }
 }
