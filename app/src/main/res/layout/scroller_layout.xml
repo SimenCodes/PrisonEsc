@@ -18,16 +18,16 @@
 
     <ImageView
         android:id="@+id/ground_1"
-        android:src="@mipmap/ic_launcher"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:src="@mipmap/ic_launcher" />
 
     <ImageView
         android:id="@+id/ground_2"
-        android:src="@mipmap/ic_launcher"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:src="@mipmap/ic_launcher" />
 
 </FrameLayout>
