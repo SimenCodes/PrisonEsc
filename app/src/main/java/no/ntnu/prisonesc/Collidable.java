@@ -9,5 +9,5 @@ public interface Collidable {
 
     int getRadius();
 
-    Point getPosition();
+    Point getCenter();
 }

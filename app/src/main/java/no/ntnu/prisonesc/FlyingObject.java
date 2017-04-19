@@ -45,7 +45,7 @@ public abstract class FlyingObject implements Collidable {
     }
 
     @Override
-    public Point getPosition() {
+    public Point getCenter() {
         return this.position.move(new Point(width / 2, height / 2));
     }
 }

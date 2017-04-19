@@ -129,7 +129,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 scrollerView.removeFlyingObject(flying);
                 Log.d(TAG, "run: Vi har en kollisjon");
             } else
-                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getPosition().dist(player.getPosition()) + " : " + flying.getPosition() + " : " + player.getPosition());
+                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getCenter().dist(player.getCenter()) + " : " + flying.getCenter() + " : " + player.getCenter());
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
@@ -182,7 +182,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      * @return true hvis det er en kollisjon
      */
     public boolean isCollision(Collidable c1, Collidable c2) {
-        return c1.getPosition().dist(c2.getPosition()) < c1.getRadius() + c2.getRadius();
+        return c1.getCenter().dist(c2.getCenter()) < c1.getRadius() + c2.getRadius();
     }
 
     @Override

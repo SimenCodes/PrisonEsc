@@ -62,7 +62,7 @@ public class Player implements Collidable {
     }
 
     @Override
-    public Point getPosition() {
+    public Point getCenter() {
         return physics.getPos().move(new Point(size.x / 2, size.y / 2));
     }
 }
