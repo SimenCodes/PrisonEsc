@@ -30,17 +30,18 @@ public class ScrollerView extends FrameLayout {
     private static final boolean PERSPECTIVE_ENABLED = true; // disable cloud/backgroundObject perspective when set to false
     private static final int CLOUD_COUNT = 5;
 
-    Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
-    List<FlyingObject> hittableObjects;
-    Point screenScaledPlayerPos = new Point(0, 0);
-    Random random = new Random();
+    private Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
+    private List<FlyingObject> hittableObjects;
+    private Point screenScaledPlayerPos = new Point(0, 0);
+    private Random random = new Random();
+    private boolean isReadyForTick = false;
     /**
      * One unit in our world (hereby called World Unit "wu") is one density-independent pixel.
      * This means that on a 5" FHD phone, we see 640wu in X direction and 360wu in Y direction.
      */
-    int scaleFactor;
-    ImageView[] ground = new ImageView[2];
-    AbsoluteLayout backgroundContainer, hittableContainer;
+    private int scaleFactor;
+    private ImageView[] ground = new ImageView[2];
+    private AbsoluteLayout backgroundContainer, hittableContainer;
     // A temporary place to store offscreen imageviews for reuse
     private Queue<ImageView> recycledImages = new ArrayBlockingQueue<>(MAX_HITTABLE_OBJECT_COUNT);
 
@@ -68,22 +69,20 @@ public class ScrollerView extends FrameLayout {
         ground[1] = (ImageView) findViewById(R.id.ground_2);
         backgroundContainer = (AbsoluteLayout) findViewById(R.id.background);
         hittableContainer = (AbsoluteLayout) findViewById(hittable);
+    }
 
-        // We wait a little moment so the view gets width and height (we should have used a tree listener, but meh…)
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ground[1].setTranslationX(ground[0].getWidth());
-                for (int i = 0; i < CLOUD_COUNT; i++) {
-                    ImageView imageView = createAndAttachImageView(backgroundContainer);
-                    imageView.setTranslationX(getWidth() * random.nextFloat());
-                    imageView.setTranslationY((getHeight() - ground[0].getHeight()) * random.nextFloat());
-                    if (i % 2 == 0) imageView.setImageResource(R.drawable.cloud_1);
-                    else imageView.setImageResource(R.drawable.cloud_2);
-                    backgroundObjects.put(imageView, random.nextDouble());
-                }
-            }
-        }, 100);
+    private void delayedInit() {
+        Log.d(TAG, "delayedInit() called");
+        ground[1].setTranslationX(ground[0].getWidth());
+        for (int i = 0; i < CLOUD_COUNT; i++) {
+            ImageView imageView = createAndAttachImageView(backgroundContainer);
+            imageView.setTranslationX(getWidth() * random.nextFloat());
+            imageView.setTranslationY((getHeight() - ground[0].getHeight()) * random.nextFloat());
+            if (i % 2 == 0) imageView.setImageResource(R.drawable.cloud_1);
+            else imageView.setImageResource(R.drawable.cloud_2);
+            backgroundObjects.put(imageView, random.nextDouble());
+        }
+        isReadyForTick = true;
     }
 
     /**
@@ -93,6 +92,8 @@ public class ScrollerView extends FrameLayout {
      * @param playerPos The new position to draw
      */
     public void tick(Point playerPos) {
+        if (!isReadyForTick) delayedInit();
+
         Point diff = new Point(playerPos.x * scaleFactor - screenScaledPlayerPos.x, playerPos.y * scaleFactor - screenScaledPlayerPos.y);
         screenScaledPlayerPos = new Point(playerPos.x * scaleFactor, playerPos.y * scaleFactor);
 

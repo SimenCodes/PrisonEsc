@@ -155,10 +155,14 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //END plasere bildet av player på skjermen
 
         scrollerView.tick(player.getPos());
-        handler.postDelayed(this, 16);
 
         scoreText.setText(String.valueOf(player.getPos().x));
 
+        if (player.getPos().y != 0 || player.getVelY() != 0) {
+            handler.postDelayed(this, 16);
+        } else {
+            Log.w(TAG, "run: END OF GAME!");
+        }
     }
 
     /**
