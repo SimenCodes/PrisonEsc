@@ -1,4 +1,7 @@
-package no.ntnu.prisonesc;
+package no.ntnu.prisonesc.powerups;
+
+import no.ntnu.prisonesc.GameActivity;
+import no.ntnu.prisonesc.Player;
 
 /**
  * Created by Henrik on 18.04.2017.
@@ -21,9 +24,9 @@ public class AerodynamicClothes extends Powerup {
     }
 
     @Override
-    void apply(Player player, GameActivity gameAcitivity) {
+    public void apply(Player player, GameActivity gameAcitivity) {
         //TODO Hente bildet som skal brukes for aerodynamisk spiller
         gameAcitivity.setDefaultPlayerImage(0);
-        player.reduseAirResitance(0.0002);
+        player.reduceAirResistance(0.0002);
     }
 }

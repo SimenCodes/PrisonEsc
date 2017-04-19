@@ -1,4 +1,8 @@
-package no.ntnu.prisonesc;
+package no.ntnu.prisonesc.powerups;
+
+import no.ntnu.prisonesc.GameActivity;
+import no.ntnu.prisonesc.Player;
+import no.ntnu.prisonesc.Point;
 
 /**
  * Created by Henrik on 18.04.2017.
@@ -23,7 +27,7 @@ public class BetterHorizontalCannon extends Powerup {
     }
 
     @Override
-    void apply(Player player, GameActivity gameAcitivity) {
+    public void apply(Player player, GameActivity gameAcitivity) {
         player.addVel(new Point(level * 15, 0));
     }
 

@@ -11,7 +11,7 @@ public class Balloon extends FlyingObject {
 
     public Balloon(Point position, int width, int height, @NonNull ImageView image) {
         super(position, width, height, image);
-        image.setImageResource(R.mipmap.ic_launcher_round);
+        image.setImageResource(R.drawable.balloon_1);
     }
 
     @Override

@@ -1,4 +1,8 @@
-package no.ntnu.prisonesc;
+package no.ntnu.prisonesc.powerups;
+
+import no.ntnu.prisonesc.GameActivity;
+import no.ntnu.prisonesc.Player;
+import no.ntnu.prisonesc.Point;
 
 /**
  * Mock powerup to test the saving, Can be used to test powerups in general

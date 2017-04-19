@@ -1,6 +1,9 @@
-package no.ntnu.prisonesc;
+package no.ntnu.prisonesc.powerups;
 
 import android.support.annotation.NonNull;
+
+import no.ntnu.prisonesc.GameActivity;
+import no.ntnu.prisonesc.Player;
 
 /**
  * Powerup interface
@@ -25,7 +28,7 @@ public abstract class Powerup {
         this.maxLevel = maxLevel;
     }
 
-    abstract void apply(Player player, GameActivity gameActivity);
+    public abstract void apply(Player player, GameActivity gameActivity);
 
     public int getPrice() {
         return this.basePrice + 500 * (this.level + 1);

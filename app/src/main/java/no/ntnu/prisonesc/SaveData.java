@@ -6,9 +6,10 @@ import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import no.ntnu.prisonesc.powerups.MockPowerup;
+import no.ntnu.prisonesc.powerups.Powerup;
 
 /**
  * SaveData handle the saving of progress in the application

@@ -50,8 +50,8 @@ public class Player {
         physics.addVel(p);
     }
 
-    public void reduseAirResitance(double amount) {
-        physics.reduseAirResistance(amount);
+    public void reduceAirResistance(double amount) {
+        physics.reduceAirResistance(amount);
     }
 
     public void addAccleration(int force, int duration) {
