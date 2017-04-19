@@ -10,10 +10,9 @@ public class Player implements Circular {
     private final PhysicsObject physics;
 
 
-    public Player(double drag, double gliderFactor, int posY, int velX, int velY, int accY) {
+    public Player(double drag, double gliderFactor, int posY, int velX, int velY, int accY, Point size) {
         physics = new PhysicsObject(drag, gliderFactor, posY, velX, velY, accY);
-        //TODO Velg en fornuftig størelse på player
-        this.size = new Point(100, 30);//Her har jeg satt størelsen på player, den må settes på en mer fornuftig måte.
+        this.size = size;
     }
 
     public void tick() {

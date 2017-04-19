@@ -59,9 +59,10 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         int velX = 400;
         int velY = 400;
         int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
+        Point size = new Point(100, 30);
         //end BaseValues
         //Lager player med basevalusene
-        player = new Player(drag, gliderFactor, posY, velX, velY, accY);
+        player = new Player(drag, gliderFactor, posY, velX, velY, accY, size);
         //legger til poweruppsene
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {

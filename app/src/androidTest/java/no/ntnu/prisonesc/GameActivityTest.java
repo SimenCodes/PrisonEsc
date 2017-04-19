@@ -26,19 +26,19 @@ public class GameActivityTest {
                 Log.d(TAG, "onCollision: test FO2");
             }
         };
-        FlyingObject FO3 = new FlyingObject(new Point(10, 5), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
+        FlyingObject FO3 = new FlyingObject(new Point(100, 5), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onCollision(Player player) {
                 Log.d(TAG, "onCollision: test FO3");
             }
         };
-        FlyingObject FO4 = new FlyingObject(new Point(5, 15), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
+        FlyingObject FO4 = new FlyingObject(new Point(5, 55), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onCollision(Player player) {
                 Log.d(TAG, "onCollision: test FO3");
             }
         };
-        FlyingObject FO5 = new FlyingObject(new Point(8, 11), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
+        FlyingObject FO5 = new FlyingObject(new Point(80, 110), 10, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
             void onCollision(Player player) {
                 Log.d(TAG, "onCollision: test FO3");
@@ -46,7 +46,7 @@ public class GameActivityTest {
         };
         Looper.prepare();
 
-        Player player = new Player(0.2, 0.0, 5, 100, 100, -1);
+        Player player = new Player(0.2, 0.0, 5, 100, 100, -1, new Point(10, 10));
         GameActivity test = new GameActivity();
         Assert.assertTrue("Tests when there is intersection", test.isCollision(FO1, player));
         Assert.assertFalse("Tests when there is no intersection", test.isCollision(FO2, player));
