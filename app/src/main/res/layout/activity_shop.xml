@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shop_activity_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="no.ntnu.prisonesc.ShopActivity"
-    tools:layout_editor_absoluteY="81dp"
     android:orientation="vertical"
+    tools:context="no.ntnu.prisonesc.ShopActivity"
     tools:layout_editor_absoluteX="0dp"
-    android:id="@+id/shop_activity_root">
+    tools:layout_editor_absoluteY="81dp">
 
-</ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="32sp"
+            android:layout_alignParentStart="true"
+            android:padding="8dp"
+            android:text="Shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="32sp"
+            android:id="@+id/shop_money_number_text"
+            android:padding="8dp"
+            android:layout_alignParentEnd="true"
+            android:text="00000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:textSize="32sp"
+            android:layout_toStartOf="@id/shop_money_number_text"
+            android:paddingTop="8dp"
+            android:text="Money:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/shop_wraper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
