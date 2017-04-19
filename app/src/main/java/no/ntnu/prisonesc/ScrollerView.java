@@ -32,7 +32,7 @@ public class ScrollerView extends FrameLayout {
 
     Map<ImageView, Double> backgroundObjects = new ArrayMap<>();
     List<FlyingObject> hittableObjects;
-    Point playerPos = new Point(0, 0);
+    Point screenScaledPlayerPos = new Point(0, 0);
     Random random = new Random();
     /**
      * One unit in our world (hereby called World Unit "wu") is one density-independent pixel.
@@ -90,23 +90,23 @@ public class ScrollerView extends FrameLayout {
      * Call this every clock tick. It will do all the scrolling.
      * It's long with mane magic numbers, but you'll make it!
      *
-     * @param p The new position to draw
+     * @param playerPos The new position to draw
      */
-    public void tick(Point p) {
-        Point diff = new Point(p.x * scaleFactor - playerPos.x, p.y * scaleFactor - playerPos.y);
-        playerPos = new Point(p.x * scaleFactor, p.y * scaleFactor);
+    public void tick(Point playerPos) {
+        Point diff = new Point(playerPos.x * scaleFactor - screenScaledPlayerPos.x, playerPos.y * scaleFactor - screenScaledPlayerPos.y);
+        screenScaledPlayerPos = new Point(playerPos.x * scaleFactor, playerPos.y * scaleFactor);
 
         final int screenWidth = getWidth(), screenHeight = getHeight();
 
         // Step 1: move ground if it's going to be visible
         for (ImageView ground : this.ground) {
-            if (playerPos.y > ground.getHeight()) {
+            if (screenScaledPlayerPos.y > ground.getHeight()) {
                 ground.setTranslationY(ground.getHeight());
             } else if (ground.getTranslationX() < -ground.getWidth()) {
                 ground.setTranslationX(ground.getWidth());
             } else {
                 ground.setTranslationX(ground.getTranslationX() - diff.x);
-                ground.setTranslationY(playerPos.y);
+                ground.setTranslationY(screenScaledPlayerPos.y);
             }
         }
 
@@ -116,7 +116,7 @@ public class ScrollerView extends FrameLayout {
                 if (random.nextBoolean()) {
                     // Init somewhere around top or bottom edge
                     image.setTranslationX(screenWidth * random.nextFloat());
-                    if (playerPos.y > ground[0].getHeight() * 4 && diff.y < 0) {
+                    if (screenScaledPlayerPos.y > ground[0].getHeight() * 4 && diff.y < 0) {
                         image.setTranslationY(screenHeight);
                     } else {
                         image.setTranslationY(-image.getHeight());
@@ -124,7 +124,7 @@ public class ScrollerView extends FrameLayout {
                 } else {
                     // Init somewhere around left or right edge
                     image.setTranslationX(diff.x >= 0 ? screenWidth : -image.getWidth());
-                    if (playerPos.y < ground[0].getHeight() * 10) {
+                    if (screenScaledPlayerPos.y < ground[0].getHeight() * 10) {
                         // Avoid clouds too close to the ground
                         image.setTranslationY(random.nextFloat() * (screenHeight / 2));
                     } else {
@@ -161,7 +161,7 @@ public class ScrollerView extends FrameLayout {
                 case 0:
                     // Init somewhere around left or right edge
                     x = (diff.x >= 0 ? screenWidth : -image.getWidth());
-                    if (playerPos.y < 100) {
+                    if (screenScaledPlayerPos.y < 100) {
                         // Avoid clouds too close to the ground
                         y = (int) (random.nextFloat() * screenHeight / 2);
                     } else {
@@ -175,7 +175,7 @@ public class ScrollerView extends FrameLayout {
                     break;
                 case 2:
                     x = (int) (screenWidth * random.nextFloat());
-                    if (playerPos.y > ground[0].getHeight()) {
+                    if (screenScaledPlayerPos.y > ground[0].getHeight()) {
                         // Init somewhere around bottom edge (unless we are on the ground)
                         y = screenHeight;
                     } else {
@@ -189,7 +189,7 @@ public class ScrollerView extends FrameLayout {
             }
             image.setTranslationX(x);
             image.setTranslationY(y);
-            hittableObjects.add(FlyingObject.create(image, fromScreenCoordinates(x, y)));
+            hittableObjects.add(FlyingObject.create(image, fromScreenCoordinates(playerPos, x, y)));
         }
     }
 
@@ -200,7 +200,7 @@ public class ScrollerView extends FrameLayout {
      * @param screenY
      * @return
      */
-    private Point fromScreenCoordinates(int screenX, int screenY) {
+    private Point fromScreenCoordinates(Point playerPos, int screenX, int screenY) {
         final int playerScreenX = getWidth() / (2 * scaleFactor);
         final int playerScreenY = getHeight() / (2 * scaleFactor);
         // Think of it as vectors; we start with a vector to the player,

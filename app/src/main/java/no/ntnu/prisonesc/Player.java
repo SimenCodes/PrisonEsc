@@ -4,7 +4,8 @@ package no.ntnu.prisonesc;
  * Created by Henrik on 02.04.2017.
  */
 
-public class Player implements Collidable {
+@SuppressWarnings("WeakerAccess")
+public class Player implements Circular {
     public final Point size;
     private final PhysicsObject physics;
 
@@ -12,7 +13,7 @@ public class Player implements Collidable {
     public Player(double drag, double gliderFactor, int posY, int velX, int velY, int accY) {
         physics = new PhysicsObject(drag, gliderFactor, posY, velX, velY, accY);
         //TODO Velg en fornuftig størelse på player
-        this.size = new Point(10, 10);//Her har jeg satt størelsen på player, den må settes på en mer fornuftig måte.
+        this.size = new Point(100, 100);//Her har jeg satt størelsen på player, den må settes på en mer fornuftig måte.
     }
 
     public void tick() {
@@ -62,7 +63,7 @@ public class Player implements Collidable {
     }
 
     @Override
-    public Point getPosition() {
-        return physics.getPos().move(new Point(size.x / 2, size.y / 2));
+    public Point getCenter() {
+        return physics.getPos().move(size.x / 2, size.y / 2);
     }
 }

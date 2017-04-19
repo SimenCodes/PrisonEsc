@@ -1,13 +1,15 @@
 package no.ntnu.prisonesc;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
  * Created by Henrik on 02.04.2017.
  */
 
-public abstract class FlyingObject implements Collidable {
+@SuppressWarnings("WeakerAccess")
+public abstract class FlyingObject implements Circular {
     public static final String TAG = "FlyingObject";
 
     public final Point position;
@@ -17,6 +19,7 @@ public abstract class FlyingObject implements Collidable {
     public final ImageView image;
 
     public FlyingObject(Point position, int width, int height, @NonNull ImageView image) {
+        Log.d(TAG, "FlyingObject() called with: position = [" + position + "], width = [" + width + "], height = [" + height + "], image = [" + image + "]");
         this.position = position;
         this.width = width;
         this.height = height;
@@ -45,7 +48,7 @@ public abstract class FlyingObject implements Collidable {
     }
 
     @Override
-    public Point getPosition() {
+    public Point getCenter() {
         return this.position.move(new Point(width / 2, height / 2));
     }
 }

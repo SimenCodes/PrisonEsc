@@ -129,7 +129,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 scrollerView.removeFlyingObject(flying);
                 Log.d(TAG, "run: Vi har en kollisjon");
             } else
-                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getPosition().dist(player.getPosition()) + " : " + flying.getPosition() + " : " + player.getPosition());
+                Log.d(TAG, "run: Ingen kollisjon.  " + flying.getCenter().dist(player.getCenter()) + " FO@" + flying.getCenter() + ", Player@" + player.getPos());
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
@@ -140,15 +140,15 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
         Log.d(TAG, "run.getRot(): " + player.getRot());
-        double playerPos = player.getVelY() / 10.00 + 1;//divisoren m[ tilpasses
-        Log.d(TAG, "run.playerPos: " + playerPos);
-        if (playerPos < 0) {
-            playerPos = 0;
-        } else if (playerPos > 2) {
-            playerPos = 2;
+        double screenScaledPlayerPos = player.getVelY() / 10.00 + 1;//divisoren m[ tilpasses
+        Log.d(TAG, "run.screenScaledPlayerPos: " + screenScaledPlayerPos);
+        if (screenScaledPlayerPos < 0) {
+            screenScaledPlayerPos = 0;
+        } else if (screenScaledPlayerPos > 2) {
+            screenScaledPlayerPos = 2;
         }
-        playerPos = playerPos / 2.00000;
-        double scaled = playerPos * 0.6 + 0.2;// for å få det inn på skjermen.
+        screenScaledPlayerPos = screenScaledPlayerPos / 2.00000;
+        double scaled = screenScaledPlayerPos * 0.6 + 0.2;// for å få det inn på skjermen.
         Log.d(TAG, "run.scaled: " + scaled);
         playerImageView.setTranslationY((float) (scaled * height));
         Log.d(TAG, "run.res: " + (scaled * height));*/
@@ -163,9 +163,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * Tar inn indata fra akslerometeret og konverterer det til grader
-     *
-     * @param readValue
-     * @return
      */
     public OldRotation calculateRotation(float readValue) {
         int res = (int) (readValue * 90);//For å få det til grader gange 10 for å få en mer presis verdi
@@ -181,8 +178,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      * Endret den opprinnelige koden til at den nå bruker sirkler i steden for firkanter.
      * @return true hvis det er en kollisjon
      */
-    public boolean isCollision(Collidable c1, Collidable c2) {
-        return c1.getPosition().dist(c2.getPosition()) < c1.getRadius() + c2.getRadius();
+    public boolean isCollision(Circular c1, Circular c2) {
+        return c1.getCenter().dist(c2.getCenter()) < c1.getRadius() + c2.getRadius();
     }
 
     @Override

@@ -5,9 +5,9 @@ package no.ntnu.prisonesc;
  * Skal bli implementert av alle objekter som skal kunne kollidere.
  */
 
-public interface Collidable {
+public interface Circular {
 
     int getRadius();
 
-    Point getPosition();
+    Point getCenter();
 }

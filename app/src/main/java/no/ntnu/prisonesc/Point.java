@@ -4,6 +4,7 @@ package no.ntnu.prisonesc;
  * Created by Henrik on 02.04.2017.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class Point {
     public final int x;
     public final int y;
@@ -15,6 +16,10 @@ public class Point {
 
     public Point move(Point p) {
         return new Point(this.x + p.x, this.y + p.y);
+    }
+
+    public Point move(int x, int y) {
+        return new Point(this.x + x, this.y + y);
     }
 
     public Point diff(Point p) {
