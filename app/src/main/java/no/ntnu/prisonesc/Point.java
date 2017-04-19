@@ -22,7 +22,8 @@ public class Point {
     }
 
     public double dist(Point p) {
-        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+        Point dif = diff(p);
+        return Math.sqrt(Math.pow(dif.x, 2) + Math.pow(dif.y, 2));
     }
 
     @Override

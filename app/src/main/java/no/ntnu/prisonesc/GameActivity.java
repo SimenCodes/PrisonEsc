@@ -118,6 +118,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         player.setRot(calculateRotation(readMeter));
 
         player.tick();
+        //Log.d(TAG, "run.flyingObjects.size: "+flyingObjects.size());
         for (int i = flyingObjects.size() - 1; i >= 0; i--) {
             // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
             // TODO: Plutselig går alt på trynet fordi alle physicsobjektene blir overbevist
@@ -127,7 +128,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 flying.onCollision(player);
                 scrollerView.removeFlyingObject(flying);
                 Log.d(TAG, "run: Vi har en kollisjon");
-            }
+            } else
+                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getPosition().dist(player.getPosition()) + " : " + flying.getPosition() + " : " + player.getPosition());
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
@@ -177,7 +179,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * Endret den opprinnelige koden til at den nå bruker sirkler i steden for firkanter.
-     *
      * @return true hvis det er en kollisjon
      */
     public boolean isCollision(Collidable c1, Collidable c2) {

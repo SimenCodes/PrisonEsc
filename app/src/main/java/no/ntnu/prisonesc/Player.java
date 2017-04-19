@@ -11,13 +11,11 @@ public class Player implements Collidable {
 
     public Player(double drag, double gliderFactor, int posY, int velX, int velY, int accY) {
         physics = new PhysicsObject(drag, gliderFactor, posY, velX, velY, accY);
-
+        //TODO Velg en fornuftig størelse på player
         this.size = new Point(10, 10);//Her har jeg satt størelsen på player, den må settes på en mer fornuftig måte.
     }
 
     public void tick() {
-        //Log.d(TAG, "tick: " + (physics.getRot() / 10 + 90));
-
         physics.tick();
     }
 
