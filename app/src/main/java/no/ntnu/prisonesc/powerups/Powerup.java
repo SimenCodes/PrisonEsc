@@ -49,6 +49,8 @@ public abstract class Powerup {
         return this.level;
     }
 
+    public int getMaxLevel(){ return this.maxLevel; }
+
     public void setLevel(int n) {
         if (n < maxLevel) {
             this.level = n;

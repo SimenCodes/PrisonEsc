@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import no.ntnu.prisonesc.powerups.AerodynamicClothes;
+import no.ntnu.prisonesc.powerups.BetterHorizontalCannon;
+import no.ntnu.prisonesc.powerups.BetterVerticalCannon;
 import no.ntnu.prisonesc.powerups.MockPowerup;
 import no.ntnu.prisonesc.powerups.Powerup;
 
@@ -27,7 +30,9 @@ public class SaveData {
     {
         //ADD new Powerups to this list for saving purposes
         this.powerups = new ArrayList<>();
-        this.powerups.add(new MockPowerup(0));
+        this.powerups.add(new AerodynamicClothes(0));
+        this.powerups.add(new BetterVerticalCannon(0));
+        this.powerups.add(new BetterHorizontalCannon(0));
     }
 
     private SaveData(Context context) {
@@ -100,5 +105,13 @@ public class SaveData {
             }
         }
         return initialCondition;
+    }
+
+    public void updatePowerups(Collection<Powerup> newPowerups){
+        List<Powerup> newPowerupList = new ArrayList<>(newPowerups);
+        for (int i = 0; i < this.powerups.size(); i++) {
+            powerups.get(i).setLevel(newPowerupList.get(i).getLevel());
+        }
+        updateData();
     }
 }
