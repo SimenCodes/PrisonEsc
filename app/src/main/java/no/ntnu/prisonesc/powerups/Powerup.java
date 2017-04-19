@@ -37,8 +37,8 @@ public abstract class Powerup {
 
     public abstract void apply(Player player, GameActivity gameActivity);
 
-    public int getPrice() {
-        return this.basePrice + 500 * (this.level + 1);
+    public int getPrice(int levelsAheadOfCurrent) {
+        return this.basePrice + 500 * (this.level + levelsAheadOfCurrent);
     }
 
     public boolean isInitialCondition() {
@@ -50,7 +50,7 @@ public abstract class Powerup {
     }
 
     public void setLevel(int n) {
-        if (n < maxLevel) {
+        if (n <= maxLevel) {
             this.level = n;
         }
     }
@@ -64,7 +64,7 @@ public abstract class Powerup {
     }
 
     public void buy() {
-        if (this.level < this.maxLevel) {
+        if (this.level <= this.maxLevel) {
             this.level++;
         } else {
             throw new IllegalStateException("Allready max Level");

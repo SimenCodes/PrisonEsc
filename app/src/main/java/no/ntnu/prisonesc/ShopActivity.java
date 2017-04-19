@@ -1,6 +1,11 @@
 package no.ntnu.prisonesc;
 
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,15 +59,16 @@ public class ShopActivity extends AppCompatActivity {
         moneyText = (TextView) findViewById(R.id.shop_money_number_text);
         String moneyString = "" + money;
         moneyText.setText(moneyString);
-        test();
         drawShop();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        powerups = new ArrayList<>(data.getBoughtPowerups());
+        powerups = new ArrayList<>(data.getPowerups());
         money = data.getMoney();
+        String moneyString = "" + money;
+        moneyText.setText(moneyString);
     }
 /*
     void OnClick(View view){
@@ -82,7 +88,7 @@ public class ShopActivity extends AppCompatActivity {
 
 
     private void drawShop(){
-        List<Powerup> powerupList = new ArrayList<>(powerups);
+        List<Powerup> powerupList = powerups;
         for (int i = 0; i < powerups.size(); i++) {
             Powerup currentPowerup = powerupList.get(i);
 
@@ -98,13 +104,12 @@ public class ShopActivity extends AppCompatActivity {
             buyLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             for (int j = 0; j < currentPowerup.getMaxLevel(); j++) {
-                if(j < currentPowerup.getLevel()){
+                if(j < currentPowerup.getLevel() + 1){
 
                     final ImageView boughtPowerup = new ImageView(this);
-                    //TODO add resource
                     int id = ((i+1) * 100) + j;
                     boughtPowerup.setId(id);
-                    boughtPowerup.setImageResource(R.drawable.balloon_dude);
+                    boughtPowerup.setImageResource(R.drawable.checkbox_filled);
                     boughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -115,13 +120,14 @@ public class ShopActivity extends AppCompatActivity {
                 } else {
                     final ImageView unBoughtPowerup = new ImageView(this);
                     //TODO add resource
-                    unBoughtPowerup.setImageResource(R.drawable.balloon_1);
+                    unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
                     int id = ((i+1) * 100) + j;
                     unBoughtPowerup.setId(id);
                     unBoughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(ShopActivity.this, "Image is pressed! Id: " + unBoughtPowerup.getId(), Toast.LENGTH_SHORT).show();
+                            buyPowerup(unBoughtPowerup.getId());
                         }
                     });
 
@@ -132,5 +138,45 @@ public class ShopActivity extends AppCompatActivity {
             shopWraper.addView(buyLayout);
         }
 
+    }
+
+    private void buyPowerup(int id){
+        final int pup = (id/100) -1;
+        Log.w("Size of poweruplist", "" + powerups.size());
+        final Powerup powerupToBuy = this.powerups.get(pup);
+        final int level = id % 100;
+        final int currentLevel = powerupToBuy.getLevel();
+        final int levelDiff = level - currentLevel;
+        int price = powerupToBuy.getPrice(levelDiff);
+
+        Log.w("buy", "powerup: " + pup + ", level: " + level + ", Current Level: " + currentLevel);
+        Log.w("Price", "" + price);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Are you sure?").setMessage("This cost is " + price);
+
+        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < levelDiff; i++) {
+                    powerupToBuy.buy();
+                }
+
+                powerups.set(pup, powerupToBuy);
+                shopWraper.removeAllViews();
+                drawShop();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
