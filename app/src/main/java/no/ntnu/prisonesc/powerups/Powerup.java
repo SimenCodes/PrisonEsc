@@ -20,7 +20,7 @@ public abstract class Powerup {
     protected int maxLevel;
 
     public Powerup(int level) {
-        new MockPowerup(level, 10);
+        this(level, 10);
     }
 
     public Powerup(int level, int maxLevel) {
