@@ -27,7 +27,7 @@ public class RocketBoost extends Powerup {
     public void apply(Player player, GameActivity gameAcitivity) {
         //TODO Hente bildet som skal brukes når vi har en aktiv rakett
         int placeholderForImage = 0;
-        gameAcitivity.changePlayerImage(placeholderForImage);
+        gameAcitivity.setPlayerImage(placeholderForImage);
         player.addAccleration(level * 2, level);
     }
 }

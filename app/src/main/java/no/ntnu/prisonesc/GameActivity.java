@@ -25,8 +25,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
-    ImageView playerImage;
-    int defaultPlayerImageId;
+    ImageView playerImageView;
+    int playerImageId;
     TextView scoreText;
 
 
@@ -48,8 +48,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
 
         SaveData shopData = SaveData.getData(getApplicationContext());
-        defaultPlayerImageId = R.id.playerImage;
-        playerImage = (ImageView) findViewById(defaultPlayerImageId);
+        playerImageId = R.mipmap.ic_launcher;
+        playerImageView = (ImageView) findViewById(R.id.playerImage);
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
@@ -132,7 +132,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
 
         //START plaser bildet av player på skjerm
-        playerImage.setRotation(player.getRot().getDeg() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
+        playerImageView.setRotation(player.getRot().getDeg() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
@@ -147,7 +147,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         playerPos = playerPos / 2.00000;
         double scaled = playerPos * 0.6 + 0.2;// for å få det inn på skjermen.
         Log.d(TAG, "run.scaled: " + scaled);
-        playerImage.setTranslationY((float) (scaled * height));
+        playerImageView.setTranslationY((float) (scaled * height));
         Log.d(TAG, "run.res: " + (scaled * height));*/
         //END plasere bildet av player på skjermen
 
@@ -199,15 +199,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     }
 
-    public void changePlayerImage(int id) {
-        playerImage = (ImageView) findViewById(id);
+    public void setPlayerImage(int id) {
+        playerImageView.setImageResource(id);
     }
 
-    public void setDefaultPlayerImage(int id) {
-        defaultPlayerImageId = id;
-    }
-
-    public void resetPlayerImage() {
-        playerImage = (ImageView) findViewById(R.id.playerImage);
-    }
 }
