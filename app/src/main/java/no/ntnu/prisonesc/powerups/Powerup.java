@@ -19,6 +19,9 @@ public abstract class Powerup {
     protected boolean initialCondition;
     protected int maxLevel;
 
+    @NonNull
+    protected String name;
+
     public Powerup(int level) {
         new MockPowerup(level, 10);
     }
@@ -26,6 +29,10 @@ public abstract class Powerup {
     public Powerup(int level, int maxLevel) {
         this.level = level;
         this.maxLevel = maxLevel;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public abstract void apply(Player player, GameActivity gameActivity);

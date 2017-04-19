@@ -21,6 +21,7 @@ public class RocketBoost extends Powerup {
     private void init() {
         basePrice = 400;
         initialCondition = false;
+        name = "Rocket";
     }
 
     @Override

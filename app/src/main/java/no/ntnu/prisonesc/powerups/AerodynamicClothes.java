@@ -21,6 +21,7 @@ public class AerodynamicClothes extends Powerup {
     private void init() {
         basePrice = 500;
         initialCondition = true;
+        name = "Clothes";
     }
 
     @Override

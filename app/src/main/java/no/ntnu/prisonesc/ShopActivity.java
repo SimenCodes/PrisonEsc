@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Collection;
@@ -14,12 +18,8 @@ import no.ntnu.prisonesc.powerups.Powerup;
 
 public class ShopActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     private SaveData data;
-    private Collection<Powerup> availeble, owned;
+    private Collection<Powerup> powerups;
 
     private int money;
 
@@ -38,24 +38,31 @@ public class ShopActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         data = SaveData.getData(getApplicationContext());
-        owned = data.getBoughtPowerups();
+        powerups = data.getPowerups();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.shop_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        String[] myDataset = {"Hello", "World!", "It", "is", "ALIVE!", "Wo", "Fuking","HO!!!!"};
-        mAdapter = new MyAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
+        ScrollView shopRoot = (ScrollView) layoutRoot;
+
+        LinearLayout wrap = new LinearLayout(this);
+        wrap.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        wrap.setOrientation(LinearLayout.VERTICAL);
+        shopRoot.addView(wrap);
+
+        for (int i = 0; i < 20; i++) {
+
+            String powerupString = "Powerup " + i;
+            TextView tv = new TextView(this);
+            tv.setText(powerupString);
+            tv.setTextSize(32);
+
+            tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            wrap.addView(tv);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        owned = data.getBoughtPowerups();
+        powerups = data.getBoughtPowerups();
         money = data.getMoney();
-        TextView moneyAmount = (TextView) findViewById(R.id.shop_money_text);
-        String moneyString = "Money: " + money;
-        moneyAmount.setText(moneyString);
     }
 }

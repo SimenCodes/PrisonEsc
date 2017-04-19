@@ -22,6 +22,7 @@ public class BetterVerticalCannon extends Powerup {
     private void init() {
         basePrice = 100;
         initialCondition = true;
+        name = "Cannon Height Power";
     }
 
     @Override
