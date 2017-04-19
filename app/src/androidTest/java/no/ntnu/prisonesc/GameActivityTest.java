@@ -51,7 +51,7 @@ public class GameActivityTest {
         Assert.assertTrue("Tests when there is intersection", test.isCollision(FO1, player));
         Assert.assertFalse("Tests when there is no intersection", test.isCollision(FO2, player));
         Assert.assertFalse("TestBorderX", test.isCollision(FO3, player));
-        Assert.assertFalse("TestBorderY", test.isCollision(FO4, player));
+        Assert.assertFalse("TestBorderY. dist: " + FO4.getCenter().dist(player.getCenter()), test.isCollision(FO4, player));
         Assert.assertFalse("TestBorderOther", test.isCollision(FO5, player));
     }
 

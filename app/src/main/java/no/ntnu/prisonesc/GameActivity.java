@@ -135,7 +135,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
 
         //START plaser bildet av player på skjerm
-        playerImageView.setRotation(player.getRot().getDeg() / 10 + 90);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
+        playerImageView.setRotation(player.getRot().getDeg() / 10);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
@@ -167,6 +167,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * Tar inn indata fra akslerometeret og konverterer det til grader
+     * Vi bruker formatet der 0 er rett ned og gradene øker mot klokka. Dette er egentlig ikke så bra, men det var slik vi begynte.
      */
     public OldRotation calculateRotation(float readValue) {
         int res = (int) (readValue * 90);//For å få det til grader gange 10 for å få en mer presis verdi
