@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context="no.ntnu.prisonesc.GameActivity">
 
+    <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="61dp"
+        android:layout_height="40dp"
+        android:text="TextView"
+        tools:text="Test" />
+
     <ImageView
         android:id="@+id/playerImage"
         android:layout_width="wrap_content"
@@ -14,10 +21,19 @@
         android:layout_gravity="center"
         app:srcCompat="@android:drawable/bottom_bar" />
 
-    <TextView
-        android:id="@+id/scoreText"
-        android:layout_width="61dp"
-        android:layout_height="40dp"
-        android:text="TextView"
-        tools:text="Test" />
+    <ImageButton
+        android:id="@+id/btnRocket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        app:srcCompat="@android:drawable/btn_default" />
+    //TODO Finne et bilde av knappen vi vil ha
+
+    <ImageButton
+        android:id="@+id/btnExplode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        app:srcCompat="@android:drawable/btn_default" />
+    //TODO Finne et bilde av knappen vi vil ha
 </FrameLayout>
