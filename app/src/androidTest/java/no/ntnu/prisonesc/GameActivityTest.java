@@ -1,18 +1,10 @@
 package no.ntnu.prisonesc;
 
-import android.os.Looper;
-import android.support.test.InstrumentationRegistry;
-import android.util.Log;
-import android.widget.ImageView;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 /**
  * Created by Henrik on 02.04.2017.
  */
 public class GameActivityTest {
-    @Test
+    /*@Test
     public void isCollision() throws Exception {
         FlyingObject FO1 = new FlyingObject(new Point(5, 5), 20, 10, new ImageView(InstrumentationRegistry.getTargetContext())) {
             @Override
@@ -53,6 +45,6 @@ public class GameActivityTest {
         Assert.assertFalse("TestBorderX", test.isCollision(FO3, player));
         Assert.assertFalse("TestBorderY. dist: " + FO4.getCenter().dist(player.getCenter()), test.isCollision(FO4, player));
         Assert.assertFalse("TestBorderOther", test.isCollision(FO5, player));
-    }
+    }*/
 
 }
