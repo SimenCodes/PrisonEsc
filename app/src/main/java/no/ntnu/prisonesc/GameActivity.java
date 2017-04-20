@@ -189,7 +189,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         }
 
         //START plaser bildet av player på skjerm
-        playerImageView.setRotation(180 - (player.getRot().getDeg() / 10));//180 minus for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
+        playerImageView.setRotation(player.getRot().getDeg() / 10);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
