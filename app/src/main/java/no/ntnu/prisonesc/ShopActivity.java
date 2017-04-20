@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -142,17 +141,13 @@ public class ShopActivity extends AppCompatActivity {
 
     }
 
-    private void buyPowerup(int id) {
-        final int pup = (id / 100) - 1;
-        Log.w("Size of poweruplist", "" + powerups.size());
+    private void buyPowerup(int id){
+        final int pup = (id/100) -1;
         final Powerup powerupToBuy = this.powerups.get(pup);
         final int level = id % 100;
         final int currentLevel = powerupToBuy.getLevel();
         final int levelDiff = level - currentLevel;
         final int price = powerupToBuy.getPrice(levelDiff);
-
-        Log.w("buy", "powerup: " + pup + ", level: " + level + ", Current Level: " + currentLevel);
-        Log.w("Price", "" + price);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 

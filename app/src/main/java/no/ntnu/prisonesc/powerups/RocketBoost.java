@@ -20,7 +20,7 @@ public class RocketBoost extends Powerup {
     }
 
     private void init() {
-        basePrice = 400;
+        basePrice = 5000;
         initialCondition = false;
         name = "Rocket";
     }

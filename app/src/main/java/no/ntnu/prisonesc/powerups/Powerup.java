@@ -31,7 +31,7 @@ public abstract class Powerup {
         this.maxLevel = maxLevel;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 

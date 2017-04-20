@@ -13,6 +13,7 @@ import no.ntnu.prisonesc.powerups.BetterHorizontalCannon;
 import no.ntnu.prisonesc.powerups.BetterVerticalCannon;
 import no.ntnu.prisonesc.powerups.MockPowerup;
 import no.ntnu.prisonesc.powerups.Powerup;
+import no.ntnu.prisonesc.powerups.RocketBoost;
 
 /**
  * SaveData handle the saving of progress in the application
@@ -33,6 +34,7 @@ public class SaveData {
         this.powerups.add(new AerodynamicClothes(0, 3));
         this.powerups.add(new BetterVerticalCannon(0));
         this.powerups.add(new BetterHorizontalCannon(0));
+        this.powerups.add(new RocketBoost(0, 2));
     }
 
     private SaveData(Context context) {
