@@ -12,7 +12,7 @@ import no.ntnu.prisonesc.powerups.Cannon;
 import no.ntnu.prisonesc.powerups.CannonPower;
 import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
-import no.ntnu.prisonesc.powerups.RocketBoost;
+import no.ntnu.prisonesc.powerups.RocketFuel;
 import no.ntnu.prisonesc.powerups.StartAltitude;
 
 /**
@@ -35,7 +35,7 @@ public class SaveData {
         this.powerups.add(new Clothes(0));
         this.powerups.add(new Cannon(0));
         this.powerups.add(new CannonPower(0));
-        this.powerups.add(new RocketBoost(0));
+        this.powerups.add(new RocketFuel(0));
         this.powerups.add(new StartAltitude(0));
     }
 
