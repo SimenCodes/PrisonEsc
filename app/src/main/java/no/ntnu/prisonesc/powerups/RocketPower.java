@@ -1,7 +1,5 @@
 package no.ntnu.prisonesc.powerups;
 
-import android.widget.ImageView;
-
 import no.ntnu.prisonesc.Player;
 import no.ntnu.prisonesc.Point;
 
@@ -23,7 +21,7 @@ public class RocketPower extends Powerup {
     }
 
     @Override
-    public void apply(Player player, ImageView playerImageView) {
+    public void apply(Player player) {
         player.addRocketBoost(new Point((float) Math.cos(player.getRot().getRad()) * level * POWER, (float) Math.sin(player.getRot().getRad()) * level * POWER));
     }
 }

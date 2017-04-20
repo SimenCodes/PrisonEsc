@@ -70,13 +70,15 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //end BaseValues
         //Lager player med basevalusene
         player = new Player(drag, gliderFactor, posY, velX, velY, accY, size);
+        player.imageSelector.setFlying(true);
         //legger til poweruppsene
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {
             if (e.isInitialCondition()) {
-                e.apply(player, this.playerImageView);
+                e.apply(player);
             }
         }
+        playerImageView.setImageResource(player.imageSelector.getImageResource());
 
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.layout_root);
         scrollerView = new ScrollerView(this, flyingObjects);
@@ -162,7 +164,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Log.d(TAG, "run.flyingObjects.size: "+ flyingObjects.size());
         if (flyingObjects.size() > 0) {
 
-            float flyingScreenRad = 0;
+            float flyingScreenRad;
             final float playerX = playerImageView.getX();
             final float playerY = playerImageView.getY();
             final Point playerScreenCornerPos = new Point(playerImageView.getX(), playerImageView.getY());
