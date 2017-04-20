@@ -14,7 +14,7 @@ public class RocketPower extends Powerup {
 
     public RocketPower(int level) {
         this.level = level;
-        this.maxLevel = 20;
+        this.maxLevel = 10;
         this.basePrice = 200;
         this.initialCondition = true;
         this.name = "Rocket Power";

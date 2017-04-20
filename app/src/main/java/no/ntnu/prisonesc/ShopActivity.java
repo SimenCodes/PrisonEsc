@@ -20,6 +20,7 @@ import java.util.List;
 import no.ntnu.prisonesc.powerups.Cannon;
 import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
+import no.ntnu.prisonesc.powerups.Wings;
 
 public class ShopActivity extends AppCompatActivity {
 
@@ -109,6 +110,8 @@ public class ShopActivity extends AppCompatActivity {
                         customBoughtClothes(j, boughtPowerup);
                     } else if (currentPowerup instanceof Cannon) {
                         customBoughtCannon(j, boughtPowerup);
+                    } else if (currentPowerup instanceof Wings) {
+                        customBoughtWings(j, boughtPowerup);
                     } else {
                         boughtPowerup.setImageResource(R.drawable.checkbox_filled);
                     }
@@ -130,6 +133,8 @@ public class ShopActivity extends AppCompatActivity {
                         customUnBoughtClothes(j, unBoughtPowerup);
                     } else if (currentPowerup instanceof Cannon) {
                         customUnBoughtCannon(j, unBoughtPowerup);
+                    } else if (currentPowerup instanceof Wings) {
+                        customUnBoughtWings(j, unBoughtPowerup);
                     } else {
                         unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
                     }
@@ -261,7 +266,7 @@ public class ShopActivity extends AppCompatActivity {
                 image.setImageResource(R.drawable.cannon_checkmark);
                 adjustCannonImage(image);
                 int pixel = Util.pixelSize(getApplicationContext());
-                image.setPadding(24*pixel, 0, 0, 0);
+                image.setPadding(24 * pixel, 0, 0, 0);
                 break;
         }
     }
@@ -279,7 +284,40 @@ public class ShopActivity extends AppCompatActivity {
         }
     }
 
-    private void adjustCannonImage(ImageView image){
+    private void adjustCannonImage(ImageView image) {
+        int pixel = Util.pixelSize(getApplicationContext());
+        image.setPadding(4 * pixel, 0, 8 * pixel, 0);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100 * pixel);
+        image.setLayoutParams(lp);
+    }
+
+    private void customBoughtWings(int level, ImageView image) {
+        switch (level) {
+            case 0:
+                image.setImageResource(R.drawable.checkmark);
+                adjustWingImage(image);
+                break;
+            case 1:
+                image.setImageResource(R.drawable.wings_checked);
+                adjustWingImage(image);
+                break;
+        }
+    }
+
+    private void customUnBoughtWings(int level, ImageView image) {
+        switch (level) {
+            case 0:
+                image.setImageResource(R.drawable.checkmark);
+                adjustWingImage(image);
+                break;
+            case 1:
+                image.setImageResource(R.drawable.wings);
+                adjustWingImage(image);
+                break;
+        }
+    }
+
+    private void adjustWingImage(ImageView image) {
         int pixel = Util.pixelSize(getApplicationContext());
         image.setPadding(4 * pixel, 0, 8 * pixel, 0);
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100 * pixel);

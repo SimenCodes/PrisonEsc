@@ -13,7 +13,9 @@ import no.ntnu.prisonesc.powerups.CannonPower;
 import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
 import no.ntnu.prisonesc.powerups.RocketFuel;
+import no.ntnu.prisonesc.powerups.RocketPower;
 import no.ntnu.prisonesc.powerups.StartAltitude;
+import no.ntnu.prisonesc.powerups.Wings;
 
 /**
  * SaveData handle the saving of progress in the application
@@ -32,11 +34,13 @@ public class SaveData {
     {
         //ADD new Powerups to this list for saving purposes
         this.powerups = new ArrayList<>();
-        this.powerups.add(new Clothes(0));
+        this.powerups.add(new StartAltitude(0));
         this.powerups.add(new Cannon(0));
         this.powerups.add(new CannonPower(0));
+        this.powerups.add(new Clothes(0));
+        this.powerups.add(new Wings(0));
+        this.powerups.add(new RocketPower(0));
         this.powerups.add(new RocketFuel(0));
-        this.powerups.add(new StartAltitude(0));
     }
 
     private SaveData(Context context) {
