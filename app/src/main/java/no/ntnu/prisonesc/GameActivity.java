@@ -153,32 +153,34 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         */
         //Log.d(TAG, "run.flyingObjects.size: "+ flyingObjects.size());
         if (flyingObjects.size() > 0) {
-            Point flyingScreenPos = null;
+
             float flyingScreenRad = 0;
             final float playerX = playerImageView.getX();
             final float playerY = playerImageView.getY();
-            final Point playerScreenPos = new Point(playerImageView.getX(), playerImageView.getY());
+            final Point playerScreenCornerPos = new Point(playerImageView.getX(), playerImageView.getY());
             final int playerWidth = playerImageView.getWidth();
             final int playerHeight = playerImageView.getHeight();
             final Point playerScreenSize = new Point(playerImageView.getWidth(), playerImageView.getHeight());
             final float playerScreenRad = Math.max(playerScreenSize.x / 2, playerScreenSize.y / 2);
+            final Point playerScreenPos = playerScreenCornerPos.move(-playerScreenSize.x / 2, -playerScreenSize.y / 2);
             for (int i = flyingObjects.size() - 1; i >= 0; i--) {
                 // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
                 FlyingObject flying = flyingObjects.get(i);
                 final float flyingX = flying.image.getTranslationX();
                 final float flyingY = flying.image.getTranslationY();
-                flyingScreenPos = new Point(flying.image.getTranslationX(), flying.image.getTranslationY());
+                final Point flyingScreenCornerPos = new Point(flying.image.getTranslationX(), flying.image.getTranslationY());
                 final int flyingWidth = flying.image.getWidth();
                 final int flyingHeight = flying.image.getHeight();
                 final Point flyingScreenSize = new Point(flying.image.getWidth(), flying.image.getHeight());
                 flyingScreenRad = Math.max(flyingScreenSize.x / 2, flyingScreenSize.y / 2);
+                final Point flyingScreenPos = flyingScreenCornerPos.move(-flyingScreenSize.x / 2, -flyingScreenSize.y / 2);
 
-                if (playerScreenPos.dist(flyingScreenPos) < playerScreenRad + flyingScreenRad) {//Vi har en kollisjon
+                if (playerScreenCornerPos.dist(flyingScreenPos) < playerScreenRad + flyingScreenRad) {//Vi har en kollisjon
                     scrollerView.removeFlyingObject(flying);
                     flying.onCollision(player);
                     Log.d(TAG, "run: Vi har kræsjet");
                 } else
-                    Log.d(TAG, "run: ikke kolisjon " + playerScreenPos.dist(flyingScreenPos) + " og " + playerScreenRad + flyingScreenRad);
+                    Log.d(TAG, "run: ikke kolisjon " + playerScreenCornerPos.dist(flyingScreenPos) + " og " + playerScreenRad + flyingScreenRad);
             }
         }
 

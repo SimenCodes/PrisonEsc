@@ -42,7 +42,11 @@ public class PhysicsObjectTest {
         Assert.assertEquals("Når vi går rett ned skal vi legge til noe proposjonalt med hastigheten(Gliderfactor er 1)", 300, physics.addGlider2(false));
         physics.addVel(new Point(300, 0));
         physics.setRot(new OldRotation(900));
-        //Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp",);
+        Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp", 0, physics.addGlider2(true));
+        physics.addVel(new Point(0, 0));
+        physics.setRot(new OldRotation(1350));
+
     }
 
 }
