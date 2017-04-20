@@ -10,6 +10,7 @@ import no.ntnu.prisonesc.Point;
 public class RocketPower extends Powerup {
 
     private static final int POWER = 1;
+    private boolean hasFired = false;
 
     public RocketPower(int level) {
         this.level = level;
@@ -22,9 +23,12 @@ public class RocketPower extends Powerup {
 
     @Override
     public void apply(Player player) {
-        player.addRocketBoost(new Point(
-                (float) Math.cos(-player.getRot().getRad()  + (float) Math.PI/2) * level * POWER,
-                (float) Math.sin(-player.getRot().getRad()+ (float) Math.PI) * level * POWER)
-        );
+        if(!hasFired) {
+            player.addRocketBoost(new Point(
+                    (float) Math.cos(-player.getRot().getRad() + (float) Math.PI / 2) * level * POWER,
+                    (float) Math.sin(-player.getRot().getRad() + (float) Math.PI) * level * POWER)
+            );
+        }
+        hasFired = true;
     }
 }
