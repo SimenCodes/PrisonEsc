@@ -11,12 +11,14 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,10 +26,11 @@ import java.util.List;
 
 import no.ntnu.prisonesc.powerups.Powerup;
 
-public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
+public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
     private static final String TAG = "GameActivity";
     private static final int MONEYRATE = 5;
     private static final int END_GAME_DELAY = 2000;
+    private static final int LONG_TOUTCH = 500;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
@@ -83,6 +86,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.layout_root);
         scrollerView = new ScrollerView(this, flyingObjects);
         layoutRoot.addView(scrollerView, 0);
+
+        layoutRoot.setOnTouchListener(this);
+        playerImageView.setOnTouchListener(this);
 
         layoutRoot.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -296,4 +302,26 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE;
     }
 
+    Runnable launchRocket = new Runnable() {
+        @Override
+        public void run() {
+            //Apply rocket powerup
+            Toast.makeText(GameActivity.this, "Launc the rocket!", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        Log.w("onToutch", "" + event.getAction());
+
+        if (MotionEvent.ACTION_DOWN == event.getAction()){
+            handler.postDelayed(launchRocket, LONG_TOUTCH);
+        } else if (MotionEvent.ACTION_CANCEL == event.getAction()){
+            handler.removeCallbacks(launchRocket);
+        } else if(MotionEvent.ACTION_UP == event.getAction()){
+            handler.removeCallbacks(launchRocket);
+        }
+        return true;
+    }
 }
