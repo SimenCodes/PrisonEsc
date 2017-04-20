@@ -141,15 +141,13 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Log.d(TAG, "run.flyingObjects.size: "+flyingObjects.size());
         for (int i = flyingObjects.size() - 1; i >= 0; i--) {
             // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
-            // TODO: Plutselig går alt på trynet fordi alle physicsobjektene blir overbevist
-            // om at de treffer spilleren. Samtidig får vi ENORM velocity (2139859919,60029), som igjen gir ugyldig posisjon pga overflow.
             FlyingObject flying = flyingObjects.get(i);
             if (isCollision(flying, player)) {
                 flying.onCollision(player);
                 scrollerView.removeFlyingObject(flying);
                 Log.d(TAG, "run: Vi har en kollisjon");
             } else
-                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getCenter().dist(player.getCenter()) + " : " + flying.getCenter() + " : " + player.getCenter());
+                Log.d(TAG, "run: player@" + player.getCenter() + " => dist=" + flying.getCenter().dist(player.getCenter()));
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
