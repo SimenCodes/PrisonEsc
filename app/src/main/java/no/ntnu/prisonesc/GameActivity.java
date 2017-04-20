@@ -6,7 +6,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -231,7 +230,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private void showEndGameDialog() {
-        new AlertDialog.Builder(this)…
+
     }
 
     /**
