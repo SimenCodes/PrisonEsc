@@ -143,7 +143,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     public void run() {
 
         player.setRot(calculateRotation(readMeter));
-
+        Log.d(TAG, "run.player.getRot: " + player.getRot().getDeg());
         player.tick();
         /*Kolisjonskode som ikke funker helt.
         //Log.d(TAG, "run.flyingObjects.size: "+flyingObjects.size());
@@ -189,7 +189,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         }
 
         //START plaser bildet av player på skjerm
-        playerImageView.setRotation(player.getRot().getDeg() / 10);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
+        playerImageView.setRotation(180 - (player.getRot().getDeg() / 10));//180 minus for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
@@ -267,7 +267,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         else if (res > 900)
             res = 900;
         //Log.d(TAG, "calculateRotation.res: "+res);
-        return new OldRotation(res + 900);//For at vi skal få et positivt tall mellom 0 og 180
+        //Minus for å få det på riktig retning.
+        return new OldRotation(1800 - (res + 900));//For at vi skal få et positivt tall mellom 0 og 180
     }
 
     /**
