@@ -19,15 +19,17 @@
     <ImageView
         android:id="@+id/ground_1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:src="@mipmap/ic_launcher" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/ground_1" />
 
     <ImageView
         android:id="@+id/ground_2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:src="@mipmap/ic_launcher" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/ground_2" />
 
 </FrameLayout>
