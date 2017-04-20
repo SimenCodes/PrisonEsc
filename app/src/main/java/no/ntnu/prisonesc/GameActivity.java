@@ -92,14 +92,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         layoutRoot.setOnTouchListener(this);
         playerImageView.setOnTouchListener(this);
 
-        layoutRoot.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
         // Android-magi for å få beskjed med en gang vi vet hvor stor PlayerImageView er.
         ViewTreeObserver viewTreeObserver = playerImageView.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
@@ -118,6 +110,18 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //For å håndtere akslerometeret:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shake = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     @Override
@@ -262,8 +266,12 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        try {
+            AlertDialog dialog = builder.create();
+            dialog.show(); // Fails if user left the app
+        } catch (Exception e) {
+            finish();
+        }
 
     }
 
