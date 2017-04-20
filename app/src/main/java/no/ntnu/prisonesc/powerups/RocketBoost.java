@@ -1,6 +1,7 @@
 package no.ntnu.prisonesc.powerups;
 
-import no.ntnu.prisonesc.GameActivity;
+import android.widget.ImageView;
+
 import no.ntnu.prisonesc.Player;
 
 /**
@@ -25,10 +26,10 @@ public class RocketBoost extends Powerup {
     }
 
     @Override
-    public void apply(Player player, GameActivity gameAcitivity) {
+    public void apply(Player player, ImageView playerImageView) {
         //TODO Hente bildet som skal brukes når vi har en aktiv rakett
         int placeholderForImage = 0;
-        gameAcitivity.setPlayerImage(placeholderForImage);
+        playerImageView.setImageResource(placeholderForImage);
         player.addAccleration(level * 2, level);
     }
 }

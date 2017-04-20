@@ -1,6 +1,7 @@
 package no.ntnu.prisonesc.powerups;
 
-import no.ntnu.prisonesc.GameActivity;
+import android.widget.ImageView;
+
 import no.ntnu.prisonesc.Player;
 import no.ntnu.prisonesc.Point;
 
@@ -28,7 +29,7 @@ public class BetterHorizontalCannon extends Powerup {
     }
 
     @Override
-    public void apply(Player player, GameActivity gameAcitivity) {
+    public void apply(Player player, ImageView playerImageView) {
         player.addVel(new Point(level * 15, 0));
     }
 

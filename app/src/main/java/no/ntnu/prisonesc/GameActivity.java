@@ -22,11 +22,10 @@ import no.ntnu.prisonesc.powerups.Powerup;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
-
+    public ImageView playerImageView;
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
-    ImageView playerImageView;
     int playerImageId;
     TextView scoreText;
 
@@ -68,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {
             if (e.isInitialCondition()) {
-                e.apply(player, this);
+                e.apply(player, this.playerImageView);
             }
         }
 
@@ -213,10 +212,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
-
-    public void setPlayerImage(int id) {
-        playerImageView.setImageResource(id);
     }
 
 }

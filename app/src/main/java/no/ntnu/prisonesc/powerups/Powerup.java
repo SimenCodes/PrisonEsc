@@ -1,8 +1,8 @@
 package no.ntnu.prisonesc.powerups;
 
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
 
-import no.ntnu.prisonesc.GameActivity;
 import no.ntnu.prisonesc.Player;
 
 /**
@@ -35,7 +35,7 @@ public abstract class Powerup {
         return this.name;
     }
 
-    public abstract void apply(Player player, GameActivity gameActivity);
+    public abstract void apply(Player player, ImageView playerImageView);
 
     public int getPrice(int levelsAheadOfCurrent) {
         return this.basePrice + 500 * (this.level + levelsAheadOfCurrent);

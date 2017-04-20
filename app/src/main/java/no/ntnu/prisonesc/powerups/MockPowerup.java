@@ -1,6 +1,7 @@
 package no.ntnu.prisonesc.powerups;
 
-import no.ntnu.prisonesc.GameActivity;
+import android.widget.ImageView;
+
 import no.ntnu.prisonesc.Player;
 import no.ntnu.prisonesc.Point;
 
@@ -26,7 +27,7 @@ public class MockPowerup extends Powerup {
     }
 
     @Override
-    public void apply(Player player, GameActivity gameAcitivity) {
+    public void apply(Player player, ImageView playerImageView) {
         player.addVel(new Point(50, 150));
         // denne er individuel for alle de forskellige powerupene
     }

@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 
+import no.ntnu.prisonesc.powerups.AerodynamicClothes;
+import no.ntnu.prisonesc.powerups.Powerup;
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView playerImage;
@@ -28,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        for (Powerup powerup : SaveData.getData(getApplicationContext()).getBoughtPowerups()) {
+            if (powerup instanceof AerodynamicClothes)
+                powerup.apply(new Player(0, 0, 0, 0, 0, 0, new Point(0, 0)), playerImage);
+        }
     }
 
     public void startGame(View view) {
