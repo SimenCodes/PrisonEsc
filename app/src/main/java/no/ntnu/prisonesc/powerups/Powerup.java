@@ -13,11 +13,13 @@ import no.ntnu.prisonesc.Player;
 public abstract class Powerup {
 
     protected int level;
+    protected int maxLevel;
+
     @NonNull
     protected int basePrice;
+
     @NonNull
     protected boolean initialCondition;
-    protected int maxLevel;
 
     @NonNull
     protected String name;

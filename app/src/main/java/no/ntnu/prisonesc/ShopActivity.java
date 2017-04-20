@@ -141,8 +141,8 @@ public class ShopActivity extends AppCompatActivity {
 
     }
 
-    private void buyPowerup(int id){
-        final int pup = (id/100) -1;
+    private void buyPowerup(int id) {
+        final int pup = (id / 100) - 1;
         final Powerup powerupToBuy = this.powerups.get(pup);
         final int level = id % 100;
         final int currentLevel = powerupToBuy.getLevel();

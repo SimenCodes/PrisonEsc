@@ -11,7 +11,6 @@ import java.util.List;
 import no.ntnu.prisonesc.powerups.AerodynamicClothes;
 import no.ntnu.prisonesc.powerups.BetterHorizontalCannon;
 import no.ntnu.prisonesc.powerups.BetterVerticalCannon;
-import no.ntnu.prisonesc.powerups.MockPowerup;
 import no.ntnu.prisonesc.powerups.Powerup;
 import no.ntnu.prisonesc.powerups.RocketBoost;
 

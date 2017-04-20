@@ -106,6 +106,7 @@ public class PhysicsObject {
      * Denne vill føre til en oppbremsing hvis man går veldig skarpt oppover.
      * Denne skal optimalt ikke påvirke noe når man beveger seg rett i bevegelsesretningen.
      * WARNING:Denne brukes ikke
+     *
      * @param x true om det er x koordinaten vi legger til, false om det er y koordinaten.
      * @return The value to add to the current velocity.
      */
