@@ -1,5 +1,7 @@
 package no.ntnu.prisonesc;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +14,7 @@ public class PhysicsObjectTest {
 
     @Before
     public void setUp() throws Exception {
-        physics = new PhysicsObject(0.0005, 1, 0, 300, 300, -1);
+        physics = new PhysicsObject(0.0005, 1, 0, 0, 300, -1);
     }
 
     @After
@@ -27,14 +29,20 @@ public class PhysicsObjectTest {
 
     @Test
     public void addGlider2() throws Exception {
-        /*physics.setRot(new OldRotation(450));
-        physics.addVel(new Point(physics.addGlider2(true), physics.addGlider2(false)));
-        //Assert.assertEquals("Hastigheten burde endres like mye  i både x og y retning.", physics.getPos().x, physics.getPos().y);
-        this.setUp();
         physics.setRot(new OldRotation(900));
-        physics.addVel(new Point(physics.addGlider2(true), physics.addGlider2(false)));
-        //Assert.assertEquals("Hastigheten i y-retning burde halveres når farten er 45 grader oppover og rotasjonen er på 90 grader.", 150, physics.getVelY());
-        */
+        Assert.assertEquals("Når vi går rett opp skal vi ikke legge til noe", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går rett opp skal vi ikke legge til noe", 0, physics.addGlider2(false));
+        physics.addVel(new Point(300, 0));
+        physics.setRot(new OldRotation(900));
+        Assert.assertEquals("Når vi går på skrå oppover skal vi fortsatt ikke legge til noe", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går på skrå oppover skal vi fortsatt ikke legge til noe", 0, physics.addGlider2(false));
+        physics.addVel(new Point(-300, -600));
+        physics.setRot(new OldRotation(900));
+        Assert.assertEquals("Når vi går rett ned skal vi legge til noe proposjonalt med hastigheten(Gliderfactor er 1)", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går rett ned skal vi legge til noe proposjonalt med hastigheten(Gliderfactor er 1)", 300, physics.addGlider2(false));
+        physics.addVel(new Point(300, 0));
+        physics.setRot(new OldRotation(900));
+        //Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp");
     }
 
 }
