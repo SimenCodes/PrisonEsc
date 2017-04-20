@@ -16,6 +16,9 @@ public abstract class Powerup {
     protected int maxLevel;
 
     @NonNull
+    protected int priceScale;
+
+    @NonNull
     protected int basePrice;
 
     @NonNull
@@ -29,7 +32,7 @@ public abstract class Powerup {
     }
 
     public int getPrice(int levelsAheadOfCurrent) {
-        return this.basePrice + 500 * (this.level + levelsAheadOfCurrent);
+        return this.basePrice + priceScale * (this.level + levelsAheadOfCurrent);
     }
 
     public int getLevel() {
