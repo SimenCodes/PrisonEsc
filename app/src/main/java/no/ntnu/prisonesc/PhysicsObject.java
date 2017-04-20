@@ -22,7 +22,7 @@ public class PhysicsObject {
     private double gliderFactor;//Et tall for hvor god glideren er, den er 0 hvis det ikke er noen glider.
     private double drag;//Denne er høy hvis hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamisk.
     //drag må være ganske liten <0.2
-    private int rocketPower;
+    private int rocketDuration;
     private int accActive; // hvor mange ticks det er igjen av akslerasjonen.
 
 
@@ -40,8 +40,8 @@ public class PhysicsObject {
         this.rotation = new OldRotation();
     }
 
-    public void addRocketPower(int rocketPower) {
-        this.rocketPower += rocketPower;
+    public void addRocketDurration(int rocketPower) {
+        this.rocketDuration += rocketPower;
     }
 
     public void tick() {
@@ -205,5 +205,9 @@ public class PhysicsObject {
 
     public void addGliderFactor(float amount) {
         this.gliderFactor += amount;
+    }
+
+    public void addRocketBoost(Point power) {
+        setAcc(power, rocketDuration);
     }
 }

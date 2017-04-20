@@ -3,6 +3,7 @@ package no.ntnu.prisonesc.powerups;
 import android.widget.ImageView;
 
 import no.ntnu.prisonesc.Player;
+import no.ntnu.prisonesc.Point;
 
 /**
  * Created by even on 20.04.17.
@@ -21,6 +22,6 @@ public class Cannon extends Powerup {
 
     @Override
     public void apply(Player player, ImageView playerImageView) {
-        //TODO
+        player.addVel(new Point(100 * level, 100 * level));
     }
 }

@@ -72,8 +72,8 @@ public class Player implements Circular {
         return physics.getPos().move(size.x / 2, size.y / 2);
     }
 
-    public void addRocketPower(int p) {
-        physics.addRocketPower(p);
+    public void addRocketDuration(int p) {
+        physics.addRocketDurration(p);
     }
 
     public void addStartHeight(float height) {
@@ -82,5 +82,9 @@ public class Player implements Circular {
 
     public void addGliderFactor(float amount) {
         physics.addGliderFactor(amount);
+    }
+
+    public void addRocketBoost(Point power) {
+        physics.addRocketBoost(power);
     }
 }

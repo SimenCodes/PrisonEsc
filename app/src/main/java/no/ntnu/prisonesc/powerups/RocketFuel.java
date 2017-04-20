@@ -15,7 +15,7 @@ public class RocketFuel extends Powerup {
         this.maxLevel = 10;
         this.basePrice = 1000;
         this.priceScale = 1000;
-        this.initialCondition = false;
+        this.initialCondition = true;
         this.name = "Rocketfuel (This one can melt steel beams)";
     }
 
@@ -24,6 +24,6 @@ public class RocketFuel extends Powerup {
         //TODO Hente bildet som skal brukes når vi har en aktiv rakett
         int placeholderForImage = 0;
         playerImageView.setImageResource(placeholderForImage);
-        player.addAccleration(level * 2, level);
+        player.addRocketDuration(level * 5);
     }
 }
