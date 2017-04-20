@@ -10,11 +10,18 @@ import android.widget.ImageView;
 public class Balloon extends FlyingObject {
 
     public Balloon(Point position, @NonNull ImageView image) {
-        super(position, image, R.drawable.balloon_1);
+        super(position, image, getImageResource());
+    }
+
+    private static int getImageResource() {
+        if (Math.random() > 0.5) return R.drawable.balloon_1;
+        else if (Math.random() > 0.5) return R.drawable.balloon_2;
+        else return R.drawable.balloon_dude;
     }
 
     @Override
     void onCollision(Player player) {
-        player.addVel(new Point(-2, 10));
+        player.addVel(new Point(-1, 5));
+        player.addAccleration(10, 1);
     }
 }

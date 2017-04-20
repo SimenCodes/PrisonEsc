@@ -25,7 +25,7 @@ import static no.ntnu.prisonesc.R.id.hittable;
 public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
-    private static final int MAX_HITTABLE_OBJECT_COUNT = 1;
+    private static final int MAX_HITTABLE_OBJECT_COUNT = 5;
     private static final double HITTABLE_PROBABILITY = 9;
     private static final boolean PERSPECTIVE_ENABLED = true; // disable cloud/backgroundObject perspective when set to false
     private static final int CLOUD_COUNT = 5;
@@ -155,7 +155,7 @@ public class ScrollerView extends FrameLayout {
             }
         }
 
-        // Step 4: create new hittable objects if needed
+        // Step 4: createFlyingObject new hittable objects if needed
         if (hittableObjects.size() == 0 || (hittableObjects.size() < MAX_HITTABLE_OBJECT_COUNT && random.nextInt(11) > HITTABLE_PROBABILITY)) {
             // disable hittable objects by commenting out this block
             final ImageView image = recycledImages.isEmpty() ? createAndAttachImageView(hittableContainer) : recycledImages.poll();
@@ -192,7 +192,7 @@ public class ScrollerView extends FrameLayout {
             }
             image.setTranslationX(x);
             image.setTranslationY(y);
-            hittableObjects.add(FlyingObject.create(image, fromScreenCoordinates(playerPos, x, y)));
+            hittableObjects.add(createFlyingObject(image, fromScreenCoordinates(playerPos, x, y)));
         }
     }
 
@@ -246,6 +246,19 @@ public class ScrollerView extends FrameLayout {
         ImageView imageView = new ImageView(parent.getContext());
         parent.addView(imageView);
         return imageView;
+    }
+
+    /**
+     * Creates a new flying object of random type.
+     *
+     * @param imageView An imageView that's attached to the correct parent, and NOT attached to another flyingobject
+     * @param p         Position
+     * @return The Flying Object®
+     */
+    private FlyingObject createFlyingObject(ImageView imageView, Point p) {
+        if (random.nextBoolean())
+            return new Balloon(p, imageView);
+        else return new MoneyBalloon(p, imageView);
     }
 
     /**

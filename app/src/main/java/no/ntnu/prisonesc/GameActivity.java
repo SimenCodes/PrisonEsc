@@ -60,12 +60,12 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
-        double drag = 0.0014;
+        double drag = 0.0028;
         double gliderFactor = 0;
         int posY = 300;
-        int velX = 10;
-        int velY = 5;
-        float accY = -0.6f;//Må være negativ fordi gravitasjonen går nedover.
+        int velX = 5;
+        int velY = 2;
+        float accY = -0.3f;//Må være negativ fordi gravitasjonen går nedover.
         Point size = new Point(100, 30);
         //end BaseValues
         //Lager player med basevalusene
@@ -235,7 +235,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         int distance = (int) player.getPos().x;
-        final int money = calulateMoney(distance);
+        final int money = calculateMoney(distance);
         String message = "Distance: " + distance + "\n" +
                             "Money earned: " + money;
 
@@ -290,8 +290,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     }
 
-    private int calulateMoney(int distance){
-        return distance / MONEYRATE;
+    private int calculateMoney(int distance) {
+        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE;
     }
 
 }

@@ -25,17 +25,6 @@ public abstract class FlyingObject implements Circular {
         Log.d(TAG, "FlyingObject() created with: position = [" + position + "], width = [" + width + "], height = [" + height + "]");
     }
 
-    /**
-     * Creates a new flying object of random type.
-     *
-     * @param imageView An imageView that's attached to the correct parent, and NOT attached to another flyingobject
-     * @param p         Position
-     * @return The Flying Object®
-     */
-    public static FlyingObject create(ImageView imageView, Point p) {
-        return new Balloon(p, imageView);
-    }
-
     protected void updateImage(@DrawableRes int imageResource) {
         image.setImageResource(imageResource);
         width = image.getWidth() / Util.pixelSize(image.getContext());
