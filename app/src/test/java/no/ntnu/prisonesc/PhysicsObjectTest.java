@@ -43,10 +43,14 @@ public class PhysicsObjectTest {
         physics.addVel(new Point(300, 0));
         physics.setRot(new OldRotation(900));
         Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp", 0, physics.addGlider2(true));
-        Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp", 299, physics.addGlider2(false));
         physics.addVel(new Point(0, 0));
         physics.setRot(new OldRotation(1350));
-
+        Assert.assertEquals("Når vi ser oppvoer og går nedover skal legges til litt", -299, physics.addGlider2(true));
+        Assert.assertEquals("Når vi ser oppvoer og går nedover skal legges til litt", 300, physics.addGlider2(false));
+        physics.addVel(new Point(0, 300));
+        physics.setRot(new OldRotation(1350));
+        //Assert.assertEquals("Når vi går rett fram skal vi få litt fart oppover.",);
     }
 
 }

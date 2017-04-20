@@ -34,6 +34,36 @@
         tools:layout_editor_absoluteY="64dp" />
 
     <ImageView
+        android:id="@+id/cannonImage"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:adjustViewBounds="true"
+        android:clickable="false"
+        android:paddingLeft="50dp"
+        android:src="@drawable/cannon_full"
+        android:visibility="gone"
+        tools:layout_conversion_absoluteHeight="181dp"
+        tools:layout_conversion_absoluteWidth="85dp"
+        tools:layout_conversion_absoluteX="253dp"
+        tools:layout_conversion_absoluteY="64dp"
+        tools:layout_editor_absoluteX="253dp"
+        tools:layout_editor_absoluteY="64dp" />
+
+    <ImageView
+        android:id="@+id/boomImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cannonImage"
+        android:layout_alignEnd="@+id/cannonImage"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="-10dp"
+        android:src="@drawable/boom_1"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,10 +79,8 @@
         android:id="@+id/button"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_alignBottom="@+id/playerImage"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="38dp"
-        android:layout_marginStart="16dp"
         android:background="@drawable/button"
         android:gravity="center"
         android:onClick="openShop"
