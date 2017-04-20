@@ -64,6 +64,7 @@ public class ShopActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.back_button_shop:
                 startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
             case R.id.shop_text:
                 //TODO remove on release, this is a debug function

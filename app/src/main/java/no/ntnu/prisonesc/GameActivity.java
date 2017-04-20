@@ -1,5 +1,7 @@
 package no.ntnu.prisonesc;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,12 +26,15 @@ import no.ntnu.prisonesc.powerups.Powerup;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
+    private static final int MONEYRATE = 10;
+    private static final int END_GAME_DELAY = 3000;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
     TextView scoreText;
+    SaveData shopData;
 
 
     float readMeter;
@@ -49,7 +54,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         setContentView(R.layout.activity_game);
 
 
-        SaveData shopData = SaveData.getData(getApplicationContext());
+        shopData = SaveData.getData(getApplicationContext());
         playerImageView = (ImageView) findViewById(R.id.playerImage);
         splatImageView = (ImageView) findViewById(R.id.splatImageView);
         scoreText = (TextView) findViewById(R.id.scoreText);
@@ -226,12 +231,32 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 public void run() {
                     showEndGameDialog();
                 }
-            }, 5000);
+            }, END_GAME_DELAY);
         }
     }
 
     private void showEndGameDialog() {
-        new AlertDialog.Builder(this)…
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        int distance = (int) player.getPos().x;
+        final int money = calulateMoney(distance);
+        String message = "Distance: " + distance + "\n" +
+                            "Money earned: " + money;
+
+        builder.setTitle("Score").setMessage(message);
+
+        builder.setPositiveButton("Back to celle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                shopData.addMoney(money);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
     /**
@@ -265,6 +290,10 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    private int calulateMoney(int distance){
+        return distance / MONEYRATE;
     }
 
 }
