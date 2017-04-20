@@ -46,11 +46,24 @@ public class PhysicsObjectTest {
         Assert.assertEquals("Når vi går på skrå nedover skal det legges til litt rett opp", 299, physics.addGlider2(false));
         physics.addVel(new Point(0, 0));
         physics.setRot(new OldRotation(1350));
-        Assert.assertEquals("Når vi ser oppvoer og går nedover skal legges til litt", -299, physics.addGlider2(true));
-        Assert.assertEquals("Når vi ser oppvoer og går nedover skal legges til litt", 300, physics.addGlider2(false));
+        Assert.assertEquals("Når vi ser oppover og går nedover skal legges til litt", -299, physics.addGlider2(true));
+        Assert.assertEquals("Når vi ser oppover og går nedover skal legges til litt", 300, physics.addGlider2(false));
         physics.addVel(new Point(0, 300));
         physics.setRot(new OldRotation(1350));
-        //Assert.assertEquals("Når vi går rett fram skal vi få litt fart oppover.",);
+        Assert.assertEquals("Når vi går rett fram skal vi få litt fart oppover.", -149, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går rett fram skal vi få litt fart oppover.", 149, physics.addGlider2(false));
+        physics.addVel(new Point(0, 0));
+        physics.setRot(new OldRotation(450));
+        Assert.assertEquals("Når vi går rett fram skal vi ikke få noe fart", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går rett fram skal vi ikke få noe fart", 0, physics.addGlider2(false));
+        physics.addVel(new Point(0, 0));
+        physics.setRot(new OldRotation(0));
+        Assert.assertEquals("Når vi går rett fram og ser rett ned skal vi ikke få noe fart", 0, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går rett fram og ser rett ned skal vi ikke få noe fart", 0, physics.addGlider2(false));
+        physics.addVel(new Point(-300, -300));
+        physics.setRot(new OldRotation(450));
+        Assert.assertEquals("Når vi går rett ned skal vi få litt fart i x og litt i y", 149, physics.addGlider2(true));
+        Assert.assertEquals("Når vi går rett ned skal vi få litt fart i x og litt i y", 150, physics.addGlider2(false));
     }
 
 }
