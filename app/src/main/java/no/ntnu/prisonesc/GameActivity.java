@@ -85,7 +85,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0028;
-        double gliderFactor = 0.15;
+        double gliderFactor = 0.05;
         int posY = 300;
         int velX = 5;
         int velY = 2;
@@ -330,7 +330,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private int calculateMoney(int distance) {
-        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE;
+        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE + 200;
     }
 
     @Override
