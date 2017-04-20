@@ -28,7 +28,7 @@ import no.ntnu.prisonesc.powerups.Powerup;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
     private static final String TAG = "GameActivity";
-    private static final int MONEYRATE = 10;
+    private static final int MONEYRATE = 5;
     private static final int END_GAME_DELAY = 2000;
     private static final int LONG_TOUTCH = 500;
     ImageView playerImageView;
@@ -73,13 +73,15 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //end BaseValues
         //Lager player med basevalusene
         player = new Player(drag, gliderFactor, posY, velX, velY, accY, size);
+        player.imageSelector.setFlying(true);
         //legger til poweruppsene
         Collection<Powerup> powerups = shopData.getBoughtPowerups();
         for (Powerup e : powerups) {
             if (e.isInitialCondition()) {
-                e.apply(player, this.playerImageView);
+                e.apply(player);
             }
         }
+        playerImageView.setImageResource(player.imageSelector.getImageResource());
 
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.layout_root);
         scrollerView = new ScrollerView(this, flyingObjects);
@@ -168,7 +170,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Log.d(TAG, "run.flyingObjects.size: "+ flyingObjects.size());
         if (flyingObjects.size() > 0) {
 
-            float flyingScreenRad = 0;
+            float flyingScreenRad;
             final float playerX = playerImageView.getX();
             final float playerY = playerImageView.getY();
             final Point playerScreenCornerPos = new Point(playerImageView.getX(), playerImageView.getY());
@@ -195,7 +197,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         }
 
         //START plaser bildet av player på skjerm
-        playerImageView.setRotation(180 - (player.getRot().getDeg() / 10));//180 minus for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
+        playerImageView.setRotation(+90 - player.getRot().getDeg() / 10);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();

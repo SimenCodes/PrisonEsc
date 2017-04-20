@@ -9,6 +9,7 @@ public class Player implements Circular {
     private final PhysicsObject physics;
     private Point size;
     private int moneyBalloonCount = 0;
+    public PlayerImageSelector imageSelector = new PlayerImageSelector();
 
 
     public Player(double drag, double gliderFactor, int posY, int velX, int velY, float accY, Point size) {

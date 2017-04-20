@@ -19,6 +19,18 @@ public class MainActivity extends AppCompatActivity {
     private int pixelSize;
 
     @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -29,17 +41,11 @@ public class MainActivity extends AppCompatActivity {
         boomImage = (ImageView) findViewById(R.id.boomImage);
         playerImage.setTranslationX(-20 * pixelSize);
 
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
+        Player player = new Player(0, 0, 0, 0, 0, 0, new Point(0, 0));
         for (Powerup powerup : SaveData.getData(getApplicationContext()).getBoughtPowerups()) {
-            if (powerup instanceof Clothes)
-                powerup.apply(new Player(0, 0, 0, 0, 0, 0, new Point(0, 0)), playerImage);
+            if (powerup instanceof Clothes) {
+                powerup.apply(player);
+            }
             if (powerup instanceof Cannon) {
                 playerImage.setVisibility(View.GONE);
                 cannonImage.setVisibility(View.VISIBLE);
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         .setInterpolator(new DecelerateInterpolator());
             }
         }
+        playerImage.setImageResource(player.imageSelector.getImageResource());
     }
 
     public void startGame(View view) {

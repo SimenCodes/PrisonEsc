@@ -1,9 +1,6 @@
 package no.ntnu.prisonesc.powerups;
 
-import android.widget.ImageView;
-
 import no.ntnu.prisonesc.Player;
-import no.ntnu.prisonesc.R;
 
 /**
  * Created by Henrik on 18.04.2017.
@@ -21,18 +18,8 @@ public class Clothes extends Powerup {
     }
 
     @Override
-    public void apply(Player player, ImageView playerImageView) {
-        switch (level) {
-            case 0:
-                playerImageView.setImageResource(R.drawable.prisoner_1);
-                break;
-            case 1:
-                playerImageView.setImageResource(R.drawable.prisoner_2);
-                break;
-            case 2:
-                playerImageView.setImageResource(R.drawable.prisoner_3);
-                break;
-        }
+    public void apply(Player player) {
+        player.imageSelector.setClothingLevel(level);
         player.reduceAirResistance(0.0002);
     }
 }
