@@ -1,7 +1,6 @@
 package no.ntnu.prisonesc.powerups;
 
 import android.support.annotation.NonNull;
-import android.widget.ImageView;
 
 import no.ntnu.prisonesc.Player;
 
@@ -65,5 +64,5 @@ public abstract class Powerup {
         }
     }
 
-    public abstract void apply(Player player, ImageView playerImageView);
+    public abstract void apply(Player player);
 }

@@ -1,7 +1,5 @@
 package no.ntnu.prisonesc.powerups;
 
-import android.widget.ImageView;
-
 import no.ntnu.prisonesc.Player;
 
 /**
@@ -21,7 +19,7 @@ public class StartAltitude extends Powerup {
     }
 
     @Override
-    public void apply(Player player, ImageView playerImageView) {
+    public void apply(Player player) {
         player.addStartHeight(HEIGHTFACTOR * level);
     }
 }

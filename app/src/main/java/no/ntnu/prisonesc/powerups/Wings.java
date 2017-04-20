@@ -1,7 +1,5 @@
 package no.ntnu.prisonesc.powerups;
 
-import android.widget.ImageView;
-
 import no.ntnu.prisonesc.Player;
 
 /**
@@ -20,8 +18,8 @@ public class Wings extends Powerup {
     }
 
     @Override
-    public void apply(Player player, ImageView playerImageView) {
-        //TODO Legge inn håndtering av bilde.
+    public void apply(Player player) {
+        player.imageSelector.setHasWings(level > 0);
         player.addGliderFactor(0.5f);
     }
 }
