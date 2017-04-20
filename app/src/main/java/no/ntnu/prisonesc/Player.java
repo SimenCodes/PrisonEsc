@@ -69,6 +69,6 @@ public class Player implements Circular {
 
     @Override
     public Point getCenter() {
-        return physics.getPos().move((int) (size.x / 2), size.y / 2);
+        return physics.getPos().move(size.x / 2, size.y / 2);
     }
 }
