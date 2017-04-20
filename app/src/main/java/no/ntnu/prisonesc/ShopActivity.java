@@ -44,7 +44,7 @@ public class ShopActivity extends AppCompatActivity {
         updateShopData();
     }
 
-    public void updateShopData(){
+    public void updateShopData() {
         powerups = new ArrayList<>(data.getPowerups());
         money = data.getMoney();
         String moneyString = "" + money;
@@ -58,8 +58,8 @@ public class ShopActivity extends AppCompatActivity {
         updateShopData();
     }
 
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.back_button_shop:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
@@ -73,7 +73,7 @@ public class ShopActivity extends AppCompatActivity {
         }
     }
 
-    private void drawShop(){
+    private void drawShop() {
         hideAndroidUiElements();
 
         shopWraper.removeAllViews();
@@ -93,14 +93,14 @@ public class ShopActivity extends AppCompatActivity {
             buyLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             for (int j = 0; j < currentPowerup.getMaxLevel(); j++) {
-                if(j < currentPowerup.getLevel() + 1){
+                if (j < currentPowerup.getLevel() + 1) {
 
                     final ImageView boughtPowerup = new ImageView(this);
-                    int id = ((i+1) * 100) + j;
+                    int id = ((i + 1) * 100) + j;
                     boughtPowerup.setId(id);
 
                     //Set custom imageresoruces here
-                    if(currentPowerup instanceof AerodynamicClothes){
+                    if (currentPowerup instanceof AerodynamicClothes) {
                         customBoughtClothes(j, boughtPowerup);
                     } else {
                         boughtPowerup.setImageResource(R.drawable.checkbox_filled);
@@ -115,11 +115,11 @@ public class ShopActivity extends AppCompatActivity {
                     buyLayout.addView(boughtPowerup);
                 } else {
                     final ImageView unBoughtPowerup = new ImageView(this);
-                    int id = ((i+1) * 100) + j;
+                    int id = ((i + 1) * 100) + j;
                     unBoughtPowerup.setId(id);
 
                     //Set custom imageresources here
-                    if (currentPowerup instanceof AerodynamicClothes){
+                    if (currentPowerup instanceof AerodynamicClothes) {
                         customUnBoughtClothes(j, unBoughtPowerup);
                     } else {
                         unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
@@ -142,8 +142,8 @@ public class ShopActivity extends AppCompatActivity {
 
     }
 
-    private void buyPowerup(int id){
-        final int pup = (id/100) -1;
+    private void buyPowerup(int id) {
+        final int pup = (id / 100) - 1;
         Log.w("Size of poweruplist", "" + powerups.size());
         final Powerup powerupToBuy = this.powerups.get(pup);
         final int level = id % 100;
@@ -161,15 +161,15 @@ public class ShopActivity extends AppCompatActivity {
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                try{
+                try {
                     data.doPurchase(price);
-                } catch (SaveData.OutOfFundsException e){
+                } catch (SaveData.OutOfFundsException e) {
                     Toast.makeText(ShopActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideAndroidUiElements();
                     return;
                 }
-                
-                
+
+
                 for (int i = 0; i < levelDiff; i++) {
                     powerupToBuy.buy();
                 }
@@ -192,7 +192,7 @@ public class ShopActivity extends AppCompatActivity {
         hideAndroidUiElements();
     }
 
-    private void hideAndroidUiElements(){
+    private void hideAndroidUiElements() {
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.shop_activity_root);
         layoutRoot.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -203,8 +203,8 @@ public class ShopActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
-    private void customUnBoughtClothes(int level, ImageView image){
-        switch (level){
+    private void customUnBoughtClothes(int level, ImageView image) {
+        switch (level) {
             case 0:
                 image.setImageResource(R.drawable.prisoner_1);
                 break;
@@ -217,12 +217,11 @@ public class ShopActivity extends AppCompatActivity {
             default:
                 image.setImageResource(R.drawable.prisoner_1);
         }
-        int pixel = Util.pixelSize(getApplicationContext());
-        image.setPadding(4*pixel, 0, 8*pixel, 0);
+        adjustClothingSize(image);
     }
 
-    private void customBoughtClothes(int level, ImageView image){
-        switch (level){
+    private void customBoughtClothes(int level, ImageView image) {
+        switch (level) {
             case 0:
                 image.setImageResource(R.drawable.prisoner_1_selected);
                 break;
@@ -235,7 +234,14 @@ public class ShopActivity extends AppCompatActivity {
             default:
                 image.setImageResource(R.drawable.prisoner_1_selected);
         }
+        adjustClothingSize(image);
+    }
+
+    private void adjustClothingSize(ImageView image) {
         int pixel = Util.pixelSize(getApplicationContext());
-        image.setPadding(4*pixel, 0, 8*pixel, 0);
+        image.setPadding(4 * pixel, 0, 8 * pixel, 0);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 150 * pixel);
+        image.setLayoutParams(lp);
+        image.setAdjustViewBounds(true);
     }
 }
