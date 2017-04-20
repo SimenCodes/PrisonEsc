@@ -6,8 +6,8 @@ package no.ntnu.prisonesc;
 
 @SuppressWarnings("WeakerAccess")
 public class Player implements Circular {
-    public final Point size;
     private final PhysicsObject physics;
+    private Point size;
 
 
     public Player(double drag, double gliderFactor, int posY, int velX, int velY, float accY, Point size) {
@@ -25,6 +25,12 @@ public class Player implements Circular {
 
     public Point getSize() {
         return this.size;
+    }
+
+    public void setSize(Point size) {
+        if (size.x <= 0 || size.y <= 0)
+            throw new IllegalArgumentException("Player can't have negative size");
+        this.size = size;
     }
 
     public OldRotation getRot() {
