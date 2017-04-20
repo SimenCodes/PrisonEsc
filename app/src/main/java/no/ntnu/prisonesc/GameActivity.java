@@ -27,7 +27,7 @@ import no.ntnu.prisonesc.powerups.Powerup;
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
     private static final int MONEYRATE = 10;
-    private static final int END_GAME_DELAY = 3000;
+    private static final int END_GAME_DELAY = 2000;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
@@ -62,9 +62,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Basevalues:
         double drag = 0.0014;
         double gliderFactor = 0;
-        int posY = 0;
-        int velX = 400;
-        int velY = 400;
+        int posY = 300;
+        int velX = 10;
+        int velY = 5;
         float accY = -0.6f;//Må være negativ fordi gravitasjonen går nedover.
         Point size = new Point(100, 30);
         //end BaseValues
@@ -241,7 +241,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         builder.setTitle("Score").setMessage(message);
 
-        builder.setPositiveButton("Back to celle", new DialogInterface.OnClickListener() {
+        builder.setCancelable(false);
+        builder.setPositiveButton("Back to cell", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 shopData.addMoney(money);
