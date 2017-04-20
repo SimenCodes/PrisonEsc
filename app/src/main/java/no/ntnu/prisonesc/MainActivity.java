@@ -10,7 +10,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import no.ntnu.prisonesc.powerups.Cannon;
-import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         Player player = new Player(0, 0, 0, 0, 0, 0, new Point(0, 0));
         for (Powerup powerup : SaveData.getData(getApplicationContext()).getBoughtPowerups()) {
-            if (powerup instanceof Clothes) {
-                powerup.apply(player);
-            }
             if (powerup instanceof Cannon) {
                 playerImage.setVisibility(View.GONE);
                 cannonImage.setVisibility(View.VISIBLE);
@@ -55,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                         .setDuration(1000)
                         .setInterpolator(new DecelerateInterpolator());
             }
+            powerup.apply(player);
         }
         playerImage.setImageResource(player.imageSelector.getImageResource());
     }

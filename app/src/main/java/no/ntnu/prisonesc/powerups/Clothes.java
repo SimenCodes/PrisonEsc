@@ -10,9 +10,9 @@ public class Clothes extends Powerup {
 
     public Clothes(int level) {
         this.level = level;
-        this.maxLevel = 3;
+        this.maxLevel = 5;
         this.basePrice = 1000;
-        this.priceScale = 4000;
+        this.priceScale = 1000;
         this.initialCondition = true;
         this.name = "Clothes";
     }
@@ -20,6 +20,7 @@ public class Clothes extends Powerup {
     @Override
     public void apply(Player player) {
         player.imageSelector.setClothingLevel(level);
-        player.reduceAirResistance(0.0002);
+        player.reduceAirResistance(0.0002 * level);
+        player.addGliderFactor(0.2 * level);
     }
 }

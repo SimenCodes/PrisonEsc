@@ -41,6 +41,10 @@ public class PlayerImageSelector {
                         return R.drawable.prisoner_2_rocket;
                     case 2:
                         return R.drawable.prisoner_3_rocket;
+                    case 3:
+                        return R.drawable.prisoner_4_rocket;
+                    case 4:
+                        return R.drawable.prisoner_5_rocket;
                 }
             } else if (hasWings) {
                 switch (clothingLevel) {
@@ -50,6 +54,10 @@ public class PlayerImageSelector {
                         return R.drawable.prisoner_2_flying_wings;
                     case 2:
                         return R.drawable.prisoner_3_flying_wings;
+                    case 3:
+                        return R.drawable.prisoner_4_flying_wings;
+                    case 4:
+                        return R.drawable.prisoner_5_flying_wings;
                 }
             } else {
                 switch (clothingLevel) {
@@ -59,6 +67,10 @@ public class PlayerImageSelector {
                         return R.drawable.prisoner_2_flying;
                     case 2:
                         return R.drawable.prisoner_3_flying;
+                    case 3:
+                        return R.drawable.prisoner_4_flying;
+                    case 4:
+                        return R.drawable.prisoner_5_flying;
                 }
             }
         } else {
@@ -70,6 +82,10 @@ public class PlayerImageSelector {
                         return R.drawable.prisoner_2_face_wings;
                     case 2:
                         return R.drawable.prisoner_3_face_wings;
+                    case 3:
+                        return R.drawable.prisoner_4_face_wings;
+                    case 4:
+                        return R.drawable.prisoner_5_face_wings;
                 }
             } else {
                 switch (clothingLevel) {
@@ -79,6 +95,10 @@ public class PlayerImageSelector {
                         return R.drawable.prisoner_2_face;
                     case 2:
                         return R.drawable.prisoner_3_face;
+                    case 3:
+                        return R.drawable.prisoner_4_face;
+                    case 4:
+                        return R.drawable.prisoner_5_face;
                 }
             }
         }

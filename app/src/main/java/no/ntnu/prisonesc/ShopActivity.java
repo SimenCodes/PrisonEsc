@@ -233,6 +233,12 @@ public class ShopActivity extends AppCompatActivity {
             case 2:
                 image.setImageResource(R.drawable.prisoner_3);
                 break;
+            case 3:
+                image.setImageResource(R.drawable.prisoner_4);
+                break;
+            case 4:
+                image.setImageResource(R.drawable.prisoner_5);
+                break;
             default:
                 image.setImageResource(R.drawable.prisoner_1);
         }
@@ -249,6 +255,12 @@ public class ShopActivity extends AppCompatActivity {
                 break;
             case 2:
                 image.setImageResource(R.drawable.prisoner_3_selected);
+                break;
+            case 3:
+                image.setImageResource(R.drawable.prisoner_4_selected);
+                break;
+            case 4:
+                image.setImageResource(R.drawable.prisoner_5_selected);
                 break;
             default:
                 image.setImageResource(R.drawable.prisoner_1_selected);

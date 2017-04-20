@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0028;
-        double gliderFactor = 0;
+        double gliderFactor = 0.25;
         int posY = 300;
         int velX = 5;
         int velY = 2;
