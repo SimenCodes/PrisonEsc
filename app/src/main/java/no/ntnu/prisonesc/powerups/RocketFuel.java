@@ -15,7 +15,7 @@ public class RocketFuel extends Powerup {
         this.maxLevel = 10;
         this.basePrice = 1000;
         this.initialCondition = false;
-        this.name = "Rocketfuel (This one can melt steal beams)";
+        this.name = "Rocketfuel (This one can melt steel beams)";
     }
 
     @Override
