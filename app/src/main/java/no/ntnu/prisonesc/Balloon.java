@@ -14,8 +14,8 @@ public class Balloon extends FlyingObject {
     }
 
     private static int getImageResource() {
-        if (Math.random() > 0.5) return R.drawable.balloon_1;
-        else if (Math.random() > 0.5) return R.drawable.balloon_2;
+        if (Math.random() > .5) return R.drawable.balloon_1;
+        else if (Math.random() > .2) return R.drawable.balloon_2;
         else return R.drawable.balloon_dude;
     }
 

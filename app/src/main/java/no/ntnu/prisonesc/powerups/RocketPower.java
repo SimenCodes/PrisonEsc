@@ -31,4 +31,12 @@ public class RocketPower extends Powerup {
         }
         hasFired = true;
     }
+
+    public boolean hasFired() {
+        return hasFired;
+    }
+
+    public void reset() {
+        hasFired = false;
+    }
 }

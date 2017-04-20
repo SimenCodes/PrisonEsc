@@ -242,6 +242,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private void showEndGameDialog() {
+        ((RocketPower) shopData.getPowerup(RocketPower.class)).reset();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         int distance = (int) player.getPos().x;
@@ -309,6 +310,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         public void run() {
             //Apply rocket powerup
             RocketPower power = (RocketPower) shopData.getPowerup(RocketPower.class);
+            if (power.hasFired()) return;
             RocketFuel fuel = (RocketFuel) shopData.getPowerup(RocketFuel.class);
             power.apply(player);
             player.imageSelector.setHasRocket(true);
