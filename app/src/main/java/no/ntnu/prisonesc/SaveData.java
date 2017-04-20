@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import no.ntnu.prisonesc.powerups.AerodynamicClothes;
-import no.ntnu.prisonesc.powerups.BetterHorizontalCannon;
-import no.ntnu.prisonesc.powerups.BetterVerticalCannon;
+import no.ntnu.prisonesc.powerups.Cannon;
+import no.ntnu.prisonesc.powerups.CannonPower;
+import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
 import no.ntnu.prisonesc.powerups.RocketBoost;
+import no.ntnu.prisonesc.powerups.StartAltitude;
 
 /**
  * SaveData handle the saving of progress in the application
@@ -27,13 +28,15 @@ public class SaveData {
 
     private int money;
     private List<Powerup> powerups;
+
     {
         //ADD new Powerups to this list for saving purposes
         this.powerups = new ArrayList<>();
-        this.powerups.add(new AerodynamicClothes(0, 3));
-        this.powerups.add(new BetterVerticalCannon(0));
-        this.powerups.add(new BetterHorizontalCannon(0));
-        this.powerups.add(new RocketBoost(0, 2));
+        this.powerups.add(new Clothes(0));
+        this.powerups.add(new Cannon(0));
+        this.powerups.add(new CannonPower(0));
+        this.powerups.add(new RocketBoost(0));
+        this.powerups.add(new StartAltitude(0));
     }
 
     private SaveData(Context context) {
@@ -72,7 +75,9 @@ public class SaveData {
         return money;
     }
 
-    public Collection<Powerup> getPowerups(){ return powerups;}
+    public Collection<Powerup> getPowerups() {
+        return powerups;
+    }
 
     /**
      * Update savedata with updated data
@@ -91,24 +96,24 @@ public class SaveData {
     public Collection<Powerup> getBoughtPowerups() {
         ArrayList<Powerup> boughtPowerups = new ArrayList<>();
         for (int i = 0; i < this.powerups.size(); i++) {
-            if(this.powerups.get(i).isBought()){
+            if (this.powerups.get(i).isBought()) {
                 boughtPowerups.add(this.powerups.get(i));
             }
         }
         return boughtPowerups;
     }
 
-    public Collection<Powerup> getInitialConditionPowerups(){
+    public Collection<Powerup> getInitialConditionPowerups() {
         ArrayList<Powerup> initialCondition = new ArrayList<>();
-        for (int i = 0; i < this.powerups.size(); i++){
-            if (this.powerups.get(i).isInitialCondition()){
+        for (int i = 0; i < this.powerups.size(); i++) {
+            if (this.powerups.get(i).isInitialCondition()) {
                 initialCondition.add(this.powerups.get(i));
             }
         }
         return initialCondition;
     }
 
-    public void updatePowerups(Collection<Powerup> newPowerups){
+    public void updatePowerups(Collection<Powerup> newPowerups) {
         List<Powerup> newPowerupList = new ArrayList<>(newPowerups);
         for (int i = 0; i < this.powerups.size(); i++) {
             powerups.get(i).setLevel(newPowerupList.get(i).getLevel());
@@ -129,7 +134,7 @@ public class SaveData {
         updateData();
     }
 
-    public void doPurchase(int price) throws OutOfFundsException{
+    public void doPurchase(int price) throws OutOfFundsException {
         if (money - price < 0) {
             throw new OutOfFundsException(price - money);
         }

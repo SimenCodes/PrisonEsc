@@ -9,20 +9,13 @@ import no.ntnu.prisonesc.Player;
  */
 
 public class RocketBoost extends Powerup {
+
     public RocketBoost(int level) {
-        super(level);
-        init();
-    }
-
-    public RocketBoost(int level, int maxLevel) {
-        super(level, maxLevel);
-        init();
-    }
-
-    private void init() {
-        basePrice = 5000;
-        initialCondition = false;
-        name = "Rocket";
+        this.level = level;
+        this.maxLevel = 2;
+        this.basePrice = 5000;
+        this.initialCondition = false;
+        this.name = "Rocket";
     }
 
     @Override

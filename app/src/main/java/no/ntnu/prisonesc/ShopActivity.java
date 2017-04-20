@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.ntnu.prisonesc.powerups.AerodynamicClothes;
+import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
 
 public class ShopActivity extends AppCompatActivity {
@@ -87,6 +88,10 @@ public class ShopActivity extends AppCompatActivity {
             tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             shopWraper.addView(tv);
 
+            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
+            horizontalScrollView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            shopWraper.addView(horizontalScrollView);
+
             LinearLayout buyLayout = new LinearLayout(this);
             buyLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             buyLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -99,7 +104,7 @@ public class ShopActivity extends AppCompatActivity {
                     boughtPowerup.setId(id);
 
                     //Set custom imageresoruces here
-                    if (currentPowerup instanceof AerodynamicClothes) {
+                    if (currentPowerup instanceof Clothes) {
                         customBoughtClothes(j, boughtPowerup);
                     } else {
                         boughtPowerup.setImageResource(R.drawable.checkbox_filled);
@@ -118,7 +123,7 @@ public class ShopActivity extends AppCompatActivity {
                     unBoughtPowerup.setId(id);
 
                     //Set custom imageresources here
-                    if (currentPowerup instanceof AerodynamicClothes) {
+                    if (currentPowerup instanceof Clothes) {
                         customUnBoughtClothes(j, unBoughtPowerup);
                     } else {
                         unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
@@ -136,7 +141,7 @@ public class ShopActivity extends AppCompatActivity {
                 }
 
             }
-            shopWraper.addView(buyLayout);
+            horizontalScrollView.addView(buyLayout);
         }
 
     }
