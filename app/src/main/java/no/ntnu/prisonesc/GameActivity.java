@@ -28,11 +28,11 @@ import no.ntnu.prisonesc.powerups.RocketFuel;
 import no.ntnu.prisonesc.powerups.RocketPower;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
+    public static final int GAME_FRAME_RATE = 16;
     private static final String TAG = "GameActivity";
     private static final int MONEYRATE = 4;
     private static final int END_GAME_DELAY = 2000;
     private static final int LONG_TOUTCH = 350;
-    public static final int GAME_FRAME_RATE = 16;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
@@ -52,6 +52,25 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
      * We do this for performance reasons.
      */
     List<FlyingObject> flyingObjects = new ArrayList<>();
+    Runnable launchRocket = new Runnable() {
+        @Override
+        public void run() {
+            //Apply rocket powerup
+            RocketPower power = (RocketPower) shopData.getPowerup(RocketPower.class);
+            if (power.hasFired()) return;
+            RocketFuel fuel = (RocketFuel) shopData.getPowerup(RocketFuel.class);
+            power.apply(player);
+            player.imageSelector.setHasRocket(true);
+            playerImageView.setImageResource(player.imageSelector.getImageResource());
+            playerImageView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    player.imageSelector.setHasRocket(false);
+                    playerImageView.setImageResource(player.imageSelector.getImageResource());
+                }
+            }, fuel.getDuration());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,11 +241,12 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         Log.d(TAG, "run.res: " + (scaled * height));*/
         //END plasere bildet av player på skjermen
 
-        scrollerView.tick(player.getPos());
+        final Point playerPos = player.getPos();
+        scrollerView.tick(playerPos);
 
-        scoreText.setText(String.valueOf(player.getPos().x));
+        scoreText.setText("Distance: " + (int) playerPos.x + "\nAltitude: " + (int) playerPos.y);
 
-        if (player.getPos().y != 0 || player.getVelY() != 0) {
+        if (playerPos.y != 0 || player.getVelY() != 0) {
             handler.postDelayed(this, GAME_FRAME_RATE);
         } else {
             Log.w(TAG, "run: END OF GAME!");
@@ -254,7 +274,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         String message = "Distance: " + distance + "\n" +
                 "Money earned: " + money;
 
-        builder.setTitle("Score").setMessage(message);
+        builder.setTitle(message);
 
         builder.setCancelable(false);
         builder.setPositiveButton("Back to cell", new DialogInterface.OnClickListener() {
@@ -312,26 +332,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     private int calculateMoney(int distance) {
         return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE;
     }
-
-    Runnable launchRocket = new Runnable() {
-        @Override
-        public void run() {
-            //Apply rocket powerup
-            RocketPower power = (RocketPower) shopData.getPowerup(RocketPower.class);
-            if (power.hasFired()) return;
-            RocketFuel fuel = (RocketFuel) shopData.getPowerup(RocketFuel.class);
-            power.apply(player);
-            player.imageSelector.setHasRocket(true);
-            playerImageView.setImageResource(player.imageSelector.getImageResource());
-            playerImageView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    player.imageSelector.setHasRocket(false);
-                    playerImageView.setImageResource(player.imageSelector.getImageResource());
-                }
-            }, fuel.getDuration());
-        }
-    };
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
