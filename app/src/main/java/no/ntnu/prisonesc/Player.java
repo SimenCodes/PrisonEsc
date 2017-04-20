@@ -8,6 +8,7 @@ package no.ntnu.prisonesc;
 public class Player implements Circular {
     private final PhysicsObject physics;
     private Point size;
+    private int moneyBalloonCount = 0;
 
 
     public Player(double drag, double gliderFactor, int posY, int velX, int velY, float accY, Point size) {
@@ -82,5 +83,13 @@ public class Player implements Circular {
 
     public void addGliderFactor(float amount) {
         physics.addGliderFactor(amount);
+    }
+
+    public void collectMoneyBalloon() {
+        moneyBalloonCount++;
+    }
+
+    public int getMoneyBalloonCount() {
+        return moneyBalloonCount;
     }
 }
