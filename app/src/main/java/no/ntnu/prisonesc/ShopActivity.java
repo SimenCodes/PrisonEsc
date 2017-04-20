@@ -1,29 +1,23 @@
 package no.ntnu.prisonesc;
 
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import no.ntnu.prisonesc.powerups.AerodynamicClothes;
 import no.ntnu.prisonesc.powerups.Powerup;
 
 public class ShopActivity extends AppCompatActivity {
@@ -104,7 +98,14 @@ public class ShopActivity extends AppCompatActivity {
                     final ImageView boughtPowerup = new ImageView(this);
                     int id = ((i+1) * 100) + j;
                     boughtPowerup.setId(id);
-                    boughtPowerup.setImageResource(R.drawable.checkbox_filled);
+
+                    //Set custom imageresoruces here
+                    if(currentPowerup instanceof AerodynamicClothes){
+                        customBoughtClothes(j, boughtPowerup);
+                    } else {
+                        boughtPowerup.setImageResource(R.drawable.checkbox_filled);
+                    }
+
                     boughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -114,9 +115,16 @@ public class ShopActivity extends AppCompatActivity {
                     buyLayout.addView(boughtPowerup);
                 } else {
                     final ImageView unBoughtPowerup = new ImageView(this);
-                    unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
                     int id = ((i+1) * 100) + j;
                     unBoughtPowerup.setId(id);
+
+                    //Set custom imageresources here
+                    if (currentPowerup instanceof AerodynamicClothes){
+                        customUnBoughtClothes(j, unBoughtPowerup);
+                    } else {
+                        unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
+                    }
+
                     unBoughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -193,5 +201,41 @@ public class ShopActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    private void customUnBoughtClothes(int level, ImageView image){
+        switch (level){
+            case 0:
+                image.setImageResource(R.drawable.prisoner_1);
+                break;
+            case 1:
+                image.setImageResource(R.drawable.prisoner_2);
+                break;
+            case 2:
+                image.setImageResource(R.drawable.prisoner_3);
+                break;
+            default:
+                image.setImageResource(R.drawable.prisoner_1);
+        }
+        int pixel = Util.pixelSize(getApplicationContext());
+        image.setPadding(4*pixel, 0, 8*pixel, 0);
+    }
+
+    private void customBoughtClothes(int level, ImageView image){
+        switch (level){
+            case 0:
+                image.setImageResource(R.drawable.prisoner_1_selected);
+                break;
+            case 1:
+                image.setImageResource(R.drawable.prisoner_2_selected);
+                break;
+            case 2:
+                image.setImageResource(R.drawable.prisoner_3_selected);
+                break;
+            default:
+                image.setImageResource(R.drawable.prisoner_1_selected);
+        }
+        int pixel = Util.pixelSize(getApplicationContext());
+        image.setPadding(4*pixel, 0, 8*pixel, 0);
     }
 }
