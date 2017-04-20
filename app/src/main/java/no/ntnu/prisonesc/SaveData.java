@@ -114,4 +114,35 @@ public class SaveData {
         }
         updateData();
     }
+
+    /**
+     * add/remove money to the users account
+     *
+     * @param add money to add/remove
+     */
+    public void addMoney(int add) {
+        if (money + add < 0) {
+            throw new OutOfFundsException(-(money + add));
+        }
+        money += add;
+        updateData();
+    }
+
+    public void doPurchase(int price) throws OutOfFundsException{
+        if (money - price < 0) {
+            throw new OutOfFundsException(price - money);
+        }
+        money -= price;
+        updateData();
+    }
+
+    /**
+     * Throws whenever the user tries to buy something they can't afford.
+     * Vi vil vel ikke at folk skal havne i luksusfellen etter å ha spilt det her?
+     */
+    public class OutOfFundsException extends RuntimeException {
+        public OutOfFundsException(int difference) {
+            super("You need " + difference + " more coins to buy this");
+        }
+    }
 }

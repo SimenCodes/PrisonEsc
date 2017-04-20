@@ -41,25 +41,13 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.shop_activity_root);
-        layoutRoot.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        hideAndroidUiElements();
 
         shopWraper = (LinearLayout) findViewById(R.id.shop_wraper);
-
         data = SaveData.getData(getApplicationContext());
-        powerups = new ArrayList<>(data.getPowerups());
-        money = data.getMoney();
-
         moneyText = (TextView) findViewById(R.id.shop_money_number_text);
-        String moneyString = "" + money;
-        moneyText.setText(moneyString);
-        drawShop();
+
+        updateShopData();
     }
 
     public void updateShopData(){
@@ -73,11 +61,7 @@ public class ShopActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        powerups = new ArrayList<>(data.getPowerups());
-        money = data.getMoney();
-        String moneyString = "" + money;
-        moneyText.setText(moneyString);
-
+        updateShopData();
     }
 
     public void onClick(View view){
@@ -86,11 +70,18 @@ public class ShopActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.shop_text:
-                //TODO add add money functionality;
+                //TODO remove on release, this is a debug function
+                data.addMoney(1000);
+                money = data.getMoney();
+                String moneyString = "" + money;
+                moneyText.setText(moneyString);
+                break;
         }
     }
 
     private void drawShop(){
+        hideAndroidUiElements();
+
         shopWraper.removeAllViews();
         List<Powerup> powerupList = powerups;
         for (int i = 0; i < powerups.size(); i++) {
@@ -117,20 +108,19 @@ public class ShopActivity extends AppCompatActivity {
                     boughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(ShopActivity.this, "You already own this! Id: " + boughtPowerup.getId(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopActivity.this, "You already own this!", Toast.LENGTH_SHORT).show();
                         }
                     });
                     buyLayout.addView(boughtPowerup);
                 } else {
                     final ImageView unBoughtPowerup = new ImageView(this);
-                    //TODO add resource
                     unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
                     int id = ((i+1) * 100) + j;
                     unBoughtPowerup.setId(id);
                     unBoughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(ShopActivity.this, "Image is pressed! Id: " + unBoughtPowerup.getId(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ShopActivity.this, "Image is pressed! Id: " + unBoughtPowerup.getId(), Toast.LENGTH_SHORT).show();
                             buyPowerup(unBoughtPowerup.getId());
                         }
                     });
@@ -151,7 +141,7 @@ public class ShopActivity extends AppCompatActivity {
         final int level = id % 100;
         final int currentLevel = powerupToBuy.getLevel();
         final int levelDiff = level - currentLevel;
-        int price = powerupToBuy.getPrice(levelDiff);
+        final int price = powerupToBuy.getPrice(levelDiff);
 
         Log.w("buy", "powerup: " + pup + ", level: " + level + ", Current Level: " + currentLevel);
         Log.w("Price", "" + price);
@@ -163,6 +153,15 @@ public class ShopActivity extends AppCompatActivity {
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                try{
+                    data.doPurchase(price);
+                } catch (SaveData.OutOfFundsException e){
+                    Toast.makeText(ShopActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    hideAndroidUiElements();
+                    return;
+                }
+                
+                
                 for (int i = 0; i < levelDiff; i++) {
                     powerupToBuy.buy();
                 }
@@ -176,10 +175,23 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                hideAndroidUiElements();
             }
         });
 
         AlertDialog dialog = builder.create();
         dialog.show();
+        hideAndroidUiElements();
+    }
+
+    private void hideAndroidUiElements(){
+        ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.shop_activity_root);
+        layoutRoot.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 }
