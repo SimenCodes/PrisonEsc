@@ -271,8 +271,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         int distance = (int) player.getPos().x;
         final int money = calculateMoney(distance);
-        String message = "Score\n" +
-                "Distance: " + distance + "\n" +
+        String message = "Distance: " + distance + "\n" +
                 "Money earned: " + money;
 
         builder.setTitle(message);
