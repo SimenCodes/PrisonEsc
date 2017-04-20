@@ -92,6 +92,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                     Log.d(TAG, "onGlobalLayout() called");
                     playerImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     updatePlayerSize();
+                    scrollerView.delayedInit();
                 }
             });
         }

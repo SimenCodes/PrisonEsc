@@ -71,7 +71,8 @@ public class ScrollerView extends FrameLayout {
         hittableContainer = (AbsoluteLayout) findViewById(hittable);
     }
 
-    private void delayedInit() {
+    public void delayedInit() {
+        if (isReadyForTick) return;
         Log.d(TAG, "delayedInit() called");
         ground[1].setTranslationX(ground[0].getWidth());
         for (int i = 0; i < CLOUD_COUNT; i++) {
@@ -92,8 +93,7 @@ public class ScrollerView extends FrameLayout {
      * @param playerPos The new position to draw
      */
     public void tick(Point playerPos) {
-        if (!isReadyForTick) delayedInit();
-
+        if (!isReadyForTick) return;
         Point diff = new Point(playerPos.x * scaleFactor - screenScaledPlayerPos.x, playerPos.y * scaleFactor - screenScaledPlayerPos.y);
         screenScaledPlayerPos = new Point(playerPos.x * scaleFactor, playerPos.y * scaleFactor);
 
@@ -103,11 +103,12 @@ public class ScrollerView extends FrameLayout {
         for (ImageView ground : this.ground) {
             if (screenScaledPlayerPos.y > ground.getHeight()) {
                 ground.setTranslationY(ground.getHeight());
-            } else if (ground.getTranslationX() < -ground.getWidth()) {
-                ground.setTranslationX(ground.getWidth());
             } else {
                 ground.setTranslationX(ground.getTranslationX() - diff.x);
                 ground.setTranslationY(screenScaledPlayerPos.y);
+                if (ground.getTranslationX() < -ground.getWidth()) {
+                    ground.setTranslationX(2 * ground.getWidth() + ground.getTranslationX());
+                }
             }
         }
 
