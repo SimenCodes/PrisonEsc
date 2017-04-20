@@ -29,7 +29,7 @@ import no.ntnu.prisonesc.powerups.RocketPower;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
     private static final String TAG = "GameActivity";
-    private static final int MONEYRATE = 5;
+    private static final int MONEYRATE = 4;
     private static final int END_GAME_DELAY = 2000;
     private static final int LONG_TOUTCH = 500;
     public static final int GAME_FRAME_RATE = 16;
