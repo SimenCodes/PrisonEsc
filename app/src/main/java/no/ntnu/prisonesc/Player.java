@@ -71,4 +71,8 @@ public class Player implements Circular {
     public Point getCenter() {
         return physics.getPos().move(size.x / 2, size.y / 2);
     }
+
+    public void addRocketPower(int p) {
+        physics.addRocketPower(p);
+    }
 }
