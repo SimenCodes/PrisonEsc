@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -83,17 +84,36 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+        // Android-magi for å få beskjed med en gang vi vet hvor stor PlayerImageView er.
+        ViewTreeObserver viewTreeObserver = playerImageView.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Log.d(TAG, "onGlobalLayout() called");
+                    playerImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    updatePlayerSize();
+                }
+            });
+        }
+
 
         //For å håndtere akslerometeret:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shake = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        Log.d(TAG, "onCreate: " + shake);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
         handler.post(this);
+    }
+
+    protected void updatePlayerSize() {
+        player.setSize(new Point(
+                playerImageView.getWidth() / Util.pixelSize(playerImageView.getContext()),
+                playerImageView.getHeight() / Util.pixelSize(playerImageView.getContext())
+        ));
     }
 
     @Override
@@ -106,7 +126,6 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     protected void onPause() {
         super.onPause();
         handler.removeCallbacks(this);
-
         sensorManager.unregisterListener(this);
     }
 
@@ -122,15 +141,13 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Log.d(TAG, "run.flyingObjects.size: "+flyingObjects.size());
         for (int i = flyingObjects.size() - 1; i >= 0; i--) {
             // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
-            // TODO: Plutselig går alt på trynet fordi alle physicsobjektene blir overbevist
-            // om at de treffer spilleren. Samtidig får vi ENORM velocity (2139859919,60029), som igjen gir ugyldig posisjon pga overflow.
             FlyingObject flying = flyingObjects.get(i);
             if (isCollision(flying, player)) {
                 flying.onCollision(player);
                 scrollerView.removeFlyingObject(flying);
                 Log.d(TAG, "run: Vi har en kollisjon");
             } else
-                Log.d(TAG, "run Vi har ikke en kolisjon. Her er avstanden mellom FO og player: " + flying.getCenter().dist(player.getCenter()) + " : " + flying.getCenter() + " : " + player.getCenter());
+                Log.d(TAG, "run: player@" + player.getCenter() + " => dist=" + flying.getCenter().dist(player.getCenter()));
         }
         //Log.d(TAG, "run.getVelY: " + player.getVelY());
 
