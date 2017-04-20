@@ -22,6 +22,6 @@ public class Wings extends Powerup {
     @Override
     public void apply(Player player, ImageView playerImageView) {
         //TODO Legge inn håndtering av bilde.
-        player.addGliderFactor(0.5f);
+        player.addGliderFactor(0.2f);
     }
 }
