@@ -173,7 +173,7 @@ public class ScrollerView extends FrameLayout {
                     break;
                 case 1:
                     // Init somewhere around top edge
-                    y = -image.getHeight();
+                    y = -image.getHeight() * 2;
                     x = (int) (screenWidth * random.nextFloat());
                     break;
                 case 2:
