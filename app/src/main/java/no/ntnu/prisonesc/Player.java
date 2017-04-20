@@ -79,4 +79,8 @@ public class Player implements Circular {
     public void addStartHeight(float height) {
         physics.addStartHeight(height);
     }
+
+    public void addGliderFactor(float amount) {
+        physics.addGliderFactor(amount);
+    }
 }

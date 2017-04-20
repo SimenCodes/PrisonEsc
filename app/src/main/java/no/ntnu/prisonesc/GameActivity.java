@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0014;
-        double gliderFactor = 0.5f;
+        double gliderFactor = 0;
         int posY = 0;
         int velX = 400;
         int velY = 400;
@@ -174,11 +174,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             for (int i = flyingObjects.size() - 1; i >= 0; i--) {
                 // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
                 FlyingObject flying = flyingObjects.get(i);
-                final float flyingX = flying.image.getTranslationX();
-                final float flyingY = flying.image.getTranslationY();
                 final Point flyingScreenCornerPos = new Point(flying.image.getTranslationX(), flying.image.getTranslationY());
-                final int flyingWidth = flying.image.getWidth();
-                final int flyingHeight = flying.image.getHeight();
                 final Point flyingScreenSize = new Point(flying.image.getWidth(), flying.image.getHeight());
                 flyingScreenRad = Math.max(flyingScreenSize.x / 2, flyingScreenSize.y / 2);
                 final Point flyingScreenPos = flyingScreenCornerPos.move(-flyingScreenSize.x / 2, -flyingScreenSize.y / 2);

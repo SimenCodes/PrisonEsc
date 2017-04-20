@@ -143,9 +143,9 @@ public class PhysicsObject {
         double addSpeed = speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
         //Log.d(TAG,"addGlider2.dirDown: "+dirDown.getDeg()+ "addGlider2.addSpeed: "+addSpeed+" addglider2.fwdSpeed: "+ fwdSpeed);
         if (x)
-            return (int) (Math.cos(dirDown.getRad() + Math.PI / 2) * addSpeed);//Hvor mye av addspeed som er i x retning
+            return (int) (Math.cos(dirDown.getRad() - Math.PI / 2) * -addSpeed);//Hvor mye av addspeed som er i x retning
         else
-            return (int) (Math.sin(dirDown.getRad() + Math.PI / 2) * addSpeed);//Hvor mye av addSpeed som er i y retning.
+            return (int) (Math.sin(dirDown.getRad() - Math.PI / 2) * -addSpeed);//Hvor mye av addSpeed som er i y retning.
     }
 
 
@@ -201,5 +201,9 @@ public class PhysicsObject {
 
     public void addStartHeight(float height) {
         this.posY += height;
+    }
+
+    public void addGliderFactor(float amount) {
+        this.gliderFactor += amount;
     }
 }
