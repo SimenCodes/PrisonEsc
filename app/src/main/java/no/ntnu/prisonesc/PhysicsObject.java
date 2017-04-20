@@ -11,13 +11,13 @@ public class PhysicsObject {
 
     private static final float GROUND_BOUNCE = 0.0f; // DISABLE: Sett til 0 for å deaktivere bounce
 
-    private int accX;
-    private int accY;
+    private float accX;
+    private float accY;
     private Point defaultAcc;
-    private int velX;
-    private int velY;
-    private int posX;
-    private int posY;
+    private float velX;
+    private float velY;
+    private float posX;
+    private float posY;
     private OldRotation rotation;//Et tall mellom 0 og 1800 hvor 0 er at han ser rett ned og 900 er at han ser rett fram og 180 er at han ser rett opp.
     private double gliderFactor;//Et tall for hvor god glideren er, den er 0 hvis det ikke er noen glider.
     private double drag;//Denne er høy hvis hvis spilleren er lite aerodynamisk og lav hvis spilleren er veldig aerodynamisk.
@@ -27,7 +27,7 @@ public class PhysicsObject {
     private int accActive; // hvor mange ticks det er igjen av akslerasjonen.
 
 
-    public PhysicsObject(double drag, double gliderFacotor, int posY, int velX, int velY, int accY) {
+    public PhysicsObject(double drag, double gliderFacotor, int posY, int velX, int velY, float accY) {
         this.accX = 0;
         this.accY = accY;
         this.defaultAcc = new Point(0, accY);
@@ -44,8 +44,8 @@ public class PhysicsObject {
     public void tick() {
         //Vær oppmerksom på at rekkefølgen her har mye å si.
         //DISABLE: Her kan man skru av enkeltaspekter ved fysikken
-        int tempVelX = velX;//For at ikke rekkefølge skal ha like mye å si
-        int tempVelY = velY;//Kan være hensiktsmessig å gjøre det samme for posisjon og akslerasjon også på et senere punkt.
+        float tempVelX = velX;//For at ikke rekkefølge skal ha like mye å si
+        float tempVelY = velY;//Kan være hensiktsmessig å gjøre det samme for posisjon og akslerasjon også på et senere punkt.
         this.posX += this.velX;
         this.posY += this.velY;
         tempVelX += this.accX;//DISABLE: Ved å komentere ut disse linjene skrur man av gravitasjonen
@@ -187,7 +187,7 @@ public class PhysicsObject {
         this.rotation = rot;
     }
 
-    public int getVelY() {
+    public float getVelY() {
         return velY;
     }
 

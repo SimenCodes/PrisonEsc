@@ -6,8 +6,13 @@ package no.ntnu.prisonesc;
 
 @SuppressWarnings("WeakerAccess")
 public class Point {
-    public final int x;
-    public final int y;
+    public final float x;
+    public final float y;
+
+    public Point(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public Point(int x, int y) {
         this.x = x;
@@ -18,7 +23,7 @@ public class Point {
         return new Point(this.x + p.x, this.y + p.y);
     }
 
-    public Point move(int x, int y) {
+    public Point move(int x, float y) {
         return new Point(this.x + x, this.y + y);
     }
 

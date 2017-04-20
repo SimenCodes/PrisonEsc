@@ -53,12 +53,12 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
-        double drag = 0.0005;
+        double drag = 0.0009;
         double gliderFactor = 0.2f;
         int posY = 0;
         int velX = 400;
         int velY = 400;
-        int accY = -1;//Må være negativ fordi gravitasjonen går nedover.
+        float accY = -0.6f;//Må være negativ fordi gravitasjonen går nedover.
         Point size = new Point(100, 30);
         //end BaseValues
         //Lager player med basevalusene
