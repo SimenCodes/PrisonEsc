@@ -199,9 +199,9 @@ public class ShopActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Are you sure?").setMessage("This cost is " + price);
+        builder.setTitle("Are you sure?\nThis cost is " + price);
 
-        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Buy!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
