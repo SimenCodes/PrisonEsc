@@ -6,11 +6,13 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,11 +24,11 @@ import no.ntnu.prisonesc.powerups.Powerup;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
-    public ImageView playerImageView;
+    ImageView playerImageView;
+    ImageView splatImageView;
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
-    int playerImageId;
     TextView scoreText;
 
 
@@ -48,8 +50,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
 
         SaveData shopData = SaveData.getData(getApplicationContext());
-        playerImageId = R.mipmap.ic_launcher;
         playerImageView = (ImageView) findViewById(R.id.playerImage);
+        splatImageView = (ImageView) findViewById(R.id.splatImageView);
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
@@ -213,7 +215,23 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             handler.postDelayed(this, 16);
         } else {
             Log.w(TAG, "run: END OF GAME!");
+            splatImageView.setVisibility(View.VISIBLE);
+            splatImageView.setScaleX(0);
+            splatImageView.setScaleY(0);
+            splatImageView.animate()
+                    .scaleX(1).scaleY(1)
+                    .setInterpolator(new OvershootInterpolator());
+            splatImageView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showEndGameDialog();
+                }
+            }, 5000);
         }
+    }
+
+    private void showEndGameDialog() {
+        new AlertDialog.Builder(this)…
     }
 
     /**
@@ -232,6 +250,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
     /**
      * Endret den opprinnelige koden til at den nå bruker sirkler i steden for firkanter.
+     *
      * @return true hvis det er en kollisjon
      */
     public boolean isCollision(Circular c1, Circular c2) {
