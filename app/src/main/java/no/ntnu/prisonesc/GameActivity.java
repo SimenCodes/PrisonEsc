@@ -1,11 +1,14 @@
 package no.ntnu.prisonesc;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,12 +26,15 @@ import no.ntnu.prisonesc.powerups.Powerup;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
+    private static final int MONEYRATE = 10;
+    private static final int END_GAME_DELAY = 3000;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
     TextView scoreText;
+    SaveData shopData;
 
 
     float readMeter;
@@ -48,14 +54,14 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         setContentView(R.layout.activity_game);
 
 
-        SaveData shopData = SaveData.getData(getApplicationContext());
+        shopData = SaveData.getData(getApplicationContext());
         playerImageView = (ImageView) findViewById(R.id.playerImage);
         splatImageView = (ImageView) findViewById(R.id.splatImageView);
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
         double drag = 0.0014;
-        double gliderFactor = 0.5f;
+        double gliderFactor = 0;
         int posY = 0;
         int velX = 400;
         int velY = 400;
@@ -168,11 +174,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             for (int i = flyingObjects.size() - 1; i >= 0; i--) {
                 // Vi må loope baklengs for a java ikke skal bli sur når vi sletter ting.
                 FlyingObject flying = flyingObjects.get(i);
-                final float flyingX = flying.image.getTranslationX();
-                final float flyingY = flying.image.getTranslationY();
                 final Point flyingScreenCornerPos = new Point(flying.image.getTranslationX(), flying.image.getTranslationY());
-                final int flyingWidth = flying.image.getWidth();
-                final int flyingHeight = flying.image.getHeight();
                 final Point flyingScreenSize = new Point(flying.image.getWidth(), flying.image.getHeight());
                 flyingScreenRad = Math.max(flyingScreenSize.x / 2, flyingScreenSize.y / 2);
                 final Point flyingScreenPos = flyingScreenCornerPos.move(-flyingScreenSize.x / 2, -flyingScreenSize.y / 2);
@@ -225,11 +227,31 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 public void run() {
                     showEndGameDialog();
                 }
-            }, 5000);
+            }, END_GAME_DELAY);
         }
     }
 
     private void showEndGameDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        int distance = (int) player.getPos().x;
+        final int money = calulateMoney(distance);
+        String message = "Distance: " + distance + "\n" +
+                            "Money earned: " + money;
+
+        builder.setTitle("Score").setMessage(message);
+
+        builder.setPositiveButton("Back to celle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                shopData.addMoney(money);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
 
@@ -264,6 +286,10 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    private int calulateMoney(int distance){
+        return distance / MONEYRATE;
     }
 
 }
