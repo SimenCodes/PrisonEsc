@@ -9,21 +9,14 @@ import no.ntnu.prisonesc.R;
  * Created by Henrik on 18.04.2017.
  */
 
-public class AerodynamicClothes extends Powerup {
-    public AerodynamicClothes(int level) {
-        super(level);
-        init();
-    }
+public class Clothes extends Powerup {
 
-    public AerodynamicClothes(int level, int maxLevel) {
-        super(level, maxLevel);
-        init();
-    }
-
-    private void init() {
-        basePrice = 500;
-        initialCondition = true;
-        name = "Clothes";
+    public Clothes(int level) {
+        this.level = level;
+        this.maxLevel = 3;
+        this.basePrice = 500;
+        this.initialCondition = true;
+        this.name = "Clothes";
     }
 
     @Override

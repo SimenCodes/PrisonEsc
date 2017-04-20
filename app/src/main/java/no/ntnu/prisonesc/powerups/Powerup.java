@@ -13,36 +13,23 @@ import no.ntnu.prisonesc.Player;
 public abstract class Powerup {
 
     protected int level;
-    @NonNull
-    protected int basePrice;
-    @NonNull
-    protected boolean initialCondition;
     protected int maxLevel;
 
     @NonNull
+    protected int basePrice;
+
+    @NonNull
+    protected boolean initialCondition;
+
+    @NonNull
     protected String name;
-
-    public Powerup(int level) {
-        this(level, 10);
-    }
-
-    public Powerup(int level, int maxLevel) {
-        this.level = level;
-        this.maxLevel = maxLevel;
-    }
 
     public String getName() {
         return this.name;
     }
 
-    public abstract void apply(Player player, ImageView playerImageView);
-
     public int getPrice(int levelsAheadOfCurrent) {
         return this.basePrice + 500 * (this.level + levelsAheadOfCurrent);
-    }
-
-    public boolean isInitialCondition() {
-        return this.initialCondition;
     }
 
     public int getLevel() {
@@ -50,7 +37,7 @@ public abstract class Powerup {
     }
 
     public void setLevel(int n) {
-        if (n <= maxLevel) {
+        if (n < maxLevel) {
             this.level = n;
         }
     }
@@ -63,11 +50,17 @@ public abstract class Powerup {
         return this.level > 0;
     }
 
+    public boolean isInitialCondition() {
+        return this.initialCondition;
+    }
+
     public void buy() {
-        if (this.level <= this.maxLevel) {
+        if (this.level < this.maxLevel) {
             this.level++;
         } else {
             throw new IllegalStateException("Allready max Level");
         }
     }
+
+    public abstract void apply(Player player, ImageView playerImageView);
 }

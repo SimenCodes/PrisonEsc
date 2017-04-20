@@ -14,7 +14,7 @@ public class OldRotation extends Rotation {
     }
 
     public OldRotation(int initialRotation) {
-        super((float) Math.PI * 2f, (float)( Math.toRadians(initialRotation / 10.000)));
+        super((float) Math.PI * 2f, (float) (Math.toRadians(initialRotation / 10.000)));
         //Log.d(TAG, "OldRotation.res: "+ (float) Math.toRadians(initialRotation / 10));
     }
 

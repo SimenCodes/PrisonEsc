@@ -8,21 +8,14 @@ import no.ntnu.prisonesc.Player;
  * Created by Henrik on 18.04.2017.
  */
 
-public class RocketBoost extends Powerup {
-    public RocketBoost(int level) {
-        super(level);
-        init();
-    }
+public class RocketFuel extends Powerup {
 
-    public RocketBoost(int level, int maxLevel) {
-        super(level, maxLevel);
-        init();
-    }
-
-    private void init() {
-        basePrice = 5000;
-        initialCondition = false;
-        name = "Rocket";
+    public RocketFuel(int level) {
+        this.level = level;
+        this.maxLevel = 10;
+        this.basePrice = 1000;
+        this.initialCondition = false;
+        this.name = "Rocketfuel (This one can melt steal beams)";
     }
 
     @Override
