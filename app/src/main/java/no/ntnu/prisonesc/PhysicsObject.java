@@ -111,7 +111,7 @@ public class PhysicsObject {
      */
     public int addGlider(boolean x) {
         OldRotation dirDown = rotation.rotated(-900);//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
-        OldRotation dirSpeed = new OldRotation((float) Math.atan2(velY, velX)); //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
+        OldRotation dirSpeed = new OldRotation((float) (Math.atan2(velY, velX) + Math.PI / 2)); //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
         //Log.d(TAG, "addGlider.dirSpeed: " + dirSpeed);
         double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
         double speedDown = Math.cos(dirSpeed.subtracted(dirDown).getRad()) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
@@ -130,18 +130,18 @@ public class PhysicsObject {
      */
     public int addGlider2(boolean x) {
         OldRotation dirDown = rotation.rotated((float) (-Math.PI / 2));//Retningnen til ned for glideren. V:Minus pga funksjonen til Atan2
-        OldRotation dirSpeed = new OldRotation((float) Math.atan2(velY, velX)); //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
-        if (dirSpeed.getRad() > dirDown.rotated((float) -Math.PI / 2).getRad()) {
+        OldRotation dirSpeed = new OldRotation((float) (Math.atan2(velY, velX) + Math.PI / 2)); //Retningen spilleren beveger seg i på samme format som orienteringen til spilleren.
+        if (dirSpeed.getRad() > dirDown.rotated((float) +Math.PI / 2).getRad()) {
             return 0;//I tilfelle ned er opp så skal ikke vi gå fortere.
         }
         double fwdSpeed = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));//Hastigheten til spilleren i retningen den går i.
         double speedDown = Math.cos(dirSpeed.subtracted(dirDown).getRad()) * fwdSpeed;//Hvor mye av hastigheten til spilleren som går i rentning ned for glideren.
-        double addSpeed = - speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
+        double addSpeed = speedDown * gliderFactor;//Hvor mye som skal legges til i oppoverretningen for spilleren.
         //Log.d(TAG,"addGlider2.dirDown: "+dirDown.getDeg()+ "addGlider2.addSpeed: "+addSpeed+" addglider2.fwdSpeed: "+ fwdSpeed);
         if (x)
-            return (int) (Math.cos(dirDown.getRad()) * addSpeed);//Hvor mye av addspeed som er i x retning
+            return (int) (Math.cos(dirDown.getRad() + Math.PI / 2) * addSpeed);//Hvor mye av addspeed som er i x retning
         else
-            return (int) (Math.sin(dirDown.getRad()) * addSpeed);//Hvor mye av addSpeed som er i y retning.
+            return (int) (Math.sin(dirDown.getRad() + Math.PI / 2) * addSpeed);//Hvor mye av addSpeed som er i y retning.
     }
 
 

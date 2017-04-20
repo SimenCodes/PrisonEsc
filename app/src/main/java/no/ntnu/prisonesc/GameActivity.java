@@ -53,8 +53,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
-        double drag = 0.0009;
-        double gliderFactor = 0.2f;
+        double drag = 0.0014;
+        double gliderFactor = 0.5f;
         int posY = 0;
         int velX = 400;
         int velY = 400;

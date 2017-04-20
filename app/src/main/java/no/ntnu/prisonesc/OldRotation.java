@@ -1,9 +1,5 @@
 package no.ntnu.prisonesc;
 
-import android.util.Log;
-
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Henrik on 14.04.2017.
  */
@@ -56,6 +52,10 @@ public class OldRotation extends Rotation {
         return new OldRotation(this.rotation + delta);
     }
 
+    public OldRotation rotated(int delta) {
+        return new OldRotation(this.getDeg() + delta);
+    }
+
     @Override
     public OldRotation added(Rotation delta) {
         return new OldRotation(this.rotation + delta.rotation);
@@ -64,5 +64,9 @@ public class OldRotation extends Rotation {
     @Override
     public OldRotation subtracted(Rotation delta) {
         return new OldRotation(this.rotation - delta.rotation);
+    }
+
+    public String toString() {
+        return String.valueOf(this.getDeg());
     }
 }
