@@ -9,6 +9,7 @@ import no.ntnu.prisonesc.Player;
  */
 
 public class StartAltitude extends Powerup {
+    private static final int HEIGHTFACTOR = 15;
 
     public StartAltitude(int level) {
         this.level = level;
@@ -20,6 +21,6 @@ public class StartAltitude extends Powerup {
 
     @Override
     public void apply(Player player, ImageView playerImageView) {
-        //TODO
+        player.addStartHeight(HEIGHTFACTOR * level);
     }
 }

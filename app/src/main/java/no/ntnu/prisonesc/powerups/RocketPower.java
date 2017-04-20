@@ -10,6 +10,8 @@ import no.ntnu.prisonesc.Player;
 
 public class RocketPower extends Powerup {
 
+    private static final int POWER = 1;
+
     public RocketPower(int level) {
         this.level = level;
         this.maxLevel = 20;
@@ -20,6 +22,6 @@ public class RocketPower extends Powerup {
 
     @Override
     public void apply(Player player, ImageView playerImageView) {
-        player.addRocketPower(level);
+        player.addRocketPower(level * POWER);
     }
 }

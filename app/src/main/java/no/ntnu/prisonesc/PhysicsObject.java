@@ -198,4 +198,8 @@ public class PhysicsObject {
     public void reduceAirResistance(double amount) {
         this.drag -= amount;
     }
+
+    public void addStartHeight(float height) {
+        this.posY += height;
+    }
 }

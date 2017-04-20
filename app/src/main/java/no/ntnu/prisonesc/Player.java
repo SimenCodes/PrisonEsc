@@ -75,4 +75,8 @@ public class Player implements Circular {
     public void addRocketPower(int p) {
         physics.addRocketPower(p);
     }
+
+    public void addStartHeight(float height) {
+        physics.addStartHeight(height);
+    }
 }
