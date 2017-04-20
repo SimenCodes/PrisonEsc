@@ -21,13 +21,14 @@
         android:layout_gravity="center"
         app:srcCompat="@drawable/prisoner_1" />
 
+    <!--
     <ImageButton
         android:id="@+id/btnRocket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
         app:srcCompat="@android:drawable/btn_default" />
-    <!-- TODO Finne et bilde av knappen vi vil ha -->
+
 
     <ImageButton
         android:id="@+id/btnExplode"
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         app:srcCompat="@android:drawable/btn_default" />
-
+-->
     <ImageView
         android:id="@+id/splatImageView"
         android:layout_width="wrap_content"
@@ -44,5 +45,5 @@
         android:layout_marginLeft="30dp"
         android:visibility="gone"
         app:srcCompat="@drawable/splat" />
-    <!-- TODO Finne et bilde av knappen vi vil ha -->
+
 </FrameLayout>
