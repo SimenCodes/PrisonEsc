@@ -241,7 +241,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         builder.setTitle("Score").setMessage(message);
 
-        builder.setPositiveButton("Back to celle", new DialogInterface.OnClickListener() {
+        builder.setCancelable(false);
+        builder.setPositiveButton("Back to cell", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 shopData.addMoney(money);
