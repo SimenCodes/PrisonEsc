@@ -15,6 +15,7 @@ public class StartAltitude extends Powerup {
         this.level = level;
         this.maxLevel = 20;
         this.basePrice = 100;
+        this.priceScale = 700;
         this.initialCondition = true;
         this.name = "Cell floor";
     }
