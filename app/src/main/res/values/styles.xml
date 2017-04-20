@@ -6,6 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/CasualTextViewStyle</item>
+    </style>
+
+    <style name="CasualTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">casual</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 </resources>
