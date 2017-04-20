@@ -62,9 +62,9 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //Basevalues:
         double drag = 0.0014;
         double gliderFactor = 0;
-        int posY = 0;
-        int velX = 400;
-        int velY = 400;
+        int posY = 300;
+        int velX = 10;
+        int velY = 5;
         float accY = -0.6f;//Må være negativ fordi gravitasjonen går nedover.
         Point size = new Point(100, 30);
         //end BaseValues
