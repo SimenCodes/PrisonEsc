@@ -38,7 +38,7 @@
                 android:layout_gravity="bottom"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ground_1" />
+                android:src="@drawable/ground_1_cactus" />
 
             <ImageView
                 android:id="@+id/ground_2"
@@ -47,7 +47,7 @@
                 android:layout_gravity="bottom"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ground_2" />
+                android:src="@drawable/ground_2_house" />
 
         </FrameLayout>
 

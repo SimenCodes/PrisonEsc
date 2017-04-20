@@ -82,7 +82,7 @@ public class Player implements Circular {
         physics.addStartHeight(height);
     }
 
-    public void addGliderFactor(float amount) {
+    public void addGliderFactor(double amount) {
         physics.addGliderFactor(amount);
     }
 

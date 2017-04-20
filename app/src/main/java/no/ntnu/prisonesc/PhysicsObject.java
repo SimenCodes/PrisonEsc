@@ -203,11 +203,12 @@ public class PhysicsObject {
         this.posY += height;
     }
 
-    public void addGliderFactor(float amount) {
+    public void addGliderFactor(double amount) {
         this.gliderFactor += amount;
     }
 
     public void addRocketBoost(Point power) {
         setAcc(power, rocketDuration);
+
     }
 }

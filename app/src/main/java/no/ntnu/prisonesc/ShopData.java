@@ -18,12 +18,12 @@ import no.ntnu.prisonesc.powerups.StartAltitude;
 import no.ntnu.prisonesc.powerups.Wings;
 
 /**
- * SaveData handle the saving of progress in the application
+ * ShopData handle the saving of progress in the application
  */
 
-public class SaveData {
+public class ShopData {
 
-    public static SaveData saveData;
+    public static ShopData shopData;
     private SharedPreferences data;
 
     private String moneyString = "money";
@@ -43,7 +43,7 @@ public class SaveData {
         this.powerups.add(new RocketFuel(0));
     }
 
-    private SaveData(Context context) {
+    private ShopData(Context context) {
         data = PreferenceManager.getDefaultSharedPreferences(context);
         try {
             //load data from the preferences
@@ -66,13 +66,13 @@ public class SaveData {
      * Get the current savedata from the users phone. Only one can be made.
      *
      * @param context android context
-     * @return instance of SaveData
+     * @return instance of ShopData
      */
-    public static SaveData getData(Context context) {
-        if (saveData == null) {
-            saveData = new SaveData(context);
+    public static ShopData getData(Context context) {
+        if (shopData == null) {
+            shopData = new ShopData(context);
         }
-        return saveData;
+        return shopData;
     }
 
     public int getMoney() {
@@ -144,6 +144,14 @@ public class SaveData {
         }
         money -= price;
         updateData();
+    }
+
+    public Powerup getPowerup(Class powerClass) {
+        for (Powerup powerup : powerups) {
+            if (powerup.getClass().getName().equals(powerClass.getName()))
+                return powerup;
+        }
+        throw new IllegalArgumentException("Unknown powerup type!");
     }
 
     /**

@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,18 +24,22 @@ import java.util.Collection;
 import java.util.List;
 
 import no.ntnu.prisonesc.powerups.Powerup;
+import no.ntnu.prisonesc.powerups.RocketFuel;
+import no.ntnu.prisonesc.powerups.RocketPower;
 
-public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
+public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
     private static final String TAG = "GameActivity";
-    private static final int MONEYRATE = 10;
+    private static final int MONEYRATE = 5;
     private static final int END_GAME_DELAY = 2000;
+    private static final int LONG_TOUTCH = 500;
+    public static final int GAME_FRAME_RATE = 16;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
     Handler handler = new Handler();
     Player player;
     TextView scoreText;
-    SaveData shopData;
+    ShopData shopData;
 
 
     float readMeter;
@@ -54,18 +59,18 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         setContentView(R.layout.activity_game);
 
 
-        shopData = SaveData.getData(getApplicationContext());
+        shopData = ShopData.getData(getApplicationContext());
         playerImageView = (ImageView) findViewById(R.id.playerImage);
         splatImageView = (ImageView) findViewById(R.id.splatImageView);
         scoreText = (TextView) findViewById(R.id.scoreText);
 
         //Basevalues:
         double drag = 0.0028;
-        double gliderFactor = 0;
+        double gliderFactor = 0.15;
         int posY = 300;
         int velX = 5;
         int velY = 2;
-        float accY = -0.3f;//Må være negativ fordi gravitasjonen går nedover.
+        float accY = -0.6f;//Må være negativ fordi gravitasjonen går nedover.
         Point size = new Point(100, 30);
         //end BaseValues
         //Lager player med basevalusene
@@ -84,13 +89,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         scrollerView = new ScrollerView(this, flyingObjects);
         layoutRoot.addView(scrollerView, 0);
 
-        layoutRoot.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        layoutRoot.setOnTouchListener(this);
+        playerImageView.setOnTouchListener(this);
 
         // Android-magi for å få beskjed med en gang vi vet hvor stor PlayerImageView er.
         ViewTreeObserver viewTreeObserver = playerImageView.getViewTreeObserver();
@@ -110,6 +110,18 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         //For å håndtere akslerometeret:
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shake = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     @Override
@@ -191,7 +203,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         }
 
         //START plaser bildet av player på skjerm
-        playerImageView.setRotation(player.getRot().getDeg() / 10);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
+        playerImageView.setRotation(+90 - player.getRot().getDeg() / 10);//+90 for å få det i det formatet som trengs, /10 for å få mer presise verdier. getDeg fordi det er en OldRotation.
         //Det etterf;lgende er for [ plasere height;yden. Det er en funksjon som skal ende om med en faktor som ganges med height;yden p[ skjermen.
         /*Dette er komentert ut for å kunne implementeres i del 5.
         double height = scrollerView.getHeight();
@@ -215,7 +227,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         scoreText.setText(String.valueOf(player.getPos().x));
 
         if (player.getPos().y != 0 || player.getVelY() != 0) {
-            handler.postDelayed(this, 16);
+            handler.postDelayed(this, GAME_FRAME_RATE);
         } else {
             Log.w(TAG, "run: END OF GAME!");
             splatImageView.setVisibility(View.VISIBLE);
@@ -234,12 +246,13 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private void showEndGameDialog() {
+        ((RocketPower) shopData.getPowerup(RocketPower.class)).reset();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         int distance = (int) player.getPos().x;
         final int money = calculateMoney(distance);
         String message = "Distance: " + distance + "\n" +
-                            "Money earned: " + money;
+                "Money earned: " + money;
 
         builder.setTitle("Score").setMessage(message);
 
@@ -253,8 +266,12 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        try {
+            AlertDialog dialog = builder.create();
+            dialog.show(); // Fails if user left the app
+        } catch (Exception e) {
+            finish();
+        }
 
     }
 
@@ -296,4 +313,38 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE;
     }
 
+    Runnable launchRocket = new Runnable() {
+        @Override
+        public void run() {
+            //Apply rocket powerup
+            RocketPower power = (RocketPower) shopData.getPowerup(RocketPower.class);
+            if (power.hasFired()) return;
+            RocketFuel fuel = (RocketFuel) shopData.getPowerup(RocketFuel.class);
+            power.apply(player);
+            player.imageSelector.setHasRocket(true);
+            playerImageView.setImageResource(player.imageSelector.getImageResource());
+            playerImageView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    player.imageSelector.setHasRocket(false);
+                    playerImageView.setImageResource(player.imageSelector.getImageResource());
+                }
+            }, fuel.getDuration());
+        }
+    };
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        Log.w("onToutch", "" + event.getAction());
+
+        if (MotionEvent.ACTION_DOWN == event.getAction()) {
+            handler.postDelayed(launchRocket, LONG_TOUTCH);
+        } else if (MotionEvent.ACTION_CANCEL == event.getAction()) {
+            handler.removeCallbacks(launchRocket);
+        } else if (MotionEvent.ACTION_UP == event.getAction()) {
+            handler.removeCallbacks(launchRocket);
+        }
+        return true;
+    }
 }

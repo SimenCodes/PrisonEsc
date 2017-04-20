@@ -3,6 +3,7 @@ package no.ntnu.prisonesc;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,13 +25,13 @@ import no.ntnu.prisonesc.powerups.Wings;
 
 public class ShopActivity extends AppCompatActivity {
 
-    private SaveData data;
+    private ShopData data;
     private List<Powerup> powerups;
 
     private int money;
     private TextView moneyText;
 
-    private LinearLayout shopWraper;
+    private LinearLayout shopWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,23 @@ public class ShopActivity extends AppCompatActivity {
 
         hideAndroidUiElements();
 
-        shopWraper = (LinearLayout) findViewById(R.id.shop_wraper);
-        data = SaveData.getData(getApplicationContext());
+        shopWrapper = (LinearLayout) findViewById(R.id.shop_wrapper);
+        data = ShopData.getData(getApplicationContext());
         moneyText = (TextView) findViewById(R.id.shop_money_number_text);
 
         updateShopData();
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     public void updateShopData() {
@@ -70,8 +83,7 @@ public class ShopActivity extends AppCompatActivity {
                 //TODO remove on release, this is a debug function
                 data.addMoney(1000);
                 money = data.getMoney();
-                String moneyString = "" + money;
-                moneyText.setText(moneyString);
+                moneyText.setText(String.valueOf(money));
                 break;
         }
     }
@@ -79,7 +91,7 @@ public class ShopActivity extends AppCompatActivity {
     private void drawShop() {
         hideAndroidUiElements();
 
-        shopWraper.removeAllViews();
+        shopWrapper.removeAllViews();
         List<Powerup> powerupList = powerups;
         for (int i = 0; i < powerups.size(); i++) {
             final Powerup currentPowerup = powerupList.get(i);
@@ -89,11 +101,11 @@ public class ShopActivity extends AppCompatActivity {
             tv.setText(powerupString);
             tv.setTextSize(32);
             tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            shopWraper.addView(tv);
+            shopWrapper.addView(tv);
 
             HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
             horizontalScrollView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            shopWraper.addView(horizontalScrollView);
+            shopWrapper.addView(horizontalScrollView);
 
             LinearLayout buyLayout = new LinearLayout(this);
             buyLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -149,7 +161,19 @@ public class ShopActivity extends AppCompatActivity {
                             final int price = currentPowerup.getPrice(levelDiff);
 
                             if(money < price){
-                                Toast.makeText(ShopActivity.this, "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT).show();
+
+                                final Toast toast = Toast.makeText(getApplicationContext(), "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT);
+                                toast.show();
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        toast.cancel();
+                                    }
+                                }, 500);
+
+                                //Toast.makeText(ShopActivity.this, "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT).show();
                             } else {
                                 buyPowerup(unBoughtPowerup.getId());
                             }
@@ -182,7 +206,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     data.doPurchase(price);
-                } catch (SaveData.OutOfFundsException e) {
+                } catch (ShopData.OutOfFundsException e) {
                     Toast.makeText(ShopActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideAndroidUiElements();
                     return;
@@ -212,8 +236,7 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     private void hideAndroidUiElements() {
-        ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.shop_activity_root);
-        layoutRoot.setSystemUiVisibility(
+        getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -233,6 +256,12 @@ public class ShopActivity extends AppCompatActivity {
             case 2:
                 image.setImageResource(R.drawable.prisoner_3);
                 break;
+            case 3:
+                image.setImageResource(R.drawable.prisoner_4);
+                break;
+            case 4:
+                image.setImageResource(R.drawable.prisoner_5);
+                break;
             default:
                 image.setImageResource(R.drawable.prisoner_1);
         }
@@ -249,6 +278,12 @@ public class ShopActivity extends AppCompatActivity {
                 break;
             case 2:
                 image.setImageResource(R.drawable.prisoner_3_selected);
+                break;
+            case 3:
+                image.setImageResource(R.drawable.prisoner_4_selected);
+                break;
+            case 4:
+                image.setImageResource(R.drawable.prisoner_5_selected);
                 break;
             default:
                 image.setImageResource(R.drawable.prisoner_1_selected);
