@@ -24,7 +24,7 @@ import no.ntnu.prisonesc.powerups.Wings;
 
 public class ShopActivity extends AppCompatActivity {
 
-    private SaveData data;
+    private ShopData data;
     private List<Powerup> powerups;
 
     private int money;
@@ -40,7 +40,7 @@ public class ShopActivity extends AppCompatActivity {
         hideAndroidUiElements();
 
         shopWraper = (LinearLayout) findViewById(R.id.shop_wraper);
-        data = SaveData.getData(getApplicationContext());
+        data = ShopData.getData(getApplicationContext());
         moneyText = (TextView) findViewById(R.id.shop_money_number_text);
 
         updateShopData();
@@ -182,7 +182,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     data.doPurchase(price);
-                } catch (SaveData.OutOfFundsException e) {
+                } catch (ShopData.OutOfFundsException e) {
                     Toast.makeText(ShopActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideAndroidUiElements();
                     return;

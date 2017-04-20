@@ -37,7 +37,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     Handler handler = new Handler();
     Player player;
     TextView scoreText;
-    SaveData shopData;
+    ShopData shopData;
 
 
     float readMeter;
@@ -57,7 +57,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         setContentView(R.layout.activity_game);
 
 
-        shopData = SaveData.getData(getApplicationContext());
+        shopData = ShopData.getData(getApplicationContext());
         playerImageView = (ImageView) findViewById(R.id.playerImage);
         splatImageView = (ImageView) findViewById(R.id.splatImageView);
         scoreText = (TextView) findViewById(R.id.scoreText);

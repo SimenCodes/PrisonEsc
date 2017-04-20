@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         playerImage.setTranslationX(-20 * pixelSize);
 
         Player player = new Player(0, 0, 0, 0, 0, 0, new Point(0, 0));
-        for (Powerup powerup : SaveData.getData(getApplicationContext()).getBoughtPowerups()) {
+        for (Powerup powerup : ShopData.getData(getApplicationContext()).getBoughtPowerups()) {
             if (powerup instanceof Cannon) {
                 playerImage.setVisibility(View.GONE);
                 cannonImage.setVisibility(View.VISIBLE);
