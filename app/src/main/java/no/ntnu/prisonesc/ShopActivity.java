@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.ntnu.prisonesc.powerups.Cannon;
 import no.ntnu.prisonesc.powerups.Clothes;
 import no.ntnu.prisonesc.powerups.Powerup;
 
@@ -106,6 +107,8 @@ public class ShopActivity extends AppCompatActivity {
                     //Set custom imageresoruces here
                     if (currentPowerup instanceof Clothes) {
                         customBoughtClothes(j, boughtPowerup);
+                    } else if (currentPowerup instanceof Cannon) {
+                        customBoughtCannon(j, boughtPowerup);
                     } else {
                         boughtPowerup.setImageResource(R.drawable.checkbox_filled);
                     }
@@ -125,6 +128,8 @@ public class ShopActivity extends AppCompatActivity {
                     //Set custom imageresources here
                     if (currentPowerup instanceof Clothes) {
                         customUnBoughtClothes(j, unBoughtPowerup);
+                    } else if (currentPowerup instanceof Cannon) {
+                        customUnBoughtCannon(j, unBoughtPowerup);
                     } else {
                         unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
                     }
@@ -243,5 +248,41 @@ public class ShopActivity extends AppCompatActivity {
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 150 * pixel);
         image.setLayoutParams(lp);
         image.setAdjustViewBounds(true);
+    }
+
+
+    private void customBoughtCannon(int level, ImageView image) {
+        switch (level) {
+            case 0:
+                image.setImageResource(R.drawable.checkmark);
+                adjustCannonImage(image);
+                break;
+            case 1:
+                image.setImageResource(R.drawable.cannon_checkmark);
+                adjustCannonImage(image);
+                int pixel = Util.pixelSize(getApplicationContext());
+                image.setPadding(24*pixel, 0, 0, 0);
+                break;
+        }
+    }
+
+    private void customUnBoughtCannon(int level, ImageView image) {
+        switch (level) {
+            case 0:
+                image.setImageResource(R.drawable.checkmark);
+                adjustCannonImage(image);
+                break;
+            case 1:
+                image.setImageResource(R.drawable.cannon);
+                adjustCannonImage(image);
+                break;
+        }
+    }
+
+    private void adjustCannonImage(ImageView image){
+        int pixel = Util.pixelSize(getApplicationContext());
+        image.setPadding(4 * pixel, 0, 8 * pixel, 0);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100 * pixel);
+        image.setLayoutParams(lp);
     }
 }
