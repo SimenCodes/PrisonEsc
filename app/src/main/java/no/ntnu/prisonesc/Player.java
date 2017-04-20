@@ -10,7 +10,7 @@ public class Player implements Circular {
     private final PhysicsObject physics;
 
 
-    public Player(double drag, double gliderFactor, int posY, int velX, int velY, int accY, Point size) {
+    public Player(double drag, double gliderFactor, int posY, int velX, int velY, float accY, Point size) {
         physics = new PhysicsObject(drag, gliderFactor, posY, velX, velY, accY);
         this.size = size;
     }
@@ -35,7 +35,7 @@ public class Player implements Circular {
         physics.setRot(rot);
     }
 
-    public int getVelY() {
+    public float getVelY() {
         return physics.getVelY();
     }
 
@@ -56,13 +56,13 @@ public class Player implements Circular {
     @Override
     public int getRadius() {
         if (size.x > size.y)
-            return size.x / 2;
+            return (int) (size.x / 2);
         else
-            return size.y / 2;
+            return (int) (size.y / 2);
     }
 
     @Override
     public Point getCenter() {
-        return physics.getPos().move(size.x / 2, size.y / 2);
+        return physics.getPos().move((int) (size.x / 2), size.y / 2);
     }
 }
