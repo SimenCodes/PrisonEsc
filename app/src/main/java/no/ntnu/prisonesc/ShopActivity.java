@@ -3,6 +3,7 @@ package no.ntnu.prisonesc;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -149,7 +150,19 @@ public class ShopActivity extends AppCompatActivity {
                             final int price = currentPowerup.getPrice(levelDiff);
 
                             if(money < price){
-                                Toast.makeText(ShopActivity.this, "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT).show();
+
+                                final Toast toast = Toast.makeText(getApplicationContext(), "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT);
+                                toast.show();
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        toast.cancel();
+                                    }
+                                }, 500);
+
+                                //Toast.makeText(ShopActivity.this, "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT).show();
                             } else {
                                 buyPowerup(unBoughtPowerup.getId());
                             }
