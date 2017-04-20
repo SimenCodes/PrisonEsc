@@ -1,5 +1,6 @@
 package no.ntnu.prisonesc;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
@@ -13,29 +14,33 @@ public abstract class FlyingObject implements Circular {
     public static final String TAG = "FlyingObject";
 
     public final Point position;
-    public final int width, height;
-
     @NonNull
     public final ImageView image;
+    protected int width, height;
 
-    public FlyingObject(Point position, int width, int height, @NonNull ImageView image) {
-        Log.d(TAG, "FlyingObject() called with: position = [" + position + "], width = [" + width + "], height = [" + height + "], image = [" + image + "]");
+    public FlyingObject(Point position, @NonNull ImageView image, @DrawableRes int imageResource) {
         this.position = position;
-        this.width = width;
-        this.height = height;
         this.image = image;
+        updateImage(imageResource);
+        Log.d(TAG, "FlyingObject() created with: position = [" + position + "], width = [" + width + "], height = [" + height + "]");
     }
 
     /**
      * Creates a new flying object of random type.
      *
      * @param imageView An imageView that's attached to the correct parent, and NOT attached to another flyingobject
-     * @return
+     * @param p         Position
+     * @return The Flying Object®
      */
     public static FlyingObject create(ImageView imageView, Point p) {
-        return new Balloon(p, 100, 100, imageView); // TODO Dimensions as resources, maybe in scrollview
+        return new Balloon(p, imageView);
     }
 
+    protected void updateImage(@DrawableRes int imageResource) {
+        image.setImageResource(imageResource);
+        width = image.getWidth() / Util.pixelSize(image.getContext());
+        height = image.getHeight() / Util.pixelSize(image.getContext());
+    }
 
     abstract void onCollision(Player player);
 
