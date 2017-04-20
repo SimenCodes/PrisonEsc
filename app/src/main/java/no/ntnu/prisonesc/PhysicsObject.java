@@ -209,5 +209,6 @@ public class PhysicsObject {
 
     public void addRocketBoost(Point power) {
         setAcc(power, rocketDuration);
+
     }
 }

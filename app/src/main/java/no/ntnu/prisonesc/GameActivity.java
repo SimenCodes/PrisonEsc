@@ -20,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.PolicySpi;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import no.ntnu.prisonesc.powerups.Powerup;
+import no.ntnu.prisonesc.powerups.RocketPower;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
     private static final String TAG = "GameActivity";
@@ -306,7 +308,15 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         @Override
         public void run() {
             //Apply rocket powerup
-            Toast.makeText(GameActivity.this, "Launc the rocket!", Toast.LENGTH_SHORT).show();
+            List<Powerup> powerups = new ArrayList<>(shopData.getBoughtPowerups());
+            for (int i = 0; i < powerups.size(); i++) {
+                if(powerups.get(i) instanceof RocketPower && powerups.get(i).getLevel() != 0){
+                    powerups.get(i).apply(player);
+                    player.imageSelector.setHasRocket(true);
+                    playerImageView.setImageResource(player.imageSelector.getImageResource());
+                    break;
+                }
+            }
         }
     };
 
