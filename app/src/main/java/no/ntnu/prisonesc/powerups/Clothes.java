@@ -11,7 +11,7 @@ public class Clothes extends Powerup {
     public Clothes(int level) {
         this.level = level;
         this.maxLevel = 5;
-        this.basePrice = 0;
+        this.basePrice = -1000;
         this.priceScale = 4000;
         this.initialCondition = true;
         this.name = "Clothes";
