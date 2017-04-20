@@ -146,6 +146,14 @@ public class ShopData {
         updateData();
     }
 
+    public Powerup getPowerup(Class powerClass) {
+        for (Powerup powerup : powerups) {
+            if (powerup.getClass().getName().equals(powerClass.getName()))
+                return powerup;
+        }
+        throw new IllegalArgumentException("Unknown powerup type!");
+    }
+
     /**
      * Throws whenever the user tries to buy something they can't afford.
      * Vi vil vel ikke at folk skal havne i luksusfellen etter å ha spilt det her?

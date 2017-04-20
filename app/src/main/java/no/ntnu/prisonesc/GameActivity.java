@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.List;
 
 import no.ntnu.prisonesc.powerups.Powerup;
+import no.ntnu.prisonesc.powerups.RocketFuel;
 import no.ntnu.prisonesc.powerups.RocketPower;
 
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener, View.OnTouchListener {
@@ -31,6 +32,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     private static final int MONEYRATE = 5;
     private static final int END_GAME_DELAY = 2000;
     private static final int LONG_TOUTCH = 500;
+    public static final int GAME_FRAME_RATE = 16;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
@@ -221,7 +223,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         scoreText.setText(String.valueOf(player.getPos().x));
 
         if (player.getPos().y != 0 || player.getVelY() != 0) {
-            handler.postDelayed(this, 16);
+            handler.postDelayed(this, GAME_FRAME_RATE);
         } else {
             Log.w(TAG, "run: END OF GAME!");
             splatImageView.setVisibility(View.VISIBLE);
@@ -240,12 +242,13 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private void showEndGameDialog() {
+        ((RocketPower) shopData.getPowerup(RocketPower.class)).reset();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         int distance = (int) player.getPos().x;
         final int money = calculateMoney(distance);
         String message = "Distance: " + distance + "\n" +
-                            "Money earned: " + money;
+                "Money earned: " + money;
 
         builder.setTitle("Score").setMessage(message);
 
@@ -306,15 +309,19 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
         @Override
         public void run() {
             //Apply rocket powerup
-            List<Powerup> powerups = new ArrayList<>(shopData.getBoughtPowerups());
-            for (int i = 0; i < powerups.size(); i++) {
-                if(powerups.get(i) instanceof RocketPower && powerups.get(i).getLevel() != 0){
-                    powerups.get(i).apply(player);
-                    player.imageSelector.setHasRocket(true);
+            RocketPower power = (RocketPower) shopData.getPowerup(RocketPower.class);
+            if (power.hasFired()) return;
+            RocketFuel fuel = (RocketFuel) shopData.getPowerup(RocketFuel.class);
+            power.apply(player);
+            player.imageSelector.setHasRocket(true);
+            playerImageView.setImageResource(player.imageSelector.getImageResource());
+            playerImageView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    player.imageSelector.setHasRocket(false);
                     playerImageView.setImageResource(player.imageSelector.getImageResource());
-                    break;
                 }
-            }
+            }, fuel.getDuration());
         }
     };
 
@@ -323,11 +330,11 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         Log.w("onToutch", "" + event.getAction());
 
-        if (MotionEvent.ACTION_DOWN == event.getAction()){
+        if (MotionEvent.ACTION_DOWN == event.getAction()) {
             handler.postDelayed(launchRocket, LONG_TOUTCH);
-        } else if (MotionEvent.ACTION_CANCEL == event.getAction()){
+        } else if (MotionEvent.ACTION_CANCEL == event.getAction()) {
             handler.removeCallbacks(launchRocket);
-        } else if(MotionEvent.ACTION_UP == event.getAction()){
+        } else if (MotionEvent.ACTION_UP == event.getAction()) {
             handler.removeCallbacks(launchRocket);
         }
         return true;
