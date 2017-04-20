@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     private static final String TAG = "GameActivity";
     private static final int MONEYRATE = 4;
     private static final int END_GAME_DELAY = 2000;
-    private static final int LONG_TOUTCH = 500;
+    private static final int LONG_TOUTCH = 400;
     public static final int GAME_FRAME_RATE = 16;
     ImageView playerImageView;
     ImageView splatImageView;
