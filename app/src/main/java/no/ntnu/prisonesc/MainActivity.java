@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                         .setDuration(1000)
                         .setInterpolator(new DecelerateInterpolator());
             }
-            powerup.apply(player);
+            if (powerup.isInitialCondition()) powerup.apply(player);
         }
         playerImage.setImageResource(player.imageSelector.getImageResource());
     }

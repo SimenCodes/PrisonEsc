@@ -18,9 +18,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.security.PolicySpi;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -66,11 +64,11 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0028;
-        double gliderFactor = 0.25;
+        double gliderFactor = 0.15;
         int posY = 300;
         int velX = 5;
         int velY = 2;
-        float accY = -0.3f;//Må være negativ fordi gravitasjonen går nedover.
+        float accY = -0.6f;//Må være negativ fordi gravitasjonen går nedover.
         Point size = new Point(100, 30);
         //end BaseValues
         //Lager player med basevalusene

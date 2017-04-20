@@ -9,7 +9,7 @@ import no.ntnu.prisonesc.Point;
 
 public class CannonPower extends Powerup {
 
-    private static final int POWER = 15;
+    private static final int POWER = 20;
 
     public CannonPower(int level) {
         this.level = level;
