@@ -25,8 +25,8 @@ public class RocketPower extends Powerup {
     public void apply(Player player) {
         if(!hasFired) {
             player.addRocketBoost(new Point(
-                    (float) Math.cos(-player.getRot().getRad() + (float) Math.PI / 2) * level * POWER,
-                    (float) Math.sin(-player.getRot().getRad() + (float) Math.PI) * level * POWER)
+                    (float) Math.cos(-player.getRot().getRad() + (float) Math.PI / 2) * (level + 1) * POWER,
+                    (float) Math.sin(-player.getRot().getRad() + (float) Math.PI) * (level + 1) * POWER)
             );
         }
         hasFired = true;

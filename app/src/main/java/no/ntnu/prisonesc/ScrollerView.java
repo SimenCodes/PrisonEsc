@@ -25,8 +25,8 @@ import static no.ntnu.prisonesc.R.id.hittable;
 public class ScrollerView extends FrameLayout {
     public static final String TAG = "ScrollerView";
 
-    private static final int MAX_HITTABLE_OBJECT_COUNT = 3;
-    private static final double HITTABLE_PROBABILITY = 9;
+    private static final int MAX_HITTABLE_OBJECT_COUNT = 5;
+    private static final double HITTABLE_UNPROBABILITY = 99;
     private static final boolean PERSPECTIVE_ENABLED = true; // disable cloud/backgroundObject perspective when set to false
     private static final int CLOUD_COUNT = 5;
 
@@ -156,7 +156,7 @@ public class ScrollerView extends FrameLayout {
         }
 
         // Step 4: createFlyingObject new hittable objects if needed
-        if (hittableObjects.size() == 0 || (hittableObjects.size() < MAX_HITTABLE_OBJECT_COUNT && random.nextInt(11) > HITTABLE_PROBABILITY)) {
+        if (hittableObjects.size() == 0 || (hittableObjects.size() < MAX_HITTABLE_OBJECT_COUNT && random.nextInt(101) > HITTABLE_UNPROBABILITY)) {
             // disable hittable objects by commenting out this block
             final ImageView image = recycledImages.isEmpty() ? createAndAttachImageView(hittableContainer) : recycledImages.poll();
             int x, y;
