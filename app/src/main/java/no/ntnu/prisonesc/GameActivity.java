@@ -27,7 +27,7 @@ import no.ntnu.prisonesc.powerups.Powerup;
 public class GameActivity extends AppCompatActivity implements Runnable, SensorEventListener {
     private static final String TAG = "GameActivity";
     private static final int MONEYRATE = 10;
-    private static final int END_GAME_DELAY = 3000;
+    private static final int END_GAME_DELAY = 2000;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;

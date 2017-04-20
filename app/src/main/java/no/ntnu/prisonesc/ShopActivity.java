@@ -82,7 +82,7 @@ public class ShopActivity extends AppCompatActivity {
         shopWraper.removeAllViews();
         List<Powerup> powerupList = powerups;
         for (int i = 0; i < powerups.size(); i++) {
-            Powerup currentPowerup = powerupList.get(i);
+            final Powerup currentPowerup = powerupList.get(i);
 
             String powerupString = currentPowerup.getName();
             TextView tv = new TextView(this);
@@ -140,11 +140,19 @@ public class ShopActivity extends AppCompatActivity {
                         unBoughtPowerup.setImageResource(R.drawable.checkbox_empty);
                     }
 
+                    final int finalJ = j;
                     unBoughtPowerup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(ShopActivity.this, "Image is pressed! Id: " + unBoughtPowerup.getId(), Toast.LENGTH_SHORT).show();
-                            buyPowerup(unBoughtPowerup.getId());
+                            final int currentLevel = currentPowerup.getLevel();
+                            final int levelDiff = finalJ - currentLevel;
+                            final int price = currentPowerup.getPrice(levelDiff);
+
+                            if(money < price){
+                                Toast.makeText(ShopActivity.this, "Not enough money! Missing " + String.valueOf(price - money), Toast.LENGTH_SHORT).show();
+                            } else {
+                                buyPowerup(unBoughtPowerup.getId());
+                            }
                         }
                     });
 
