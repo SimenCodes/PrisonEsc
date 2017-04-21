@@ -331,7 +331,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private int calculateMoney(int distance) {
-        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE + 200;
+        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE + 100;
     }
 
     @Override

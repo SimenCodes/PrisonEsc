@@ -14,7 +14,7 @@ public class Cannon extends Powerup {
         this.maxLevel = 2;
         this.basePrice = 0;
         this.priceScale = 500;
-        this.initialCondition = false;
+        this.initialCondition = true;
         this.name = "Cannon";
     }
 
