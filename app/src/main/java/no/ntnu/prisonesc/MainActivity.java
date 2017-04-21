@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     .translationX(1000).translationY(-200)
                     .setDuration(100)
                     .setInterpolator(new AccelerateInterpolator());
-            Audio.play(getApplicationContext(), "Pang.m4a");
+            Audio.play(getApplicationContext(), "Pang.mp3");
         } else {
             playerImage.animate()
                     .translationX(200 * pixelSize)
