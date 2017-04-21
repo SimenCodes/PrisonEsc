@@ -20,10 +20,16 @@ public class Audio {
     public static void play(Context context, String fileName) {
         try {
             AssetFileDescriptor afd = context.getAssets().openFd(fileName);
-            MediaPlayer player = new MediaPlayer();
+            final MediaPlayer player = new MediaPlayer();
             player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             player.prepare();
             player.start();
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    player.release();
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
