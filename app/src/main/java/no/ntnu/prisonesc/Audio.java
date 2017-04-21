@@ -12,6 +12,11 @@ import java.io.IOException;
 
 public class Audio {
 
+    public static final String POP = "pop.mp3";
+    public static final String LAND = "lande.m4a";
+    public static final String PANG = "Pang.mp3";
+    public static final String MONEY = "penge.mp3";
+
     public static void play(Context context, String fileName) {
         try {
             AssetFileDescriptor afd = context.getAssets().openFd(fileName);
