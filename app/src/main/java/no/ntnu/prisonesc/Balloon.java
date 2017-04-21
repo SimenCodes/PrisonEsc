@@ -21,7 +21,7 @@ public class Balloon extends FlyingObject {
 
     @Override
     void onCollision(Player player) {
-        player.addVel(new Point(-1, 5));
-        player.addAccleration(5, 1);
+        player.addVel(new Point(-1, 10));
+        player.addAccleration(10, 1);
     }
 }

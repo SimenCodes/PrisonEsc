@@ -102,6 +102,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
                 e.apply(player);
             }
         }
+
         playerImageView.setImageResource(player.imageSelector.getImageResource());
 
         ViewGroup layoutRoot = (ViewGroup) findViewById(R.id.layout_root);
