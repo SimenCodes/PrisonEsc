@@ -7,9 +7,9 @@ package no.ntnu.prisonesc;
 @SuppressWarnings("WeakerAccess")
 public class Player implements Circular {
     private final PhysicsObject physics;
+    public PlayerImageSelector imageSelector = new PlayerImageSelector();
     private Point size;
     private int moneyBalloonCount = 0;
-    public PlayerImageSelector imageSelector = new PlayerImageSelector();
 
 
     public Player(double drag, double gliderFactor, int posY, int velX, int velY, float accY, Point size) {
@@ -56,8 +56,8 @@ public class Player implements Circular {
     }
 
     public void addAccleration(int force, int duration) {
-        int accX = (int) (Math.cos(physics.getRot().getRad()) * force);
-        int accY = (int) (Math.sin(physics.getRot().getRad()) * force);
+        int accX = (int) (Math.cos(physics.getRot().getRad() - Math.PI / 2) * force);
+        int accY = (int) (Math.sin(physics.getRot().getRad() - Math.PI / 2) * force);
         physics.setAcc(new Point(accX, accY), duration);
     }
 
