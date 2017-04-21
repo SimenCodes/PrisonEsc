@@ -251,6 +251,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
             handler.postDelayed(this, GAME_FRAME_RATE);
         } else {
             Log.w(TAG, "run: END OF GAME!");
+            Audio.play(getApplicationContext(), "lande.m4a");
             splatImageView.setVisibility(View.VISIBLE);
             splatImageView.setScaleX(0);
             splatImageView.setScaleY(0);

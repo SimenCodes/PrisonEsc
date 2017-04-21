@@ -19,5 +19,6 @@ public class MoneyBalloon extends FlyingObject {
     void onCollision(Player player) {
         //player.addVel(new Point(-1, 0));
         player.collectMoneyBalloon();
+        Audio.play(image.getContext(), "penge.m4a");
     }
 }

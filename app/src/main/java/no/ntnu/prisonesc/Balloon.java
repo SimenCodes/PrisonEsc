@@ -23,5 +23,6 @@ public class Balloon extends FlyingObject {
     void onCollision(Player player) {
         player.addVel(new Point(-1, 5));
         player.addAccleration(5, 1);
+        Audio.play(image.getContext(), "pop.m4a");
     }
 }
