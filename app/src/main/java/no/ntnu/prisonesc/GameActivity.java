@@ -32,7 +32,8 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     private static final String TAG = "GameActivity";
     private static final int MONEYRATE = 4;
     private static final int END_GAME_DELAY = 2000;
-    private static final int LONG_TOUTCH = 350;
+    private static final int LONG_TOUTCH = 300;
+    private static final int MONEYBASEVALUE = 25;
     ImageView playerImageView;
     ImageView splatImageView;
     ScrollerView scrollerView;
@@ -85,7 +86,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
 
         //Basevalues:
         double drag = 0.0028;
-        double gliderFactor = 0.15;
+        double gliderFactor = 0.125;
         int posY = 300;
         int velX = 5;
         int velY = 2;
@@ -330,7 +331,7 @@ public class GameActivity extends AppCompatActivity implements Runnable, SensorE
     }
 
     private int calculateMoney(int distance) {
-        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE;
+        return distance / MONEYRATE + player.getMoneyBalloonCount() * MoneyBalloon.VALUE + MONEYBASEVALUE;
     }
 
     @Override

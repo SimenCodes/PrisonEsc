@@ -21,6 +21,6 @@ public class Clothes extends Powerup {
     public void apply(Player player) {
         player.imageSelector.setClothingLevel(level);
         player.reduceAirResistance(0.0002 * level);
-        player.addGliderFactor(0.002 * level);
+        player.addGliderFactor(0.003 * level);
     }
 }
