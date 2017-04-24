@@ -87,12 +87,13 @@
         android:text="Visit Crazy Dave" />
 
     <TextView
-        android:layout_margin="16dp"
         android:id="@+id/prison_esc_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prison Escape"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/cannonImage" />
+        android:layout_margin="16dp"
+        android:layout_toEndOf="@+id/cannonImage"
+        android:text="Prison Escape"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 </RelativeLayout>
