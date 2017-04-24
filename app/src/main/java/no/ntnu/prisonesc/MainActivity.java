@@ -1,6 +1,7 @@
 package no.ntnu.prisonesc;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import no.ntnu.prisonesc.powerups.Cannon;
 import no.ntnu.prisonesc.powerups.Powerup;
@@ -15,7 +17,9 @@ import no.ntnu.prisonesc.powerups.Powerup;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView playerImage, cannonImage, boomImage;
+    private TextView shopButton;
     private int pixelSize;
+    private ShopData shopData;
 
     @Override
     public void onAttachedToWindow() {
@@ -34,14 +38,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         pixelSize = getResources().getDimensionPixelSize(R.dimen.world_scale_factor);
+        shopData = ShopData.getData(getApplicationContext());
 
         playerImage = (ImageView) findViewById(R.id.playerImage);
         cannonImage = (ImageView) findViewById(R.id.cannonImage);
         boomImage = (ImageView) findViewById(R.id.boomImage);
+        shopButton = (TextView) findViewById(R.id.shopButton);
         playerImage.setTranslationX(-20 * pixelSize);
 
         Player player = new Player(0, 0, 0, 0, 0, 0, new Point(0, 0));
-        for (Powerup powerup : ShopData.getData(getApplicationContext()).getBoughtPowerups()) {
+        for (Powerup powerup : shopData.getBoughtPowerups()) {
             if (powerup instanceof Cannon) {
                 playerImage.setVisibility(View.GONE);
                 cannonImage.setVisibility(View.VISIBLE);
@@ -54,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             if (powerup.isInitialCondition()) powerup.apply(player);
         }
         playerImage.setImageResource(player.imageSelector.getImageResource());
+
+        if (shopData.getMoney() == 0) shopButton.setText("More stupid stuff");
     }
 
     public void startGame(View view) {
@@ -89,7 +97,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openShop(View view) {
-        startActivity(new Intent(this, ShopActivity.class));
-        finish();
+        if (shopData.getMoney() > 0) {
+            startActivity(new Intent(this, ShopActivity.class));
+            finish();
+        } else {
+            startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse("http://simen.codes/tag/game/")), null));
+        }
     }
 }

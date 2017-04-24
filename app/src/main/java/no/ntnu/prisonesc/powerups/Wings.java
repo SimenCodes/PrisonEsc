@@ -14,7 +14,7 @@ public class Wings extends Powerup {
         this.basePrice = 0;
         this.priceScale = 50000;
         this.initialCondition = true;
-        this.name = "Wings";
+        this.name = "Wings of Eternity";
     }
 
     @Override

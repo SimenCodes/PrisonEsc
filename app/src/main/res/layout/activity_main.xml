@@ -37,7 +37,7 @@
         android:id="@+id/cannonImage"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/shopButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dp"
         android:adjustViewBounds="true"
@@ -76,7 +76,7 @@
         tools:layout_editor_absoluteY="8dp" />
 
     <TextView
-        android:id="@+id/button"
+        android:id="@+id/shopButton"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
@@ -84,6 +84,6 @@
         android:background="@drawable/button"
         android:gravity="center"
         android:onClick="openShop"
-        android:text="Crazy Dave's cell" />
+        android:text="Visit Crazy Dave" />
 
 </RelativeLayout>
