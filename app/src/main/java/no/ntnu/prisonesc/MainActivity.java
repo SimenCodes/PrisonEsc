@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
         playerImage.setImageResource(player.imageSelector.getImageResource());
 
-        if (shopData.getMoney() == 0) shopButton.setText("More stupid stuff");
+        if (shopData.getMoney() == 0 && !BuildConfig.DEBUG) shopButton.setText("More stupid stuff");
     }
 
     public void startGame(View view) {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openShop(View view) {
-        if (shopData.getMoney() > 0) {
+        if (shopData.getMoney() > 0 || BuildConfig.DEBUG) {
             startActivity(new Intent(this, ShopActivity.class));
             finish();
         } else {
