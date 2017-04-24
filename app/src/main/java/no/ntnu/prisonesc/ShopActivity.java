@@ -80,10 +80,11 @@ public class ShopActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.shop_text:
-                //TODO remove on release, this is a debug function
-                data.addMoney(1000);
-                money = data.getMoney();
-                moneyText.setText(String.valueOf(money));
+                if (BuildConfig.DEBUG) {
+                    data.addMoney(1000);
+                    money = data.getMoney();
+                    moneyText.setText(String.valueOf(money));
+                }
                 break;
         }
     }
