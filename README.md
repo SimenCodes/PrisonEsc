@@ -1,4 +1,4 @@
-# PrisonEsc
+# PrisonEsc – spillprosjekt i TDT4100 Objektorientert programmering
 _Even Klemsdal, Henrik Flemmen & Simen Burud_
 
 ## Beskrivelse
